@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
     public float move_speed = 10f;
     public float spy_range = 10f; //how far out can you spy on the hero
     public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
+    public int health_max = 3; //how many hits the player can receive before dying
 
     private Vector2 movement = Vector2.zero;
     private Vector2 facing = Vector2.up; //direction player is facing
     private float rotation_angle = 0f;
     private int spy_progress = 0; //100 is a full meter
     private float spy_timer = 0f; //current timer progress
+    private int health_current;
 
     //components
     private Rigidbody2D rb;
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
         //get components
         rb = GetComponent<Rigidbody2D>();
         spy_view = rb.GetComponent<Collider2D>();
+
+        health_current = health_max;
     }
 
     // Update is called once per frame
@@ -91,6 +95,15 @@ public class PlayerController : MonoBehaviour
             spy_timer = 0f;
             //Update visuals
             //UpdateSpymeter()
+        }
+    }
+
+    private void TakeDamage(int damageAmount) {
+        health_current -= damageAmount;
+        //show damage being taken
+        if (health_current <= 0) {
+            //die
+            //restart game?
         }
     }
 }
