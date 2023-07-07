@@ -61,12 +61,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (hit_count >= 2) {
             //see if hero was hit at all
-            for (int i = 0; i < results.Length; i++) {
+            for (int i = 0; i < hit_count; i++) {
                 if (results[i].collider.tag == "hero") {
                     //check that hero is closer to player than all other hits
-                    for (int j = 0; j < results.Length; j++) {
+                    for (int j = 0; j < hit_count; j++) {
                         if (j == i) continue; //skip hero index
-                        if ((results[j].collider.transform.position - transform.position).magnitude < (results[i].collider.transform.position - transform.position).magnitude) {
+                        if ((results[j].transform.position - transform.position).magnitude < (results[i].transform.position - transform.position).magnitude) {
                             //player is closer to obstacle than hero
                             //so do nothing
                             return;
