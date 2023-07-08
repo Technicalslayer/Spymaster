@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Corviary : MonoBehaviour
 {
+    public GameObject goldCrow;
+    public GameObject silverCrow;
+    public GameObject bronzeCrow;
+    public Transform crowTarget; //big bad location
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,10 +21,28 @@ public class Corviary : MonoBehaviour
         
     }
 
+    public void SendReport() {
+        int progressValue = OverworldManager.Instance.SpyProgress;
+        if (progressValue == 100) {
+            //perfect, send gold crow
+            //give player extra camp to place
+            //track perfects
+        }
+        else if (progressValue >= 50) {
+            //Great, send silver crow
+        }
+        else {
+            //not enough, send bronze crow
+            //track failures
+        }
+        OverworldManager.Instance.ResetSpyProgress();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         //should get the player's spymeter value
         if (collision.collider.tag == "Player") {
-            collision.gameObject.GetComponent<OverworldPlayerController>();
+            //collision.gameObject.GetComponent<OverworldPlayerController>();
+            SendReport();
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//should probably rename this
 public class OverworldManager : MonoBehaviour
 {
     public static OverworldManager Instance; //singleton instance, used between scenes
@@ -16,15 +17,10 @@ public class OverworldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int SpyProgress = 0; //tracks the player's spy meter progress in between levels
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void ResetSpyProgress() {
+        SpyProgress = 0;
+        //update spy meter
     }
 }
