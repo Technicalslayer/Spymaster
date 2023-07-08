@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroController : MonoBehaviour
+public class OrcController : MonoBehaviour
 {
     public float detectionRange = 10f; //how far to search for the player or orcs
     public float clashRange = 1f; //how close to begin charge
@@ -18,16 +18,14 @@ public class HeroController : MonoBehaviour
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         //get components
         movementController = GetComponent<MovementController2D>();
         rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (stunned) {
             stunTimer += Time.deltaTime;
             if (stunTimer > stunTimerMax) {
@@ -43,7 +41,7 @@ public class HeroController : MonoBehaviour
         if (stunned) {
             rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, stunTimer / stunTimerMax); //slow down slide
         }
-        else 
+        else
             SearchForTarget();
     }
 
@@ -60,16 +58,15 @@ public class HeroController : MonoBehaviour
                     //sort array by distance (The function already sorts by distance)
                     //check for player or orcs in range, and set target
                     for (int i = 0; i < results.Length; i++) {
-                        if (results[i].collider.tag == "Orc") { //Orc takes priority over player
+                        if (results[i].collider.tag == "House") {
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
                             Debug.Log("Moving towards target " + results[i].collider.tag);
                             return;
                         }
-                    }
-                    //check for player if no orcs. Will eventually require line of sight
-                    for (int i = 0; i < results.Length; i++) {
-                        if (results[i].collider.tag == "Player") { //Orc takes priority over player
+                        //if (results[i].collider.tag == "Hero" && Vector2.Distance(results[i].collider.transform.position, transform.position) < clashRange) {
+                        if (results[i].collider.tag == "Hero") { 
+                            //hero is closest, focus on it
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
                             Debug.Log("Moving towards target " + results[i].collider.tag);
@@ -82,14 +79,14 @@ public class HeroController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.tag == "Orc") {
+        if (collision.collider.tag == "Hero" || collision.collider.tag == "House") {
             //stun self
             stunned = true;
             Debug.Log("stunned");
             //stop movement controller
             movementController.enabled = false;
             //apply impulse
-            if(collision.contactCount > 0)
+            if (collision.contactCount > 0)
                 rb.AddForce(collision.contacts[0].normal * 10f, ForceMode2D.Impulse);
         }
     }

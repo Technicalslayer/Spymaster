@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,9 +18,14 @@ public class PlayerController : MonoBehaviour
     private float spy_timer = 0f; //current timer progress
     private int health_current;
 
+    [SerializeField] private int max_slidervalue = 10;
+
     //components
     private Rigidbody2D rb;
     private Collider2D spy_view;
+
+    //For Spymeter
+    [SerializeField] private Slider slider;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +35,10 @@ public class PlayerController : MonoBehaviour
         spy_view = rb.GetComponent<Collider2D>();
 
         health_current = health_max;
+
+        slider.maxValue = max_slidervalue;
+        slider.gameObject.SetActive(false);
+        slider.interactable = false;
     }
 
     // Update is called once per frame
@@ -92,9 +102,26 @@ public class PlayerController : MonoBehaviour
             //reset timer
             spy_progress += 1;
             Debug.Log(spy_progress);
+
+            UpdateSpymeter(spy_progress); // Update the Spymeter
+
             spy_timer = 0f;
+
+
             //Update visuals
             //UpdateSpymeter()
+        }
+    }
+
+    public void UpdateSpymeter( int spy_progress)
+    {
+        slider.interactable = true;
+        slider.gameObject.SetActive(true);
+        slider.value = spy_progress;
+        if(spy_progress == max_slidervalue)
+        {
+            slider.value = 0;
+            spy_progress = 0;
         }
     }
 
