@@ -112,8 +112,10 @@ public class HeroController : MonoBehaviour
         if (target != null && target.tag == "Player") {
 
             //RaycastHit2D hit = Physics2D.Raycast(transform.position, target.position - transform.position);
+            Vector2 dirToTarget = target.position - transform.position;
+            dirToTarget.Normalize();
             RaycastHit2D[] hit = new RaycastHit2D[1];
-            int hit_count = c.Raycast(target.position - transform.position, hit, Mathf.Infinity, raycastTargetLayer); //need to ignore arrow colliders
+            int hit_count = c.Raycast(dirToTarget, hit, Mathf.Infinity, raycastTargetLayer); //need to ignore arrow colliders
 
             //Debug.DrawRay(transform.position, target.position - transform.position, Color.red);
             //Debug.Log(hit.collider.name);
@@ -123,7 +125,8 @@ public class HeroController : MonoBehaviour
                     Debug.Log("hitting player");
                     if (hit[i].distance <= shotRange && !shotOnCooldown) {
                         //start shooting
-                        //Instantiate(arrowPrefab, transform.position + transform.forward, transform.rotation); //temp
+                        GameObject o = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dirToTarget))); //temp
+                        o.GetComponent<ArrowController>().velocity = dirToTarget;
                         Debug.Log("Shooting player");
                         shotOnCooldown = true;
                         movementController.enabled = false;

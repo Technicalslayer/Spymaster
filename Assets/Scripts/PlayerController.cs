@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float move_speed = 10f;
     public float spy_range = 10f; //how far out can you spy on the hero
     public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
-    public int health_max = 3; //how many hits the player can receive before dying
+    public int health_max = 1; //how many hits the player can receive before dying
 
     private Vector2 movement = Vector2.zero;
     private Vector2 facing = Vector2.up; //direction player is facing
@@ -131,6 +131,12 @@ public class PlayerController : MonoBehaviour
         if (health_current <= 0) {
             //die
             //be sent back to overworld
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.collider.tag == "Arrow") {
+            TakeDamage(1);
         }
     }
 }

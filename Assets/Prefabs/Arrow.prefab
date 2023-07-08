@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 574468109609632726}
   - component: {fileID: 4705598918176962018}
   - component: {fileID: 8937618328092939170}
+  - component: {fileID: 5806819223643458749}
   m_Layer: 8
   m_Name: Arrow
   m_TagString: Untagged
@@ -161,3 +162,17 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 0
+--- !u!114 &5806819223643458749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3670350265548977357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab59ee62d1e450468921bae670e8c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLifeSpan: 3
+  moveSpeed: 10

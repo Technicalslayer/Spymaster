@@ -291,7 +291,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 3670350265548977357, guid: 8140de180f42fdd46929c94b2df9c299, type: 3}
   raycastTargetLayer:
     serializedVersion: 2
-    m_Bits: 193
+    m_Bits: 705
 --- !u!114 &122057186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 184117901}
   - component: {fileID: 184117900}
   - component: {fileID: 184117904}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -375,7 +375,7 @@ MonoBehaviour:
   move_speed: 10
   spy_range: 10
   spy_timer_max: 1
-  health_max: 3
+  health_max: 1
   max_slidervalue: 10
   slider: {fileID: 1495897165}
 --- !u!212 &184117902
@@ -587,7 +587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &440949840
 Rigidbody2D:
   serializedVersion: 4
