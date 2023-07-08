@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
         //show damage being taken
         if (health_current <= 0) {
             //die
-            //restart game?
+            //be sent back to overworld
         }
     }
 }
