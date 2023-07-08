@@ -82,9 +82,9 @@ public class MovementController2D : MonoBehaviour
     void Start()
     {
         pathfinder = new Pathfinder<Vector2>(GetDistance,GetNeighbourNodes,1000); //increase patience or gridSize for larger maps
-
         //get component
         rb = GetComponent<Rigidbody2D>();  
+
     }
 
     // Update is called once per frame
