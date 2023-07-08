@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         rotation_angle = Vector2.SignedAngle(Vector2.right, facing) - 90f;
         //clamp rotation to steps of 45 degrees
         rotation_angle += 360; //make positive
-        rotation_angle += 45 / 2; //back up half step
+        rotation_angle += (int)(45 / 2); //back up half step
         int wedge_number = (int)(rotation_angle / 45);
         rotation_angle = wedge_number * 45;
         //rotation_angle = rotation_angle - (rotation_angle % 45);
@@ -59,14 +59,14 @@ public class PlayerController : MonoBehaviour
         //if hit only hero or hero hit before obstacle, then count as success, start to fill up meter
         RaycastHit2D[] results = new RaycastHit2D[5];
         int hit_count = spy_view.Cast(transform.up, results, spy_range);
-        if (hit_count == 1 && results[0].collider.tag == "hero") {
+        if (hit_count == 1 && results[0].collider.tag == "Hero") {
             //only hero was hit
             IncrementSpymeter();
         }
         else if (hit_count >= 2) {
             //see if hero was hit at all
             for (int i = 0; i < hit_count; i++) {
-                if (results[i].collider.tag == "hero") {
+                if (results[i].collider.tag == "Hero") {
                     //check that hero is closer to player than all other hits
                     for (int j = 0; j < hit_count; j++) {
                         if (j == i) continue; //skip hero index
