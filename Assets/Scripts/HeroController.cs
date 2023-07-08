@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class HeroController : MonoBehaviour
 {
-    public float detectionRange = 10f; //how far to search for the player or orcs
+    public float detectionRange = 100f; //how far to search for the player or orcs
     public float clashRange = 1f; //how close to begin charge
+    public float shotRange = 10f; //how far away to stand from player when attacking
+    public GameObject arrowPrefab;
 
     private float searchTimer = 0f;
-    private float searchTimerMax = 1f; //time in seconds between searches for player/orcs
+    private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
     private Transform target; //target to make way towards
     private float stunTimer = 0f;
     private float stunTimerMax = 0.5f;
     private bool stunned = false;
+    private bool shotOnCooldown = false;
+    private float shotTimerMax = 0.1f;
+    private float shotTimer = 0f;
 
     private MovementController2D movementController;
     private Rigidbody2D rb;
@@ -37,14 +42,51 @@ public class HeroController : MonoBehaviour
                 movementController.enabled = true;
             }
         }
+
+        if (shotOnCooldown) {
+            shotTimer += Time.deltaTime;
+            if (shotTimer > shotTimerMax) {
+                shotOnCooldown = false;
+                shotTimer = 0f;
+            }
+        }
     }
 
     private void FixedUpdate() {
         if (stunned) {
             rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, stunTimer / stunTimerMax); //slow down slide
         }
-        else 
+        else {
             SearchForTarget();
+            //rotate towards movement
+            if (movementController.intendedVelocity != null) {
+                rb.MoveRotation(Vector2.SignedAngle(Vector2.right, movementController.intendedVelocity));
+            }
+        }
+
+        //check if in range to shoot at player
+        //stop moving and focus fire, only moving if out of range or losing line of sight
+        //first check line of sight
+        if(target != null && target.tag == "Player") {
+            Debug.Log("chasing player");
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, (transform.position - target.position));
+            if (hit.collider.tag == "Player") {
+                if (hit.distance <= shotRange && !shotOnCooldown) {
+                    //start shooting
+                    Instantiate(arrowPrefab, transform.position + transform.forward, transform.rotation); //temp
+                    Debug.Log("Shooting player");
+                    shotOnCooldown = true;
+                    movementController.enabled = false;
+                }
+                else if (hit.distance >= shotRange) {
+                    //move closer
+                    movementController.enabled = true;
+                }
+            }
+            else {
+                movementController.enabled = true; //keep moving
+            }
+        }
     }
 
     private void SearchForTarget() {
@@ -63,7 +105,7 @@ public class HeroController : MonoBehaviour
                         if (results[i].collider.tag == "Orc") { //Orc takes priority over player
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
-                            Debug.Log("Moving towards target " + results[i].collider.tag);
+                            //Debug.Log("Moving towards target " + results[i].collider.tag);
                             return;
                         }
                     }
@@ -72,7 +114,7 @@ public class HeroController : MonoBehaviour
                         if (results[i].collider.tag == "Player") { //Orc takes priority over player
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
-                            Debug.Log("Moving towards target " + results[i].collider.tag);
+                            //Debug.Log("Moving towards target " + results[i].collider.tag);
                             return;
                         }
                     }
