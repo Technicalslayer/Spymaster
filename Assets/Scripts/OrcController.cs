@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class OrcController : MonoBehaviour
 {
+    public int health;
+    public int maxHealth = 5;
+    public int minHealth = 2;
+
     public float detectionRange = 10f; //how far to search for the player or orcs
     public float clashRange = 1f; //how close to begin charge
 
@@ -22,6 +26,10 @@ public class OrcController : MonoBehaviour
         //get components
         movementController = GetComponent<MovementController2D>();
         rb = GetComponent<Rigidbody2D>();
+
+        //pick a random amount of health
+        health = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
+        Debug.Log("Health: " + health);
     }
 
     // Update is called once per frame
@@ -78,6 +86,14 @@ public class OrcController : MonoBehaviour
         }
     }
 
+    private void TakeDamage() {
+        health -= 1;
+        if (health <= 0) {
+            //destroy house
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.tag == "Hero" || collision.collider.tag == "House") {
             //stun self
@@ -88,6 +104,10 @@ public class OrcController : MonoBehaviour
             //apply impulse
             if (collision.contactCount > 0)
                 rb.AddForce(collision.contacts[0].normal * 10f, ForceMode2D.Impulse);
+
+            if(collision.collider.tag == "Hero") {
+                TakeDamage();
+            }
         }
     }
 }
