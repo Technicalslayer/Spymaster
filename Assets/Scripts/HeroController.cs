@@ -8,6 +8,7 @@ public class HeroController : MonoBehaviour
     public float clashRange = 1f; //how close to begin charge
     public float shotRange = 10f; //how far away to stand from player when attacking
     public GameObject arrowPrefab;
+    public LayerMask raycastTargetLayer;
 
     private float searchTimer = 0f;
     private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
@@ -16,11 +17,12 @@ public class HeroController : MonoBehaviour
     private float stunTimerMax = 0.5f;
     private bool stunned = false;
     private bool shotOnCooldown = false;
-    private float shotTimerMax = 0.1f;
+    private float shotTimerMax = 0.5f;
     private float shotTimer = 0f;
 
     private MovementController2D movementController;
     private Rigidbody2D rb;
+    private Collider2D c;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class HeroController : MonoBehaviour
         //get components
         movementController = GetComponent<MovementController2D>();
         rb = GetComponent<Rigidbody2D>();
+        c = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
@@ -54,7 +57,7 @@ public class HeroController : MonoBehaviour
 
     private void FixedUpdate() {
         if (stunned) {
-            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, stunTimer / stunTimerMax); //slow down slide
+            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, stunTimer / stunTimerMax); //slow down slide //I don't think this does anything cuz of the MovePosition function
         }
         else {
             SearchForTarget();
@@ -64,29 +67,8 @@ public class HeroController : MonoBehaviour
             }
         }
 
-        //check if in range to shoot at player
-        //stop moving and focus fire, only moving if out of range or losing line of sight
-        //first check line of sight
-        if(target != null && target.tag == "Player") {
-            Debug.Log("chasing player");
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (transform.position - target.position));
-            if (hit.collider.tag == "Player") {
-                if (hit.distance <= shotRange && !shotOnCooldown) {
-                    //start shooting
-                    Instantiate(arrowPrefab, transform.position + transform.forward, transform.rotation); //temp
-                    Debug.Log("Shooting player");
-                    shotOnCooldown = true;
-                    movementController.enabled = false;
-                }
-                else if (hit.distance >= shotRange) {
-                    //move closer
-                    movementController.enabled = true;
-                }
-            }
-            else {
-                movementController.enabled = true; //keep moving
-            }
-        }
+        ShootTarget();
+        
     }
 
     private void SearchForTarget() {
@@ -120,6 +102,46 @@ public class HeroController : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private void ShootTarget() {
+        //check if in range to shoot at player
+        //stop moving and focus fire, only moving if out of range or losing line of sight
+        //first check line of sight
+        if (target != null && target.tag == "Player") {
+
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, target.position - transform.position);
+            RaycastHit2D[] hit = new RaycastHit2D[1];
+            int hit_count = c.Raycast(target.position - transform.position, hit, Mathf.Infinity, raycastTargetLayer); //need to ignore arrow colliders
+
+            //Debug.DrawRay(transform.position, target.position - transform.position, Color.red);
+            //Debug.Log(hit.collider.name);
+
+            for (int i = 0; i < hit_count; i++) {
+                if (hit[i].collider.tag == "Player") {
+                    Debug.Log("hitting player");
+                    if (hit[i].distance <= shotRange && !shotOnCooldown) {
+                        //start shooting
+                        //Instantiate(arrowPrefab, transform.position + transform.forward, transform.rotation); //temp
+                        Debug.Log("Shooting player");
+                        shotOnCooldown = true;
+                        movementController.enabled = false;
+                        return;
+                    }
+                    else if (hit[i].distance >= shotRange) {
+                        //move closer
+                        movementController.enabled = true;
+                        return;
+                    }
+                }
+                else {
+                    movementController.enabled = true; //keep moving, didn't see player
+                }
+            }
+            //movementController.enabled = true;
+
+
         }
     }
 

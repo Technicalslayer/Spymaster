@@ -287,6 +287,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionRange: 10
   clashRange: 1
+  shotRange: 10
+  arrowPrefab: {fileID: 3670350265548977357, guid: 8140de180f42fdd46929c94b2df9c299, type: 3}
+  raycastTargetLayer:
+    serializedVersion: 2
+    m_Bits: 193
 --- !u!114 &122057186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +312,7 @@ MonoBehaviour:
   searchShortcut: 0
   snapToGrid: 0
   drawDebugLines: 0
+  intendedVelocity: {x: 0, y: 0}
 --- !u!1 &184117899
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &440949840
 Rigidbody2D:
   serializedVersion: 4
@@ -653,6 +659,7 @@ MonoBehaviour:
   searchShortcut: 0
   snapToGrid: 0
   drawDebugLines: 0
+  intendedVelocity: {x: 0, y: 0}
 --- !u!114 &440949845
 MonoBehaviour:
   m_ObjectHideFlags: 0
