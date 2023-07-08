@@ -90,10 +90,10 @@ public class MovementController2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) //check for a new target
-        {
-            GetMoveCommand(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        }
+        //if (Input.GetMouseButtonDown(0)) //check for a new target
+        //{
+        //    GetMoveCommand(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //}
 
         //if (pathLeftToGo.Count > 0) //if the target is not yet reached
         //{
@@ -128,7 +128,7 @@ public class MovementController2D : MonoBehaviour
         }
     }
 
-    void GetMoveCommand(Vector2 target)
+    public void GetMoveCommand(Vector2 target)
     {
         Vector2 closestNode = GetClosestNode(transform.position);
         if (pathfinder.GenerateAstarPath(closestNode, GetClosestNode(target), out path)) //Generate path between two points on grid that are close to the transform position and the assigned target.
