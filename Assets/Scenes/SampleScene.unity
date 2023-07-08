@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 122057183}
   - component: {fileID: 122057182}
   - component: {fileID: 122057181}
+  - component: {fileID: 122057186}
   - component: {fileID: 122057185}
   m_Layer: 0
   m_Name: Hero
@@ -279,11 +280,32 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122057180}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84611ecd4ee478d4880ffb58a5775da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionRange: 10
+--- !u!114 &122057186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122057180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9b1b0f1b7052745a71c828edb13530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSize: 0.5
+  speed: 0.05
+  obstacles:
+    serializedVersion: 2
+    m_Bits: 64
+  searchShortcut: 0
+  snapToGrid: 0
+  drawDebugLines: 0
 --- !u!1 &184117899
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +321,7 @@ GameObject:
   - component: {fileID: 184117904}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -330,7 +352,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &184117901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8858,7 +8880,7 @@ GameObject:
   - component: {fileID: 1404952210}
   - component: {fileID: 1404952209}
   - component: {fileID: 1404952208}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Local Map Obstacles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
