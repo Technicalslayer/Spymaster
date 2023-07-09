@@ -22452,7 +22452,7 @@ MonoBehaviour:
   orcSpawnObject: {fileID: 216762693}
   spawnTimer: 0
   spawnTime: 10
-  sceneIndex: 0
+  sceneIndex: 4
 --- !u!4 &1613019342
 Transform:
   m_ObjectHideFlags: 0
