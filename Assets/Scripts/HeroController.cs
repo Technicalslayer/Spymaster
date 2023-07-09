@@ -102,7 +102,9 @@ public class HeroController : MonoBehaviour
             //SearchForTarget();
             //rotate towards movement
             if (movementController.intendedVelocity != null) {
-                rb.MoveRotation(Vector2.SignedAngle(Vector2.up, movementController.intendedVelocity));
+                float desiredAngle = Vector2.SignedAngle(Vector2.up, movementController.intendedVelocity);
+                float currentAngle = rb.rotation;
+                rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
             }
         }
 

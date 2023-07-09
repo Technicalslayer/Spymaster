@@ -134,6 +134,11 @@ public class PlayerController : MonoBehaviour
 
             spy_timer = 0f;
 
+            if(spy_progress >= 100) {
+                //win level
+                Debug.Log("YOU WIN");
+                FindObjectOfType<LocalMapManager>().LoadLevel();
+            }
 
             //Update visuals
             //UpdateSpymeter()
@@ -144,12 +149,13 @@ public class PlayerController : MonoBehaviour
     {
         slider.interactable = true;
         slider.gameObject.SetActive(true);
-        slider.value = spy_progress;
-        if(spy_progress == max_slidervalue)
-        {
-            slider.value = 0;
-            spy_progress = 0;
-        }
+        slider.value = spy_progress / 10; //total
+
+        //if(spy_progress == max_slidervalue)
+        //{
+        //    slider.value = 0;
+        //    spy_progress = 0;
+        //}
     }
 
     private void TakeDamage(int damageAmount) {
@@ -165,6 +171,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.collider.tag == "Arrow") {
+            TakeDamage(1);
+        }
+        if(collision.collider.tag == "Hero") {
             TakeDamage(1);
         }
     }

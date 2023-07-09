@@ -13,6 +13,7 @@ public class LocalMapManager : MonoBehaviour
     public GameObject orcSpawnObject; //where orcs will spawn from
     public float spawnTimer;
     public float spawnTime = 10f; //how long inbetween orc spawns
+    public int sceneIndex = 0;
 
 
     // Start is called before the first frame update
@@ -154,6 +155,11 @@ public class LocalMapManager : MonoBehaviour
         //OverworldManager.Instance.PlayerDied(id);
         //reload current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadLevel() {
+        //load next level
+        SceneManager.LoadScene(sceneIndex);
     }
 }
 
