@@ -27,13 +27,16 @@ public class Corviary : MonoBehaviour
             //perfect, send gold crow
             //give player extra camp to place
             //track perfects
+            Instantiate(goldCrow);
         }
         else if (progressValue >= 50) {
             //Great, send silver crow
+            Instantiate(silverCrow);
         }
         else {
             //not enough, send bronze crow
             //track failures
+            Instantiate(bronzeCrow);
         }
         OverworldManager.Instance.ResetSpyProgress();
     }

@@ -20,6 +20,11 @@ public class OverworldManager : MonoBehaviour
     }
 
     public int SpyProgress = 0; //tracks the player's spy meter progress in between levels, updated when leaving level or sending report
+    public int SpyFailures = 0;
+    public int SpyFailuresMax = 5; //how many attempts for a silver or better the player gets before losing
+    public int SpySuccesses = 0;
+    public int SpySuccessesMax = 5; //how many perfects the player needs to win
+
     //public int Resources = 0; //tracks amount of resources player has collected
     //public List<GameObject> overworldObjects = new List<GameObject>(); //list of objects to enable/disable when entering/leaving overworld map
     //public List<string> villageJSON = new List<string>(); //list of village data

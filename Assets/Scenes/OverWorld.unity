@@ -10046,9 +10046,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d295cb374e486384e98803a9739c9992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldCrow: {fileID: 0}
-  silverCrow: {fileID: 0}
-  bronzeCrow: {fileID: 0}
+  goldCrow: {fileID: 506808203441200488, guid: 46b369a9585133a478f7b70384e51e5d, type: 3}
+  silverCrow: {fileID: 506808203441200488, guid: 664890eb2abe3f541a69204993d84ac8, type: 3}
+  bronzeCrow: {fileID: 506808203441200488, guid: a0675dad6d9c1e642bb2ab17aa022441, type: 3}
   crowTarget: {fileID: 0}
 --- !u!1 &1759812352
 GameObject:
