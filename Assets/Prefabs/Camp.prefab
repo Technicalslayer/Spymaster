@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7287286042282997938}
   - component: {fileID: 7131412558675032793}
   - component: {fileID: 3221051287647904725}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,3 +209,5 @@ MonoBehaviour:
   orcArmy: {fileID: 0}
   workingSprite: {fileID: 0}
   restingSprite: {fileID: 0}
+  orcCountMin: 3
+  orcCountMax: 5

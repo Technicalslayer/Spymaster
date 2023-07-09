@@ -5,7 +5,6 @@ using UnityEngine;
 public class OverworldNPCController : MonoBehaviour
 {
     public float detectionRange = 100f; //how far to search for targets
-    public LayerMask raycastTargetLayer;
     //public string targetTag = "Village";
     public bool isOrc = false; //temp
     public int orcCount = 0;
@@ -47,6 +46,8 @@ public class OverworldNPCController : MonoBehaviour
                 //search for any nearby targets in line of sight
                 RaycastHit2D[] results = new RaycastHit2D[10];
                 results = Physics2D.CircleCastAll(transform.position, detectionRange, Vector2.zero);
+                //get all villages
+                //Village[] villages = FindObjectsOfType<Village>();
 
                 if (results.Length > 0) {
                     //sort array by distance (The function already sorts by distance)
@@ -69,7 +70,7 @@ public class OverworldNPCController : MonoBehaviour
 
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
-                            //Debug.Log("Moving towards target " + results[i].collider.tag);
+                            Debug.Log("Moving towards target " + results[i].collider.tag);
                             return;
                         }
                     }

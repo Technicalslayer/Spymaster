@@ -40,18 +40,22 @@ public class Village : MonoBehaviour
         switch (status) {
             case VillageState.NORMAL: {
                     spriteRenderer.sprite = normalSprite;
+                    villageStatus = VillageState.NORMAL;
                     break;
                 }
             case VillageState.UNDER_ATTACK: {
                     spriteRenderer.sprite = underAttackSprite;
+                    villageStatus = VillageState.UNDER_ATTACK;
                     break;
                 }
             case VillageState.DEFENDED: {
                     spriteRenderer.sprite = beingDefendedSprite;
+                    villageStatus = VillageState.DEFENDED;
                     break;
                 }
             case VillageState.DESTROYED: {
                     spriteRenderer.sprite = destroyedSprite;
+                    villageStatus = VillageState.DESTROYED;
                     break;
                 }
             default: {
@@ -71,6 +75,7 @@ public class Village : MonoBehaviour
                 //Destroy(collision.gameObject);
                 heroPresent = true;
                 collision.gameObject.SetActive(false);
+                UpdateState(VillageState.DEFENDED);
             }
         }
         else if(collision.collider.tag == "Orc") {
@@ -78,6 +83,8 @@ public class Village : MonoBehaviour
                 //enter village
                 orcCount += collision.gameObject.GetComponent<OverworldNPCController>().orcCount;
                 Destroy(collision.gameObject);
+                if(!heroPresent)
+                    UpdateState(VillageState.UNDER_ATTACK);
             }
         }
         else if(collision.collider.tag == "Player") {

@@ -14,6 +14,8 @@ public class OrcCamp : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Sprite workingSprite;
     public Sprite restingSprite;
+    public int orcCountMin;
+    public int orcCountMax;
 
 
     // Start is called before the first frame update
@@ -43,7 +45,8 @@ public class OrcCamp : MonoBehaviour
         if (resourceCount >= 100) {
             resourceCount -= 100;
             //spawn orc army
-            Instantiate(orcArmy);
+            GameObject o = Instantiate(orcArmy, transform.position, transform.rotation);
+            o.GetComponent<OverworldNPCController>().orcCount = (int)Random.Range(orcCountMin, orcCountMax);
             currentlyWorking = false;
             UpdateSprite();
         }
