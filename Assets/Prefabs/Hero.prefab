@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -1458695426, guid: bb47fb5ecef413b489e947670be42bbf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -192,11 +192,7 @@ MonoBehaviour:
   raycastTargetLayer:
     serializedVersion: 2
     m_Bits: 705
-  raycastLayer:
-    serializedVersion: 2
-    m_Bits: 576
   patrolPoints: []
-  playerT: {fileID: 0}
 --- !u!1 &5980696412488261215
 GameObject:
   m_ObjectHideFlags: 0
