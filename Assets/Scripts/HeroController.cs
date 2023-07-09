@@ -17,7 +17,7 @@ public class HeroController : MonoBehaviour
     private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
     private Transform target; //target to make way towards
     private float stunTimer = 0f;
-    private float stunTimerMax = 0.5f;
+    private float stunTimerMax = 0.7f;
     private bool stunned = false;
     private bool shotOnCooldown = false;
     private float shotTimerMax = 0.5f;
@@ -25,10 +25,10 @@ public class HeroController : MonoBehaviour
     private bool chasing = false; //indicates hero is chasing player
     private bool playerInSight = false;
     private float wanderTimer = 0f;
-    private float wanderTimeMax = 10f; //how long between selecting a new random point to travel to
+    private float wanderTimeMax = 5f; //how long between selecting a new random point to travel to
     private int patrolPointIndex = 0; //current patrol target index?
     private float playerHideTimer = 0f; //how long has the player been out of sight?
-    private float playerHideTimeMax = 10f; //how long for the player to be out of sight before giving up
+    private float playerHideTimeMax = 5f; //how long for the player to be out of sight before giving up
     private bool lineOfSight;
 
 

@@ -15,7 +15,7 @@ public class OrcController : MonoBehaviour
     private float searchTimerMax = 1f; //time in seconds between searches for player/orcs
     private Transform target; //target to make way towards
     private float stunTimer = 0f;
-    private float stunTimerMax = 0.5f;
+    private float stunTimerMax = 0.7f;
     private bool stunned = false;
 
     private MovementController2D movementController;
@@ -134,6 +134,13 @@ public class OrcController : MonoBehaviour
             if(collision.collider.tag == "Hero") {
                 TakeDamage();
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.tag == "Hero") {
+            //target hero until death lol
+            target = collision.transform;
         }
     }
 }
