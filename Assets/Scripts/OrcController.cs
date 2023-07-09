@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class OrcController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class OrcController : MonoBehaviour
     public float detectionRange = 10f; //how far to search for the player or orcs
     public float clashRange = 1f; //how close to begin charge
     public LayerMask circleCastLayer;
+    public TMP_Text hpText;
     private float searchTimer = 0f;
     private float searchTimerMax = 1f; //time in seconds between searches for player/orcs
     private Transform target; //target to make way towards
@@ -29,7 +31,10 @@ public class OrcController : MonoBehaviour
 
         //pick a random amount of health
         health = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
+        maxHealth = health;
         Debug.Log("Health: " + health);
+        //update HP text
+        UpdateHealthText();
         //SearchForTarget();
     }
 
@@ -112,13 +117,20 @@ public class OrcController : MonoBehaviour
 
     private void TakeDamage() {
         health -= 1;
+        UpdateHealthText();
         if (health <= 0) {
             //destroy orc
             Destroy(gameObject);
             //update local status
             //FindObjectOfType<LocalMapManager>().CheckVillageStatus();
         }
+        
     }
+
+    public void UpdateHealthText() {
+        hpText.text = "Orc\n" + health + "\\" + maxHealth;
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.tag == "Hero" || collision.collider.tag == "House") {
