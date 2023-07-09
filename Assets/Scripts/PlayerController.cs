@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement = Vector2.zero;
     private Vector2 facing = Vector2.up; //direction player is facing
     private float rotation_angle = 0f;
-    private int spy_progress = 0; //100 is a full meter
+    public int spy_progress = 0; //100 is a full meter
     private float spy_timer = 0f; //current timer progress
     private int health_current;
 
@@ -131,6 +131,8 @@ public class PlayerController : MonoBehaviour
         if (health_current <= 0) {
             //die
             //be sent back to overworld
+            //Spaghetti Code
+            FindObjectOfType<LocalMapManager>().PlayerDied();
         }
     }
 

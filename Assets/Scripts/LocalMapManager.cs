@@ -130,11 +130,18 @@ public class LocalMapManager : MonoBehaviour
                 return;
             }
         }
+        PlayerController playerController = FindObjectOfType<PlayerController>();
         //no houses left
         //leave level
         Debug.Log("leaving Level");
         OverworldManager.Instance.UpdateVillageState(id, Village.VillageState.DESTROYED);
+        OverworldManager.Instance.UpdateSpyMeter(playerController.spy_progress);
         SceneManager.LoadScene(0);
+    }
+
+    public void PlayerDied() {
+        //Called because the hero killed you, loser
+        OverworldManager.Instance.PlayerDied(id);
     }
 }
 

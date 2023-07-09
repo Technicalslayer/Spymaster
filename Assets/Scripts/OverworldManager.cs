@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 //should probably rename this
 public class OverworldManager : MonoBehaviour
@@ -22,6 +24,7 @@ public class OverworldManager : MonoBehaviour
     //public List<GameObject> overworldObjects = new List<GameObject>(); //list of objects to enable/disable when entering/leaving overworld map
     //public List<string> villageJSON = new List<string>(); //list of village data
     public List<LocalMapState> VillageStates = new List<LocalMapState>();
+    public Image spyMeterImage;
 
 
     public void Start() {
@@ -40,6 +43,11 @@ public class OverworldManager : MonoBehaviour
         //update spy meter
     }
 
+    public void UpdateSpyMeter(int spyProgressAmount) {
+        SpyProgress = spyProgressAmount;
+        spyMeterImage.fillAmount = (float)spyProgressAmount / 100;
+    }
+
     public void UpdateVillageState(int id, Village.VillageState newState) {
         VillageStates[id].villageState = newState;
         if(newState == Village.VillageState.DESTROYED)
@@ -47,6 +55,20 @@ public class OverworldManager : MonoBehaviour
         if(newState == Village.VillageState.DEFENDED) {
             //hero repelled orcs, only leave once spy is defeated or leaves too
         }
+    }
+
+    public void PlayerDied(int id) {
+        //kick player and hero out of level
+        LoadLevel(0);
+        VillageStates[id].isHeroPresent = false;
+        //should only happen if no orcs and village isn't destroyed
+        //can later check if there are orcs present and then do something there
+        //if (VillageStates[id].orcCount > 0) { }
+        VillageStates[id].villageState = Village.VillageState.NORMAL;
+    }
+
+    public void LoadLevel(int sceneIndex) {
+        SceneManager.LoadScene(sceneIndex);
     }
 
     //public void AddVillageData(string JSONData) {

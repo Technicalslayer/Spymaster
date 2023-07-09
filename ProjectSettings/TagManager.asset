@@ -8,6 +8,7 @@ TagManager:
   - Orc
   - House
   - Village
+  - Arrow
   layers:
   - Default
   - TransparentFX
