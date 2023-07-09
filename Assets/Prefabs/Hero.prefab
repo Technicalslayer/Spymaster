@@ -192,7 +192,11 @@ MonoBehaviour:
   raycastTargetLayer:
     serializedVersion: 2
     m_Bits: 705
+  raycastLayer:
+    serializedVersion: 2
+    m_Bits: 576
   patrolPoints: []
+  playerT: {fileID: 0}
 --- !u!1 &5980696412488261215
 GameObject:
   m_ObjectHideFlags: 0
