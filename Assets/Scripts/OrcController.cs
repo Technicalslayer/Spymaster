@@ -69,7 +69,7 @@ public class OrcController : MonoBehaviour
                         if (results[i].collider.tag == "House") {
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
-                            Debug.Log("Moving towards target " + results[i].collider.tag);
+                            //Debug.Log("Moving towards target " + results[i].collider.tag);
                             return;
                         }
                         //if (results[i].collider.tag == "Hero" && Vector2.Distance(results[i].collider.transform.position, transform.position) < clashRange) {
@@ -77,7 +77,7 @@ public class OrcController : MonoBehaviour
                             //hero is closest, focus on it
                             target = results[i].transform;
                             movementController.GetMoveCommand(target.position);
-                            Debug.Log("Moving towards target " + results[i].collider.tag);
+                            //Debug.Log("Moving towards target " + results[i].collider.tag);
                             return;
                         }
                     }
@@ -100,7 +100,7 @@ public class OrcController : MonoBehaviour
         if (collision.collider.tag == "Hero" || collision.collider.tag == "House") {
             //stun self
             stunned = true;
-            Debug.Log("stunned");
+            //Debug.Log("stunned");
             //stop movement controller
             movementController.enabled = false;
             //apply impulse

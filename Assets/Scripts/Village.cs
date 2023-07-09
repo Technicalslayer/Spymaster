@@ -39,6 +39,7 @@ public class Village : MonoBehaviour
     /// Updates if village is under attack or destroyed
     /// </summary>
     public void UpdateState(VillageState status) {
+        OverworldManager.Instance.VillageStates[id].villageState = status;
         //switch statement based on keyword passed
         switch (status) {
             case VillageState.NORMAL: {
@@ -84,6 +85,7 @@ public class Village : MonoBehaviour
                 heroPresent = true;
                 collision.gameObject.SetActive(false);
                 UpdateState(VillageState.CLASHING);
+                OverworldManager.Instance.VillageStates[id].isHeroPresent = true;
             }
         }
         else if(collision.collider.tag == "Orc") {
@@ -96,6 +98,7 @@ public class Village : MonoBehaviour
                 else
                     UpdateState(VillageState.CLASHING);
             }
+            OverworldManager.Instance.VillageStates[id].orcCount = orcCount;
         }
         else if(collision.collider.tag == "Player") {
             //enter village change scene

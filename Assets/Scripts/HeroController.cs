@@ -152,7 +152,7 @@ public class HeroController : MonoBehaviour
         if (collision.collider.tag == "Orc") {
             //stun self
             stunned = true;
-            Debug.Log("stunned");
+            //Debug.Log("stunned");
             //stop movement controller
             movementController.enabled = false;
             //apply impulse
