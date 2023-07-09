@@ -19,11 +19,22 @@ public class OverworldManager : MonoBehaviour
 
     public int SpyProgress = 0; //tracks the player's spy meter progress in between levels, updated when leaving level or sending report
     //public int Resources = 0; //tracks amount of resources player has collected
-    public List<GameObject> overworldObjects = new List<GameObject>(); //list of objects to enable/disable when entering/leaving overworld map
+    //public List<GameObject> overworldObjects = new List<GameObject>(); //list of objects to enable/disable when entering/leaving overworld map
+    public List<string> villageJSON = new List<string>(); //list of village data
 
     public void ResetSpyProgress() {
         SpyProgress = 0;
         //update spy meter
+    }
+
+    public void AddVillageData(string JSONData) {
+        villageJSON.Add(JSONData);
+    }
+
+    public string GetVillageJSON(int id) {
+        string dataString = villageJSON[id];
+        villageJSON.RemoveAt(id);
+        return dataString;
     }
 
     //public void AddResources(int amount) {

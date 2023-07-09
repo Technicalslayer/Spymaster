@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class HouseController : MonoBehaviour
 {
     public int health;
     public int maxHealth = 5;
     public int minHealth = 2;
+    public int id; //unique for each house in a scene
 
     private void Start() {
         //pick a random amount of health
