@@ -104,7 +104,7 @@ public class OrcController : MonoBehaviour
                     //target = houses[rIndex].gameObject.transform;
                     target = houses[rIndex].gameObject.transform;
                     movementController.GetMoveCommand(target.position);
-                    Debug.Log(name + " is moving towards target " + houses[rIndex].name);
+                    //Debug.Log(name + " is moving towards target " + houses[rIndex].name);
                 }
             }
         }
