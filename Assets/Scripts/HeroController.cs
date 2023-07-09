@@ -12,6 +12,10 @@ public class HeroController : MonoBehaviour
     public LayerMask raycastLayer;
     public List<Vector2> patrolPoints = new List<Vector2>();
     public Transform playerT;
+    //public SpriteRenderer chaseIndicator; //sprite shows if hero is chasing player, has lost sight, or is wandering
+    public Sprite chasingSprite;
+    public Sprite lostSiteSprite;
+    public Sprite wanderingSprite;
 
     private float searchTimer = 0f;
     private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
@@ -73,6 +77,7 @@ public class HeroController : MonoBehaviour
                 if (playerHideTimer > playerHideTimeMax) {
                     //lost player, resume normal behavior
                     chasing = false;
+                    //chaseIndicator.sprite = wanderingSprite;
                 }
             }
         }
@@ -245,6 +250,7 @@ public class HeroController : MonoBehaviour
             chasing = true; //focus on player
             playerInSight = true;
             playerHideTimer = 0f; //reset timer
+            //chaseIndicator.sprite = chasingSprite;
         }
         else if(collision.tag == "Orc" && !chasing) {
             //orc is less priority
@@ -255,6 +261,7 @@ public class HeroController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.tag == "Player") {
             playerInSight = false;
+            //chaseIndicator.sprite = lostSiteSprite;
         }
     }
 }

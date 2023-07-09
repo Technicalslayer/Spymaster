@@ -412,6 +412,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b13a0405cb206e46b60d0c80dd198d0, type: 3}
+--- !u!114 &675158762 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4743725850961329669, guid: 4b13a0405cb206e46b60d0c80dd198d0, type: 3}
+  m_PrefabInstance: {fileID: 675158761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &855145011
 GameObject:
   m_ObjectHideFlags: 0
@@ -21970,7 +21981,7 @@ PrefabInstance:
     - target: {fileID: 8309654944949714803, guid: 36aed53a007249142ae84f5759037d12, type: 3}
       propertyPath: spyMeterFillImage
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 675158762}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
