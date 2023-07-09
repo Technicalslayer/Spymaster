@@ -235,15 +235,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move_speed: 3.7
   spy_range: 10
-  spy_timer_max: 0.5
+  spy_timer_max: 0.3
   health_max: 1
   spy_progress: 0
   heroT: {fileID: 0}
   raycastLayer:
     serializedVersion: 2
     m_Bits: 4160
-  max_slidervalue: 10
-  slider: {fileID: 0}
+  spyMeterFillImage: {fileID: 0}
 --- !u!50 &2633061122863133734
 Rigidbody2D:
   serializedVersion: 4
