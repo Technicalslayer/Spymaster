@@ -20,10 +20,13 @@ public class HeroController : MonoBehaviour
     private bool shotOnCooldown = false;
     private float shotTimerMax = 0.5f;
     private float shotTimer = 0f;
-    private bool chasing = false; //indicates there is a specific target
+    private bool chasing = false; //indicates hero is chasing player
+    private bool playerInSight = false;
     private float wanderTimer = 0f;
     private float wanderTimeMax = 10f; //how long between selecting a new random point to travel to
     private int patrolPointIndex = 0; //current patrol target index?
+    private float playerHideTimer = 0f; //how long has the player been out of sight?
+    private float playerHideTimeMax = 10f; //how long for the player to be out of sight before giving up
 
 
     private MovementController2D movementController;
@@ -42,6 +45,7 @@ public class HeroController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (stunned) {
             stunTimer += Time.deltaTime;
             if (stunTimer > stunTimerMax) {
@@ -59,23 +63,34 @@ public class HeroController : MonoBehaviour
                 shotTimer = 0f;
             }
         }
-
-        //check if target still exists
-        wanderTimer += Time.deltaTime;
-        if (target == null && wanderTimer >= wanderTimeMax) {
-            wanderTimer = 0f;
-            //find new target or start wandering
-
-
-            //start wandering
-            if (patrolPoints.Count > 0) {
-                patrolPointIndex++;
-                if (patrolPointIndex >= patrolPoints.Count) {
-                    patrolPointIndex = 0; //reset patrol
+        if (chasing) {
+            //don't do anything other than chase player
+            if (!playerInSight) {
+                playerHideTimer += Time.deltaTime;
+                if (playerHideTimer > playerHideTimeMax) {
+                    //lost player, resume normal behavior
+                    chasing = false;
                 }
-                movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
             }
-            //idk, spin?
+        }
+        else {
+            //check if target still exists
+            wanderTimer += Time.deltaTime;
+            if (target == null && wanderTimer >= wanderTimeMax) {
+                wanderTimer = 0f;
+                //find new target or start wandering
+
+
+                //start wandering
+                if (patrolPoints.Count > 0) {
+                    patrolPointIndex++;
+                    if (patrolPointIndex >= patrolPoints.Count) {
+                        patrolPointIndex = 0; //reset patrol
+                    }
+                    movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
+                }
+                //idk, spin?
+            }
         }
     }
 
@@ -202,10 +217,19 @@ public class HeroController : MonoBehaviour
         if (collision.tag == "Player") {
             //player entered into line of sight
             target = collision.transform;
+            chasing = true; //focus on player
+            playerInSight = true;
+            playerHideTimer = 0f; //reset timer
         }
-        else if(collision.tag == "Orc") {
+        else if(collision.tag == "Orc" && !chasing) {
             //orc is less priority
             target = collision.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        if (collision.tag == "Player") {
+            playerInSight = false;
         }
     }
 }
