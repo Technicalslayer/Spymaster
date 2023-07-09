@@ -16,19 +16,19 @@ public class HouseController : MonoBehaviour
         //Debug.Log("Health: " + health);
     }
 
-    private void TakeDamage() {
-        health -= 1;
-        if (health <= 0) {
-            //destroy house
-            gameObject.SetActive(false);
-            //check if all houses are destroyed
-            FindObjectOfType<LocalMapManager>().CheckVillageStatus();
-        }
-    }
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.tag == "Orc") {
-            //take damage
-            TakeDamage();
-        }
-    }
+    //private void TakeDamage() {
+    //    health -= 1;
+    //    if (health <= 0) {
+    //        //destroy house
+    //        gameObject.SetActive(false);
+    //        //check if all houses are destroyed
+    //        //FindObjectOfType<LocalMapManager>().CheckVillageStatus();
+    //    }
+    //}
+    //private void OnCollisionEnter2D(Collision2D collision) {
+    //    if (collision.collider.tag == "Orc") {
+    //        //take damage
+    //        TakeDamage();
+    //    }
+    //}
 }

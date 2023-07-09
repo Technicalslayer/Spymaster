@@ -19,6 +19,7 @@ public class HeroController : MonoBehaviour
     private bool shotOnCooldown = false;
     private float shotTimerMax = 0.5f;
     private float shotTimer = 0f;
+    private bool chasing = false; //indicates there is a specific target
 
     private MovementController2D movementController;
     private Rigidbody2D rb;
@@ -67,7 +68,14 @@ public class HeroController : MonoBehaviour
             }
         }
 
-        ShootTarget();
+        if (target != null) {
+            //moving towards target
+        }
+        else {
+            //move around randomly
+        }
+
+        //ShootTarget();
         
     }
 
@@ -92,61 +100,61 @@ public class HeroController : MonoBehaviour
                         }
                     }
                     //check for player if no orcs. Will eventually require line of sight
-                    for (int i = 0; i < results.Length; i++) {
-                        if (results[i].collider.tag == "Player") { //Orc takes priority over player
-                            target = results[i].transform;
-                            movementController.GetMoveCommand(target.position);
-                            //Debug.Log("Moving towards target " + results[i].collider.tag);
-                            return;
-                        }
-                    }
+                    //for (int i = 0; i < results.Length; i++) {
+                    //    if (results[i].collider.tag == "Player") { //Orc takes priority over player
+                    //        target = results[i].transform;
+                    //        movementController.GetMoveCommand(target.position);
+                    //        //Debug.Log("Moving towards target " + results[i].collider.tag);
+                    //        return;
+                    //    }
+                    //}
                 }
             }
         }
     }
 
-    private void ShootTarget() {
-        //check if in range to shoot at player
-        //stop moving and focus fire, only moving if out of range or losing line of sight
-        //first check line of sight
-        if (target != null && target.tag == "Player") {
+    //private void ShootTarget() {
+    //    //check if in range to shoot at player
+    //    //stop moving and focus fire, only moving if out of range or losing line of sight
+    //    //first check line of sight
+    //    if (target != null && target.tag == "Player") {
 
-            //RaycastHit2D hit = Physics2D.Raycast(transform.position, target.position - transform.position);
-            Vector2 dirToTarget = target.position - transform.position;
-            dirToTarget.Normalize();
-            RaycastHit2D[] hit = new RaycastHit2D[1];
-            int hit_count = c.Raycast(dirToTarget, hit, Mathf.Infinity, raycastTargetLayer); //need to ignore arrow colliders
+    //        //RaycastHit2D hit = Physics2D.Raycast(transform.position, target.position - transform.position);
+    //        Vector2 dirToTarget = target.position - transform.position;
+    //        dirToTarget.Normalize();
+    //        RaycastHit2D[] hit = new RaycastHit2D[1];
+    //        int hit_count = c.Raycast(dirToTarget, hit, Mathf.Infinity, raycastTargetLayer); //need to ignore arrow colliders
 
-            //Debug.DrawRay(transform.position, target.position - transform.position, Color.red);
-            //Debug.Log(hit.collider.name);
+    //        //Debug.DrawRay(transform.position, target.position - transform.position, Color.red);
+    //        //Debug.Log(hit.collider.name);
 
-            for (int i = 0; i < hit_count; i++) {
-                if (hit[i].collider.tag == "Player") {
-                    //Debug.Log("hitting player");
-                    if (hit[i].distance <= shotRange && !shotOnCooldown) {
-                        //start shooting
-                        GameObject o = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dirToTarget))); //temp
-                        o.GetComponent<ArrowController>().velocity = dirToTarget;
-                        //Debug.Log("Shooting player");
-                        shotOnCooldown = true;
-                        movementController.enabled = false;
-                        return;
-                    }
-                    else if (hit[i].distance >= shotRange) {
-                        //move closer
-                        movementController.enabled = true;
-                        return;
-                    }
-                }
-                else {
-                    movementController.enabled = true; //keep moving, didn't see player
-                }
-            }
-            //movementController.enabled = true;
+    //        for (int i = 0; i < hit_count; i++) {
+    //            if (hit[i].collider.tag == "Player") {
+    //                //Debug.Log("hitting player");
+    //                if (hit[i].distance <= shotRange && !shotOnCooldown) {
+    //                    //start shooting
+    //                    GameObject o = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dirToTarget))); //temp
+    //                    o.GetComponent<ArrowController>().velocity = dirToTarget;
+    //                    //Debug.Log("Shooting player");
+    //                    shotOnCooldown = true;
+    //                    movementController.enabled = false;
+    //                    return;
+    //                }
+    //                else if (hit[i].distance >= shotRange) {
+    //                    //move closer
+    //                    movementController.enabled = true;
+    //                    return;
+    //                }
+    //            }
+    //            else {
+    //                movementController.enabled = true; //keep moving, didn't see player
+    //            }
+    //        }
+    //        //movementController.enabled = true;
 
 
-        }
-    }
+    //    }
+    //}
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.tag == "Orc") {
@@ -158,6 +166,17 @@ public class HeroController : MonoBehaviour
             //apply impulse
             if(collision.contactCount > 0)
                 rb.AddForce(collision.contacts[0].normal * 10f, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag == "Player") {
+            //player entered into line of sight
+            target = collision.transform;
+        }
+        else if(collision.tag == "Orc") {
+            //orc is less priority
+            target = collision.transform;
         }
     }
 }

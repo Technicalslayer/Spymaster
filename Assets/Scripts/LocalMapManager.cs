@@ -5,22 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class LocalMapManager : MonoBehaviour
 {
-    public int id; //this needs to be unique for each local map and match the village on the overworld
+    //public int id; //this needs to be unique for each local map and match the village on the overworld
     //public LocalMapState mapState;
-    public GameObject heroPrefab;
+    //public GameObject heroPrefab;
     public GameObject orcPrefab;
-    public List<HouseController> houses = new List<HouseController>();
+    //public List<HouseController> houses = new List<HouseController>();
+    public GameObject orcSpawnObject; //where orcs will spawn from
+    public float spawnTimer;
+    public float spawnTime = 10f; //how long inbetween orc spawns
 
 
     // Start is called before the first frame update
     void Start() {
         //spawn all relative objects
-        LoadState();
+        //LoadState();
+        
     }
 
     // Update is called once per frame
     void Update() {
-
+        spawnTimer += Time.deltaTime;
+        if(spawnTimer >= spawnTime) {
+            Instantiate(orcPrefab, orcSpawnObject.transform.position, Quaternion.identity);
+            //orc script will pick a random house in the level
+            spawnTimer = 0f;
+            spawnTime = Random.Range(10f, 30f); //pick a random time for next spawn
+        }
     }
 
     private void OnDestroy() {
@@ -75,73 +85,75 @@ public class LocalMapManager : MonoBehaviour
     //    }
     //}
 
-    public void LoadState() {
-        Debug.Log("loading state");
-        //get appropriate village data
-        LocalMapState state = OverworldManager.Instance.VillageStates[id];
-        for (int i = 0; i < state.houses.Count; i++) {
-            houses[i].health = state.houses[i].health;
-            houses[i].maxHealth = state.houses[i].maxHealth;
-            if (houses[i].health <= 0) {
-                //set house to destroyed state without playing effects
-                houses[i].gameObject.SetActive(false);
-                Debug.Log("House was already destroyed");
-            }
-        }
+    //public void LoadState() {
+    //    Debug.Log("loading state");
+    //    //get appropriate village data
+    //    LocalMapState state = OverworldManager.Instance.VillageStates[id];
+    //    for (int i = 0; i < state.houses.Count; i++) {
+    //        houses[i].health = state.houses[i].health;
+    //        houses[i].maxHealth = state.houses[i].maxHealth;
+    //        if (houses[i].health <= 0) {
+    //            //set house to destroyed state without playing effects
+    //            houses[i].gameObject.SetActive(false);
+    //            Debug.Log("House was already destroyed");
+    //        }
+    //    }
 
-        //spawn orcs
-        for (int i = 0; i <= state.orcCount; i++) {
-            Debug.Log("Spawning Orc");
-            //spawn new orc with info
-            GameObject o = Instantiate(orcPrefab);
-            //give random location
-            //o.transform.position = Random...
-        }
+    //    //spawn orcs
+    //    for (int i = 0; i <= state.orcCount; i++) {
+    //        Debug.Log("Spawning Orc");
+    //        //spawn new orc with info
+    //        GameObject o = Instantiate(orcPrefab);
+    //        //give random location
+    //        //o.transform.position = Random...
+    //    }
 
-        if (state.isHeroPresent) {
-            Debug.Log("Spawning Hero");
-            //spawn hero
-            GameObject o = Instantiate(heroPrefab);
-            //move hero to center
-            o.transform.position = Vector2.zero;
-        }
-    }
+    //    if (state.isHeroPresent) {
+    //        Debug.Log("Spawning Hero");
+    //        //spawn hero
+    //        GameObject o = Instantiate(heroPrefab);
+    //        //move hero to center
+    //        o.transform.position = Vector2.zero;
+    //    }
+    //}
 
-    public void CheckVillageStatus() {
-        //called when a house is destroyed or orc defeated
-        //get all orcs in level
-        OrcController[] orcs = FindObjectsOfType<OrcController>();
-        if (orcs.Length > 0) {
-            //still orcs, so village is still being raided
-            Debug.Log("Orcs still in Village");
-        }
-        else {
-            //no orcs, change status?
-            OverworldManager.Instance.UpdateVillageState(id, Village.VillageState.DEFENDED);
-            Debug.Log("Village Defended");
-        }
-        //update orc count
-        OverworldManager.Instance.VillageStates[id].orcCount = orcs.Length;
-        //see if any houses are still standing
-        foreach (HouseController house in houses) {
-            if(house.health > 0) {
-                //still standing, so stay in level
-                Debug.Log("Houses still standing");
-                return;
-            }
-        }
-        PlayerController playerController = FindObjectOfType<PlayerController>();
-        //no houses left
-        //leave level
-        Debug.Log("leaving Level");
-        OverworldManager.Instance.UpdateVillageState(id, Village.VillageState.DESTROYED);
-        OverworldManager.Instance.UpdateSpyMeter(playerController.spy_progress);
-        SceneManager.LoadScene(0);
-    }
+    //public void CheckVillageStatus() {
+    //    //called when a house is destroyed or orc defeated
+    //    //get all orcs in level
+    //    OrcController[] orcs = FindObjectsOfType<OrcController>();
+    //    if (orcs.Length > 0) {
+    //        //still orcs, so village is still being raided
+    //        Debug.Log("Orcs still in Village");
+    //    }
+    //    else {
+    //        //no orcs, change status?
+    //        OverworldManager.Instance.UpdateVillageState(id, Village.VillageState.DEFENDED);
+    //        Debug.Log("Village Defended");
+    //    }
+    //    //update orc count
+    //    OverworldManager.Instance.VillageStates[id].orcCount = orcs.Length;
+    //    //see if any houses are still standing
+    //    foreach (HouseController house in houses) {
+    //        if(house.health > 0) {
+    //            //still standing, so stay in level
+    //            Debug.Log("Houses still standing");
+    //            return;
+    //        }
+    //    }
+    //    PlayerController playerController = FindObjectOfType<PlayerController>();
+    //    //no houses left
+    //    //leave level
+    //    Debug.Log("leaving Level");
+    //    OverworldManager.Instance.UpdateVillageState(id, Village.VillageState.DESTROYED);
+    //    OverworldManager.Instance.UpdateSpyMeter(playerController.spy_progress);
+    //    SceneManager.LoadScene(0);
+    //}
 
     public void PlayerDied() {
         //Called because the hero killed you, loser
-        OverworldManager.Instance.PlayerDied(id);
+        //OverworldManager.Instance.PlayerDied(id);
+        //reload current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 
