@@ -122,12 +122,12 @@ public class HeroController : MonoBehaviour
 
             for (int i = 0; i < hit_count; i++) {
                 if (hit[i].collider.tag == "Player") {
-                    Debug.Log("hitting player");
+                    //Debug.Log("hitting player");
                     if (hit[i].distance <= shotRange && !shotOnCooldown) {
                         //start shooting
                         GameObject o = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dirToTarget))); //temp
                         o.GetComponent<ArrowController>().velocity = dirToTarget;
-                        Debug.Log("Shooting player");
+                        //Debug.Log("Shooting player");
                         shotOnCooldown = true;
                         movementController.enabled = false;
                         return;

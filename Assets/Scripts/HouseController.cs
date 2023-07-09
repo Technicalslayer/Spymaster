@@ -6,14 +6,14 @@ using UnityEngine;
 public class HouseController : MonoBehaviour
 {
     public int health;
-    public int maxHealth = 5;
-    public int minHealth = 2;
+    public int maxHealth;
+    //public int minHealth = 2;
     public int id; //unique for each house in a scene
 
     private void Start() {
-        //pick a random amount of health
-        health = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
-        Debug.Log("Health: " + health);
+        ////pick a random amount of health
+        //health = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
+        //Debug.Log("Health: " + health);
     }
 
     private void TakeDamage() {
@@ -21,6 +21,8 @@ public class HouseController : MonoBehaviour
         if (health <= 0) {
             //destroy house
             gameObject.SetActive(false);
+            //check if all houses are destroyed
+            FindObjectOfType<LocalMapManager>().CheckVillageStatus();
         }
     }
     private void OnCollisionEnter2D(Collision2D collision) {

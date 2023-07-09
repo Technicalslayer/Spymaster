@@ -89,8 +89,10 @@ public class OrcController : MonoBehaviour
     private void TakeDamage() {
         health -= 1;
         if (health <= 0) {
-            //destroy house
-            gameObject.SetActive(false);
+            //destroy orc
+            Destroy(gameObject);
+            //update local status
+            FindObjectOfType<LocalMapManager>().CheckVillageStatus();
         }
     }
 

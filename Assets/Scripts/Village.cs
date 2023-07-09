@@ -5,17 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class Village : MonoBehaviour
 {
-    public enum VillageState { NORMAL, UNDER_ATTACK, DEFENDED, DESTROYED }
+    public enum VillageState { NORMAL, UNDER_ATTACK, DEFENDED, DESTROYED, CLASHING }
     
     public Sprite normalSprite;
     public Sprite underAttackSprite;
     public Sprite beingDefendedSprite;
     public Sprite destroyedSprite;
+    public Sprite clashingSprite;
     public VillageState villageStatus;
 
     public bool heroPresent = false;
     public int orcCount = 0;
     public int sceneIndex = 0; //scene index to load
+    public int id; //unique for each village
     
 
     private SpriteRenderer spriteRenderer;
@@ -23,7 +25,8 @@ public class Village : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();    
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateState(OverworldManager.Instance.VillageStates[id].villageState);
     }
 
     // Update is called once per frame
@@ -53,6 +56,11 @@ public class Village : MonoBehaviour
                     villageStatus = VillageState.DEFENDED;
                     break;
                 }
+            case VillageState.CLASHING: {
+                    spriteRenderer.sprite = clashingSprite;
+                    villageStatus = VillageState.CLASHING;
+                    break;
+                }
             case VillageState.DESTROYED: {
                     spriteRenderer.sprite = destroyedSprite;
                     villageStatus = VillageState.DESTROYED;
@@ -75,7 +83,7 @@ public class Village : MonoBehaviour
                 //Destroy(collision.gameObject);
                 heroPresent = true;
                 collision.gameObject.SetActive(false);
-                UpdateState(VillageState.DEFENDED);
+                UpdateState(VillageState.CLASHING);
             }
         }
         else if(collision.collider.tag == "Orc") {
@@ -83,8 +91,10 @@ public class Village : MonoBehaviour
                 //enter village
                 orcCount += collision.gameObject.GetComponent<OverworldNPCController>().orcCount;
                 Destroy(collision.gameObject);
-                if(!heroPresent)
+                if (!heroPresent)
                     UpdateState(VillageState.UNDER_ATTACK);
+                else
+                    UpdateState(VillageState.CLASHING);
             }
         }
         else if(collision.collider.tag == "Player") {
