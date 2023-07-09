@@ -90,7 +90,7 @@ public class LocalMapManager : MonoBehaviour
         }
 
         //spawn orcs
-        for (int i = 0; i < state.orcCount; i++) {
+        for (int i = 0; i <= state.orcCount; i++) {
             Debug.Log("Spawning Orc");
             //spawn new orc with info
             GameObject o = Instantiate(orcPrefab);
