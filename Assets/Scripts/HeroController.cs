@@ -9,6 +9,7 @@ public class HeroController : MonoBehaviour
     public float shotRange = 10f; //how far away to stand from player when attacking
     public GameObject arrowPrefab;
     public LayerMask raycastTargetLayer;
+    public List<Vector2> patrolPoints = new List<Vector2>();
 
     private float searchTimer = 0f;
     private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
@@ -20,6 +21,10 @@ public class HeroController : MonoBehaviour
     private float shotTimerMax = 0.5f;
     private float shotTimer = 0f;
     private bool chasing = false; //indicates there is a specific target
+    private float wanderTimer = 0f;
+    private float wanderTimeMax = 10f; //how long between selecting a new random point to travel to
+    private int patrolPointIndex = 0; //current patrol target index?
+
 
     private MovementController2D movementController;
     private Rigidbody2D rb;
@@ -54,6 +59,24 @@ public class HeroController : MonoBehaviour
                 shotTimer = 0f;
             }
         }
+
+        //check if target still exists
+        wanderTimer += Time.deltaTime;
+        if (target == null && wanderTimer >= wanderTimeMax) {
+            wanderTimer = 0f;
+            //find new target or start wandering
+
+
+            //start wandering
+            if (patrolPoints.Count > 0) {
+                patrolPointIndex++;
+                if (patrolPointIndex >= patrolPoints.Count) {
+                    patrolPointIndex = 0; //reset patrol
+                }
+                movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
+            }
+            //idk, spin?
+        }
     }
 
     private void FixedUpdate() {
@@ -61,18 +84,24 @@ public class HeroController : MonoBehaviour
             rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, stunTimer / stunTimerMax); //slow down slide //I don't think this does anything cuz of the MovePosition function
         }
         else {
-            SearchForTarget();
+            //SearchForTarget();
             //rotate towards movement
             if (movementController.intendedVelocity != null) {
-                rb.MoveRotation(Vector2.SignedAngle(Vector2.right, movementController.intendedVelocity));
+                rb.MoveRotation(Vector2.SignedAngle(Vector2.up, movementController.intendedVelocity));
             }
         }
 
         if (target != null) {
             //moving towards target
+            searchTimer += Time.fixedDeltaTime;
+            if (searchTimer > searchTimerMax) {
+                searchTimer = 0f;
+                movementController.GetMoveCommand(target.position);
+            }
         }
         else {
             //move around randomly
+
         }
 
         //ShootTarget();
