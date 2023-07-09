@@ -18769,6 +18769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hero
       objectReference: {fileID: 0}
+    - target: {fileID: 2551500917278165062, guid: ad192d6935f991c498352c8eee18a6a0, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4731679733723468019, guid: ad192d6935f991c498352c8eee18a6a0, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 2

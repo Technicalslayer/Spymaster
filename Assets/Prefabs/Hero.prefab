@@ -141,7 +141,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 62f4f2e89ce61b04ab63382fed76f419, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9b1b0f1b7052745a71c828edb13530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 0.5
-  speed: 0.05
+  gridSize: 1
+  speed: 2
   obstacles:
     serializedVersion: 2
     m_Bits: 192
@@ -192,6 +192,7 @@ MonoBehaviour:
   raycastTargetLayer:
     serializedVersion: 2
     m_Bits: 705
+  patrolPoints: []
 --- !u!1 &5980696412488261215
 GameObject:
   m_ObjectHideFlags: 0

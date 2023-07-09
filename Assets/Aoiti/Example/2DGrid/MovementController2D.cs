@@ -122,14 +122,20 @@ public class MovementController2D : MonoBehaviour
             Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
             //transform.position += dir.normalized * speed;
             intendedVelocity = dir.normalized * speed;
-            rb.MovePosition(transform.position + dir.normalized * speed);
+            //rb.MovePosition(transform.position + dir.normalized * speed);
+            rb.velocity = dir.normalized * speed;
             //rb.MoveRotation(Vector2.SignedAngle(Vector2.right, facing) - 90f)
                 
             if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < speed * speed) {
                 //transform.position = pathLeftToGo[0];
-                rb.MovePosition(pathLeftToGo[0]);
+                //rb.MovePosition(pathLeftToGo[0]);
+                //rb.velocity = pathLeftToGo[0];
                 pathLeftToGo.RemoveAt(0);
             }
+        }
+        else {
+            //target is reached?
+            //rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, 0.9f);
         }
     }
 

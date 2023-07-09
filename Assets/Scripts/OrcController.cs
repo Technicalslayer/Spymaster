@@ -38,6 +38,13 @@ public class OrcController : MonoBehaviour
         if(target == null) {
             SearchForTarget(); //hacky solution cuz searching wasn't working on the first frame
         }
+        else {
+            searchTimer += Time.fixedDeltaTime;
+            if (searchTimer > searchTimerMax) {
+                searchTimer = 0f;
+                movementController.GetMoveCommand(target.position);
+            }
+        }
         if (stunned) {
             stunTimer += Time.deltaTime;
             if (stunTimer > stunTimerMax) {
