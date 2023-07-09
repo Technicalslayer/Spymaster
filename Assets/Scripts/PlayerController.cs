@@ -20,15 +20,16 @@ public class PlayerController : MonoBehaviour
     private bool lineOfSight; //no obstacles between player and hero
     public Transform heroT;
     public LayerMask raycastLayer;
+    public Image spyMeterFillImage;
 
-    [SerializeField] private int max_slidervalue = 10;
+    //[SerializeField] private int max_slidervalue = 10;
 
     //components
     private Rigidbody2D rb;
     private Collider2D spy_view;
 
     //For Spymeter
-    [SerializeField] private Slider slider;
+    //[SerializeField] private Slider slider;
 
     // Start is called before the first frame update
     void Start()
@@ -39,9 +40,9 @@ public class PlayerController : MonoBehaviour
 
         health_current = health_max;
 
-        slider.maxValue = max_slidervalue;
-        slider.gameObject.SetActive(false);
-        slider.interactable = false;
+        //slider.maxValue = max_slidervalue;
+        //slider.gameObject.SetActive(false);
+        //slider.interactable = false;
     }
 
     // Update is called once per frame
@@ -147,9 +148,7 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateSpymeter( int spy_progress)
     {
-        slider.interactable = true;
-        slider.gameObject.SetActive(true);
-        slider.value = spy_progress / 10; //total
+        spyMeterFillImage.fillAmount = (float)spy_progress / 100f; //total
 
         //if(spy_progress == max_slidervalue)
         //{
