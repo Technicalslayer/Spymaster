@@ -9,7 +9,9 @@ public class HeroController : MonoBehaviour
     public float shotRange = 10f; //how far away to stand from player when attacking
     public GameObject arrowPrefab;
     public LayerMask raycastTargetLayer;
+    public LayerMask raycastLayer;
     public List<Vector2> patrolPoints = new List<Vector2>();
+    public Transform playerT;
 
     private float searchTimer = 0f;
     private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
@@ -27,6 +29,7 @@ public class HeroController : MonoBehaviour
     private int patrolPointIndex = 0; //current patrol target index?
     private float playerHideTimer = 0f; //how long has the player been out of sight?
     private float playerHideTimeMax = 10f; //how long for the player to be out of sight before giving up
+    private bool lineOfSight;
 
 
     private MovementController2D movementController;
@@ -122,7 +125,27 @@ public class HeroController : MonoBehaviour
         }
 
         //ShootTarget();
-        
+        if (playerT) {
+            Vector2 dir = playerT.position - transform.position;
+            RaycastHit2D[] results = new RaycastHit2D[0];
+            //int hit_count = Physics2D.Raycast(dir, results, Mathf.Infinity);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
+            Debug.DrawRay(transform.position, dir, Color.red);
+
+            if (hit.collider.tag == "Player") {
+                lineOfSight = true;
+            }
+            else {
+                lineOfSight = false;
+            }
+            //if (hit_count == 1 && results[0].collider.tag == "Hero") {
+            //    //only hero was hit, have a clear line of sight to hero
+            //    lineOfSight = true;
+            //}
+            //else {
+            //    lineOfSight = false;
+            //}
+        }
     }
 
     private void SearchForTarget() {
@@ -216,7 +239,7 @@ public class HeroController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag == "Player") {
+        if (collision.tag == "Player" && lineOfSight) {
             //player entered into line of sight
             target = collision.transform;
             chasing = true; //focus on player

@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D[] results = new RaycastHit2D[0];
             //int hit_count = Physics2D.Raycast(dir, results, Mathf.Infinity);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
-            Debug.DrawRay(transform.position, dir, Color.red);
+            //Debug.DrawRay(transform.position, dir, Color.red);
 
             if (hit.collider.tag == "Hero") {
                 lineOfSight = true;

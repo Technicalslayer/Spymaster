@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Village 1.unity
     guid: 231aef7af7a90574eab47b95b7e34cd7
   - enabled: 0
-    path: Assets/Scenes/Village 2.unity
+    path: Assets/Scenes/Village 2 Old.unity
     guid: edff310f9d33f8f439067e95cd4e6345
   - enabled: 0
-    path: Assets/Scenes/Village 3.unity
+    path: Assets/Scenes/Village 3 Old.unity
     guid: c02130141d209c6428de5ed2763be329
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: c5932590950597043bdcd1d68ed16533, type: 2}
