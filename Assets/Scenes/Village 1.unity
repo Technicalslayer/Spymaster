@@ -21221,10 +21221,6 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 1495897165}
-    - target: {fileID: 8309654944949714803, guid: 36aed53a007249142ae84f5759037d12, type: 3}
-      propertyPath: raycastLayer.m_Bits
-      value: 4160
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

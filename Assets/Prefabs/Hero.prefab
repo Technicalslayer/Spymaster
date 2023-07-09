@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: 1
-  speed: 2
+  speed: 3.65
   obstacles:
     serializedVersion: 2
     m_Bits: 192
