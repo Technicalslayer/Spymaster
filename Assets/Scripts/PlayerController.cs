@@ -6,28 +6,31 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 
+    //public settings
     public float move_speed = 10f;
     public float spy_range = 10f; //how far out can you spy on the hero
     public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
     public int health_max = 1; //how many hits the player can receive before dying
-
+    public LayerMask raycastLayer;
+    
+    //private settings
     private Vector2 movement = Vector2.zero;
     private Vector2 facing = Vector2.up; //direction player is facing
     private float rotation_angle = 0f;
+    [HideInInspector]
     public int spy_progress = 0; //100 is a full meter
     private float spy_timer = 0f; //current timer progress
     private int health_current;
     private bool lineOfSight; //no obstacles between player and hero
-    public Transform heroT;
-    public LayerMask raycastLayer;
-    public Image spyMeterFillImage;
+    
 
     //[SerializeField] private int max_slidervalue = 10;
 
     //components
     private Rigidbody2D rb;
     private Collider2D spy_view;
-
+    public Image spyMeterFillImage;
+    public Transform heroT;
     //For Spymeter
     //[SerializeField] private Slider slider;
 
@@ -76,7 +79,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D[] results = new RaycastHit2D[0];
             //int hit_count = Physics2D.Raycast(dir, results, Mathf.Infinity);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
-            //Debug.DrawRay(transform.position, dir, Color.red);
+            Debug.DrawRay(transform.position, dir, Color.red);
 
             if (hit.collider.tag == "Hero") {
                 lineOfSight = true;
