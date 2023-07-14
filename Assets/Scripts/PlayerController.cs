@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D spy_view;
     public Image spyMeterFillImage;
     public Transform heroT;
+    //private GameObject FoVSprite;
     //For Spymeter
     //[SerializeField] private Slider slider;
 
