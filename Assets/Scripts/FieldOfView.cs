@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class FieldOfView : MonoBehaviour
 {
     public float viewDistance;
-    [Range(10, 90)]
+    [Range(0, 360)]
     public float viewAngle; 
     public float viewResolution; //how many lines to cast out for each degree
     public LayerMask obstacleMask;
