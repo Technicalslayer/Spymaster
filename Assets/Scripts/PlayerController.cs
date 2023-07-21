@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     //components
     private Rigidbody2D rb;
-    private Collider2D spy_view;
+    //private Collider2D spy_view;
     public Image spyMeterFillImage;
     public Transform heroT;
     //private GameObject FoVSprite;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         //get components
         rb = GetComponent<Rigidbody2D>();
-        spy_view = rb.GetComponent<Collider2D>();
+        //spy_view = rb.GetComponent<Collider2D>();
 
         health_current = health_max;
 
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         //facing = new Vector2(Input.GetAxisRaw("something"), Input.GetAxisRaw("something"));
         facing = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        rotation_angle = Vector2.SignedAngle(Vector2.right, facing) - 90f;
+        rotation_angle = Vector2.SignedAngle(Vector2.up, facing);
         //clamp rotation to steps of 45 degrees
         //rotation_angle += 360; //make positive
         //rotation_angle += (int)(45 / 2); //back up half step
