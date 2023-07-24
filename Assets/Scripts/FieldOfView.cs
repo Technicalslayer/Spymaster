@@ -30,7 +30,6 @@ public class FieldOfView : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        
         DrawFieldOfView();
     }
 

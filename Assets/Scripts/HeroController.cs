@@ -6,8 +6,6 @@ public class HeroController : MonoBehaviour
 {
     public float detectionRange = 100f; //how far to search for the player or orcs
     public float clashRange = 1f; //how close to begin charge
-    public float shotRange = 10f; //how far away to stand from player when attacking
-    public GameObject arrowPrefab;
     public LayerMask raycastTargetLayer;
     public LayerMask raycastLayer;
     public List<Vector2> patrolPoints = new List<Vector2>();
@@ -23,9 +21,6 @@ public class HeroController : MonoBehaviour
     private float stunTimer = 0f;
     private float stunTimerMax = 0.7f;
     private bool stunned = false;
-    private bool shotOnCooldown = false;
-    private float shotTimerMax = 0.5f;
-    private float shotTimer = 0f;
     private bool chasing = false; //indicates hero is chasing player
     private bool playerInSight = false;
     private float wanderTimer = 0f;
@@ -63,13 +58,6 @@ public class HeroController : MonoBehaviour
             }
         }
 
-        if (shotOnCooldown) {
-            shotTimer += Time.deltaTime;
-            if (shotTimer > shotTimerMax) {
-                shotOnCooldown = false;
-                shotTimer = 0f;
-            }
-        }
         if (chasing) {
             //don't do anything other than chase player
             if (!playerInSight) {
@@ -97,7 +85,6 @@ public class HeroController : MonoBehaviour
                     }
                     movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
                 }
-                //idk, spin?
             }
         }
     }
@@ -128,12 +115,8 @@ public class HeroController : MonoBehaviour
             //move around randomly
 
         }
-
-        //ShootTarget();
         if (playerT) {
             Vector2 dir = playerT.position - transform.position;
-            RaycastHit2D[] results = new RaycastHit2D[0];
-            //int hit_count = Physics2D.Raycast(dir, results, Mathf.Infinity);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
             Debug.DrawRay(transform.position, dir, Color.red);
 
@@ -143,13 +126,6 @@ public class HeroController : MonoBehaviour
             else {
                 lineOfSight = false;
             }
-            //if (hit_count == 1 && results[0].collider.tag == "Hero") {
-            //    //only hero was hit, have a clear line of sight to hero
-            //    lineOfSight = true;
-            //}
-            //else {
-            //    lineOfSight = false;
-            //}
         }
     }
 
