@@ -97,5 +97,4 @@ public class FieldOfView : MonoBehaviour
             angle = _angle;
         }
     }
-
 }
