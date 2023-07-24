@@ -112,12 +112,6 @@ public class PlayerController : MonoBehaviour
     public void UpdateSpymeter( int spy_progress)
     {
         spyMeterFillImage.fillAmount = (float)spy_progress / 100f; //total
-
-        //if(spy_progress == max_slidervalue)
-        //{
-        //    slider.value = 0;
-        //    spy_progress = 0;
-        //}
     }
 
     private void TakeDamage(int damageAmount) {
@@ -140,9 +134,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision) {
-        if(collision.tag == "Hero") {
-            IncrementSpymeter();
-        }
-    }
+    // private void OnTriggerStay2D(Collider2D collision) {
+    //     if(collision.tag == "Hero") {
+    //         IncrementSpymeter();
+    //     }
+    // }
 }

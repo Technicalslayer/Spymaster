@@ -29,12 +29,12 @@ public class HeroController : MonoBehaviour
     private int patrolPointIndex = 0; //current patrol target index?
     private float playerHideTimer = 0f; //how long has the player been out of sight?
     private float playerHideTimeMax = 5f; //how long for the player to be out of sight before giving up
-    private bool lineOfSight;
 
 
     private MovementController2D movementController;
     private Rigidbody2D rb;
     private Collider2D c;
+    private FieldOfView fieldOfView;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +43,7 @@ public class HeroController : MonoBehaviour
         movementController = GetComponent<MovementController2D>();
         rb = GetComponent<Rigidbody2D>();
         c = GetComponent<Collider2D>();
+        fieldOfView = GetComponentInChildren<FieldOfView>();
     }
 
     // Update is called once per frame
@@ -125,18 +126,53 @@ public class HeroController : MonoBehaviour
             //move around randomly
 
         }
-        if (playerT) {
-            Vector2 dir = playerT.position - transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
-            Debug.DrawRay(transform.position, dir, Color.red);
+        // if (playerT) {
+        //     Vector2 dir = playerT.position - transform.position;
+        //     RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
+        //     Debug.DrawRay(transform.position, dir, Color.red);
 
-            if (hit && hit.collider.tag == "Player") {
-                lineOfSight = true;
-            }
-            else {
-                lineOfSight = false;
+        //     if (hit && hit.collider.tag == "Player") {
+        //         lineOfSight = true;
+        //     }
+        //     else {
+        //         lineOfSight = false;
+        //     }
+        // }
+
+        //check for targets
+        RaycastHit2D[] targetsInViewDistance = Physics2D.CircleCastAll(transform.position, fieldOfView.viewDistance, Vector2.zero, 0f, raycastLayer);
+        //check what targets are valid
+        for(int i = 0; i < targetsInViewDistance.Length; i++){
+            //check for player first
+            if(TargetInViewRange(targetsInViewDistance[i].point, "Player")){
+                
             }
         }
+    }
+
+    private bool TargetInViewRange(Vector3 targetPos, string targetTag){
+        bool inAngle;
+        bool inRange;
+        bool correctTag;
+
+        //calc angle
+        Vector2 dir = targetPos - transform.position;
+        float angleToTarget = Vector2.Angle(transform.up, dir);
+
+        //raycast
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, fieldOfView.viewDistance, raycastLayer);
+        if(hit && hit.collider.tag == targetTag){
+            correctTag = true; //this implies no obstacles were in the way
+        }
+        else{
+            correctTag = false;
+        }
+        Debug.DrawRay(transform.position, dir, Color.red);
+
+        inAngle = angleToTarget < fieldOfView.viewAngle / 2;
+        inRange = Vector2.Distance(transform.position, targetPos) < fieldOfView.viewDistance;
+
+        return correctTag && inAngle && inRange;
     }
 
     private void SearchForTarget() {
@@ -187,25 +223,25 @@ public class HeroController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag == "Player" && lineOfSight) {
-            //player entered into line of sight
-            target = collision.transform;
-            chasing = true; //focus on player
-            playerInSight = true;
-            playerHideTimer = 0f; //reset timer
-            //chaseIndicator.sprite = chasingSprite;
-        }
-        else if(collision.tag == "Orc" && !chasing) {
-            //orc is less priority
-            target = collision.transform;
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D collision) {
+    //     if (collision.tag == "Player" && lineOfSight) {
+    //         //player entered into line of sight
+    //         target = collision.transform;
+    //         chasing = true; //focus on player
+    //         playerInSight = true;
+    //         playerHideTimer = 0f; //reset timer
+    //         //chaseIndicator.sprite = chasingSprite;
+    //     }
+    //     else if(collision.tag == "Orc" && !chasing) {
+    //         //orc is less priority
+    //         target = collision.transform;
+    //     }
+    // }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        if (collision.tag == "Player") {
-            playerInSight = false;
-            //chaseIndicator.sprite = lostSiteSprite;
-        }
-    }
+    // private void OnTriggerExit2D(Collider2D collision) {
+    //     if (collision.tag == "Player") {
+    //         playerInSight = false;
+    //         //chaseIndicator.sprite = lostSiteSprite;
+    //     }
+    // }
 }
