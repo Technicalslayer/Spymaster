@@ -320,10 +320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84611ecd4ee478d4880ffb58a5775da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotateSpeed: 120
   detectionRange: 10
   clashRange: 1
-  shotRange: 10
-  arrowPrefab: {fileID: 3670350265548977357, guid: 8140de180f42fdd46929c94b2df9c299, type: 3}
   raycastTargetLayer:
     serializedVersion: 2
     m_Bits: 705

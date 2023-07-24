@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HeroController : MonoBehaviour
 {
+    public float rotateSpeed = 180f; //degrees per second?
     public float detectionRange = 100f; //how far to search for the player or orcs
     public float clashRange = 1f; //how close to begin charge
     public LayerMask raycastTargetLayer;
@@ -99,7 +100,16 @@ public class HeroController : MonoBehaviour
             if (movementController.intendedVelocity != null) {
                 float desiredAngle = Vector2.SignedAngle(Vector2.up, movementController.intendedVelocity);
                 float currentAngle = rb.rotation;
-                rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
+                float rotateStepSize = rotateSpeed * Time.fixedDeltaTime;
+                //rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
+                if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, desiredAngle)) > rotateStepSize){
+                    //move towards desired angle at set speed
+                    rb.MoveRotation(Mathf.MoveTowardsAngle(currentAngle, desiredAngle, rotateStepSize));
+                }
+                else{
+                    //too close for step, snap to angle
+                    rb.MoveRotation(desiredAngle);
+                }
             }
         }
 
@@ -120,7 +130,7 @@ public class HeroController : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
             Debug.DrawRay(transform.position, dir, Color.red);
 
-            if (hit.collider.tag == "Player") {
+            if (hit && hit.collider.tag == "Player") {
                 lineOfSight = true;
             }
             else {
@@ -163,48 +173,6 @@ public class HeroController : MonoBehaviour
         }
     }
 
-    //private void ShootTarget() {
-    //    //check if in range to shoot at player
-    //    //stop moving and focus fire, only moving if out of range or losing line of sight
-    //    //first check line of sight
-    //    if (target != null && target.tag == "Player") {
-
-    //        //RaycastHit2D hit = Physics2D.Raycast(transform.position, target.position - transform.position);
-    //        Vector2 dirToTarget = target.position - transform.position;
-    //        dirToTarget.Normalize();
-    //        RaycastHit2D[] hit = new RaycastHit2D[1];
-    //        int hit_count = c.Raycast(dirToTarget, hit, Mathf.Infinity, raycastTargetLayer); //need to ignore arrow colliders
-
-    //        //Debug.DrawRay(transform.position, target.position - transform.position, Color.red);
-    //        //Debug.Log(hit.collider.name);
-
-    //        for (int i = 0; i < hit_count; i++) {
-    //            if (hit[i].collider.tag == "Player") {
-    //                //Debug.Log("hitting player");
-    //                if (hit[i].distance <= shotRange && !shotOnCooldown) {
-    //                    //start shooting
-    //                    GameObject o = Instantiate(arrowPrefab, transform.position, Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dirToTarget))); //temp
-    //                    o.GetComponent<ArrowController>().velocity = dirToTarget;
-    //                    //Debug.Log("Shooting player");
-    //                    shotOnCooldown = true;
-    //                    movementController.enabled = false;
-    //                    return;
-    //                }
-    //                else if (hit[i].distance >= shotRange) {
-    //                    //move closer
-    //                    movementController.enabled = true;
-    //                    return;
-    //                }
-    //            }
-    //            else {
-    //                movementController.enabled = true; //keep moving, didn't see player
-    //            }
-    //        }
-    //        //movementController.enabled = true;
-
-
-    //    }
-    //}
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.tag == "Orc") {
