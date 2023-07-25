@@ -6,8 +6,6 @@ public class HeroController : MonoBehaviour
 {
     public float rotateSpeed = 180f; //degrees per second?
     public float detectionRange = 100f; //how far to search for the player or orcs
-    public float clashRange = 1f; //how close to begin charge
-    public LayerMask raycastTargetLayer;
     public LayerMask raycastLayer;
     public List<Vector2> patrolPoints = new List<Vector2>();
     public Transform playerT;
@@ -29,12 +27,22 @@ public class HeroController : MonoBehaviour
     private int patrolPointIndex = 0; //current patrol target index?
     private float playerHideTimer = 0f; //how long has the player been out of sight?
     private float playerHideTimeMax = 5f; //how long for the player to be out of sight before giving up
+    private Vector2 playerLastLocation; //last known location of the player
+    private GameObject[] orcs;
 
 
     private MovementController2D movementController;
     private Rigidbody2D rb;
     private Collider2D c;
     private FieldOfView fieldOfView;
+
+    private IEnumerator CheckForOrcs(){
+        if(OrcsPresent()){
+            target = FindClosestOrc().transform;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -44,11 +52,51 @@ public class HeroController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         c = GetComponent<Collider2D>();
         fieldOfView = GetComponentInChildren<FieldOfView>();
+
+        //start coroutines
+        StartCoroutine(CheckForOrcs());
     }
 
     // Update is called once per frame
     void Update()
     {
+        //figure out logic
+        //check for orcs in level, only when not doing anything else?
+        //if chasing player
+        //  check for orcs
+        //  if orcs
+        //      stop chasing player, chase orcs instead
+        //  if no orcs
+        //      keep chasing player
+        //only check for orcs every so often
+        //chase orc until death, then look for another orc 
+        //no orcs, then check/repair houses
+        //if player spotted an no orcs, then chase player
+        if(chasing){
+            //chasing player
+            if(playerInSight){
+                //reset timer
+                playerHideTimer = 0f;
+                //save last known position
+                playerLastLocation = playerT.position;
+            }
+            else{
+                //lost sight
+                //move towards last known location
+                //increment timer
+
+            }
+        }
+        else{
+            //not chasing player
+        }
+        if(!chasing && target == null){ //no orcs and don't see player
+            //wander
+        }
+        //if target != null, chasing orc or repairing house
+        //if stunned, just can't move, but nothing else changes
+
+
         
         if (stunned) {
             stunTimer += Time.deltaTime;
@@ -60,35 +108,35 @@ public class HeroController : MonoBehaviour
             }
         }
 
-        if (chasing) {
-            //don't do anything other than chase player
-            if (!playerInSight) {
-                playerHideTimer += Time.deltaTime;
-                if (playerHideTimer > playerHideTimeMax) {
-                    //lost player, resume normal behavior
-                    chasing = false;
-                    //chaseIndicator.sprite = wanderingSprite;
-                }
-            }
-        }
-        else {
-            //check if target still exists
-            wanderTimer += Time.deltaTime;
-            if (target == null && wanderTimer >= wanderTimeMax) {
-                wanderTimer = 0f;
-                //find new target or start wandering
+        // if (chasing) {
+        //     //don't do anything other than chase player
+        //     if (!playerInSight) {
+        //         playerHideTimer += Time.deltaTime;
+        //         if (playerHideTimer > playerHideTimeMax) {
+        //             //lost player, resume normal behavior
+        //             chasing = false;
+        //             //chaseIndicator.sprite = wanderingSprite;
+        //         }
+        //     }
+        // }
+        // else {
+        //     //check if target still exists
+        //     wanderTimer += Time.deltaTime;
+        //     if (target == null && wanderTimer >= wanderTimeMax) {
+        //         wanderTimer = 0f;
+        //         //find new target or start wandering
 
 
-                //start wandering
-                if (patrolPoints.Count > 0) {
-                    patrolPointIndex++;
-                    if (patrolPointIndex >= patrolPoints.Count) {
-                        patrolPointIndex = 0; //reset patrol
-                    }
-                    movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
-                }
-            }
-        }
+        //         //start wandering
+        //         if (patrolPoints.Count > 0) {
+        //             patrolPointIndex++;
+        //             if (patrolPointIndex >= patrolPoints.Count) {
+        //                 patrolPointIndex = 0; //reset patrol
+        //             }
+        //             movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
+        //         }
+        //     }
+        // }
     }
 
     private void FixedUpdate() {
@@ -122,32 +170,42 @@ public class HeroController : MonoBehaviour
                 movementController.GetMoveCommand(target.position);
             }
         }
-        else {
-            //move around randomly
-
-        }
-        // if (playerT) {
-        //     Vector2 dir = playerT.position - transform.position;
-        //     RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, Mathf.Infinity, raycastLayer);
-        //     Debug.DrawRay(transform.position, dir, Color.red);
-
-        //     if (hit && hit.collider.tag == "Player") {
-        //         lineOfSight = true;
-        //     }
-        //     else {
-        //         lineOfSight = false;
-        //     }
-        // }
 
         //check for targets
-        RaycastHit2D[] targetsInViewDistance = Physics2D.CircleCastAll(transform.position, fieldOfView.viewDistance, Vector2.zero, 0f, raycastLayer);
+        //RaycastHit2D[] targetsInViewDistance = Physics2D.CircleCastAll(transform.position, fieldOfView.viewDistance, Vector2.zero, 0f, raycastLayer);
         //check what targets are valid
-        for(int i = 0; i < targetsInViewDistance.Length; i++){
-            //check for player first
-            if(TargetInViewRange(targetsInViewDistance[i].point, "Player")){
-                
+        if (playerT && target == null) {
+            if (TargetInViewRange(playerT.position, "Player")) {
+                playerInSight = true;
+            }
+            else{
+                //chasing player but can't see it
+                //move towards last known location and look around
+                playerInSight = false;
             }
         }
+    }
+
+    private bool OrcsPresent(){
+        orcs = GameObject.FindGameObjectsWithTag("Orc");
+        return orcs.Length > 0;
+    }
+
+    private GameObject FindClosestOrc(){
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in orcs)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
     }
 
     private bool TargetInViewRange(Vector3 targetPos, string targetTag){
