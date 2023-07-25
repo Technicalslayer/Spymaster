@@ -28,7 +28,9 @@ public class HeroController : MonoBehaviour
     private float playerHideTimer = 0f; //how long has the player been out of sight?
     private float playerHideTimeMax = 5f; //how long for the player to be out of sight before giving up
     private Vector2 playerLastLocation; //last known location of the player
+    private bool searchingForPlayer; //looking around the last known location of the player
     private GameObject[] orcs;
+    private Coroutine lookForPlayerCoroutine;
 
 
     private MovementController2D movementController;
@@ -37,11 +39,24 @@ public class HeroController : MonoBehaviour
     private FieldOfView fieldOfView;
 
     private IEnumerator CheckForOrcs(){
-        if(OrcsPresent()){
-            target = FindClosestOrc().transform;
-        }
+        while(true){
+            if(OrcsPresent()){
+                target = FindClosestOrc().transform;
+            }
 
-        yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private IEnumerator LookForPlayer(){
+        while(chasing){
+            //lost sight of player
+            //move towards last known sight
+            movementController.GetMoveCommand(playerLastLocation);
+            //if distance between hero and last known position is small enough, then stop moving and look around
+
+            yield return null;
+        }
     }
 
     // Start is called before the first frame update
@@ -84,7 +99,10 @@ public class HeroController : MonoBehaviour
                 //lost sight
                 //move towards last known location
                 //increment timer
-
+                if(!searchingForPlayer){
+                    StartCoroutine(LookForPlayer());
+                    searchingForPlayer = true;
+                }
             }
         }
         else{
