@@ -14,14 +14,16 @@ public class HeroController : MonoBehaviour
     public Sprite lostSiteSprite;
     public Sprite wanderingSprite;
 
-    private float searchTimer = 0f;
-    private float searchTimerMax = 0.5f; //time in seconds between searches for player/orcs
+    //private float searchTimer = 0f;
+    private float searchTimerMax = 5f; //how long to search for missing player
     private Transform target; //target to make way towards
     private float stunTimer = 0f;
     private float stunTimerMax = 0.7f;
     private bool stunned = false;
     private bool chasing = false; //indicates hero is chasing player
     private bool playerInSight = false;
+    private bool lookingAround; //indicates hero should turn around randomly to locate player
+    private float lookingAroundAngle; //random direction hero should turn towards
     private float wanderTimer = 0f;
     private float wanderTimeMax = 5f; //how long between selecting a new random point to travel to
     private int patrolPointIndex = 0; //current patrol target index?
@@ -30,7 +32,6 @@ public class HeroController : MonoBehaviour
     private Vector2 playerLastLocation; //last known location of the player
     private bool searchingForPlayer; //looking around the last known location of the player
     private GameObject[] orcs;
-    private Coroutine lookForPlayerCoroutine;
 
 
     private MovementController2D movementController;
@@ -49,13 +50,53 @@ public class HeroController : MonoBehaviour
     }
 
     private IEnumerator LookForPlayer(){
-        while(chasing){
+        float searchTimer = 0f;
+        while(searchingForPlayer && chasing){
+            
             //lost sight of player
-            //move towards last known sight
-            movementController.GetMoveCommand(playerLastLocation);
+            
             //if distance between hero and last known position is small enough, then stop moving and look around
+            if(Vector2.Distance(playerLastLocation, transform.position) < 0.2f){
+                //look around. pick random angle to look at, turn towards it
+                
+                if(!lookingAround){
+                    StartCoroutine(LookAround());
+                    lookingAround = true;
+                }
+            }
+            else{
+                //move towards last known sight
+                movementController.GetMoveCommand(playerLastLocation);
+            }
+
 
             yield return null;
+
+            searchTimer += Time.deltaTime;
+            if(searchTimer > searchTimerMax){
+                searchingForPlayer = false;
+                chasing = false;
+                lookingAround = false;
+                yield break; //exit coroutine
+            }
+        }
+        lookingAround = false;
+    }
+
+    private IEnumerator LookAround(){
+        //pick a random direction and turn that way
+        lookingAroundAngle = Vector2.SignedAngle(Vector2.up, Random.insideUnitCircle);
+        yield return new WaitForSeconds(1f + Random.Range(-0.5f, 0.5f));
+        lookingAround = false;
+    }
+
+    private IEnumerator ChaseTarget(){
+        while(true){
+            if (target != null) {
+                //moving towards target
+                movementController.GetMoveCommand(target.position);
+            }
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -70,6 +111,7 @@ public class HeroController : MonoBehaviour
 
         //start coroutines
         StartCoroutine(CheckForOrcs());
+        StartCoroutine(ChaseTarget());
     }
 
     // Update is called once per frame
@@ -105,9 +147,7 @@ public class HeroController : MonoBehaviour
                 }
             }
         }
-        else{
-            //not chasing player
-        }
+        
         if(!chasing && target == null){ //no orcs and don't see player
             //wander
         }
@@ -169,7 +209,7 @@ public class HeroController : MonoBehaviour
                 float currentAngle = rb.rotation;
                 float rotateStepSize = rotateSpeed * Time.fixedDeltaTime;
                 //rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
-                if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, desiredAngle)) > rotateStepSize){
+                if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, desiredAngle)) > rotateStepSize && !lookingAround){
                     //move towards desired angle at set speed
                     rb.MoveRotation(Mathf.MoveTowardsAngle(currentAngle, desiredAngle, rotateStepSize));
                 }
@@ -180,14 +220,21 @@ public class HeroController : MonoBehaviour
             }
         }
 
-        if (target != null) {
-            //moving towards target
-            searchTimer += Time.fixedDeltaTime;
-            if (searchTimer > searchTimerMax) {
-                searchTimer = 0f;
-                movementController.GetMoveCommand(target.position);
+        if(lookingAround){
+            float currentAngle = rb.rotation;
+            float rotateStepSize = rotateSpeed * Time.fixedDeltaTime;
+            //rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
+            if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, lookingAroundAngle)) > rotateStepSize && !lookingAround){
+                //move towards desired angle at set speed
+                rb.MoveRotation(Mathf.MoveTowardsAngle(currentAngle, lookingAroundAngle, rotateStepSize));
+            }
+            else{
+                //too close for step, snap to angle
+                rb.MoveRotation(lookingAroundAngle);
             }
         }
+
+        
 
         //check for targets
         //RaycastHit2D[] targetsInViewDistance = Physics2D.CircleCastAll(transform.position, fieldOfView.viewDistance, Vector2.zero, 0f, raycastLayer);
@@ -195,6 +242,8 @@ public class HeroController : MonoBehaviour
         if (playerT && target == null) {
             if (TargetInViewRange(playerT.position, "Player")) {
                 playerInSight = true;
+                searchingForPlayer = false; //found player, no need to look around
+                lookingAround = false;
             }
             else{
                 //chasing player but can't see it
@@ -251,39 +300,39 @@ public class HeroController : MonoBehaviour
         return correctTag && inAngle && inRange;
     }
 
-    private void SearchForTarget() {
-        if (movementController != null) {
-            searchTimer += Time.fixedDeltaTime;
-            if (searchTimer > searchTimerMax) {
-                searchTimer = 0f;
-                //search for any nearby targets in line of sight
-                RaycastHit2D[] results = new RaycastHit2D[10];
-                results = Physics2D.CircleCastAll(transform.position, detectionRange, Vector2.zero);
+    // private void SearchForTarget() {
+    //     if (movementController != null) {
+    //         searchTimer += Time.fixedDeltaTime;
+    //         if (searchTimer > searchTimerMax) {
+    //             searchTimer = 0f;
+    //             //search for any nearby targets in line of sight
+    //             RaycastHit2D[] results = new RaycastHit2D[10];
+    //             results = Physics2D.CircleCastAll(transform.position, detectionRange, Vector2.zero);
 
-                if (results.Length > 0) {
-                    //sort array by distance (The function already sorts by distance)
-                    //check for player or orcs in range, and set target
-                    for (int i = 0; i < results.Length; i++) {
-                        if (results[i].collider.tag == "Orc") { //Orc takes priority over player
-                            target = results[i].transform;
-                            movementController.GetMoveCommand(target.position);
-                            //Debug.Log("Moving towards target " + results[i].collider.tag);
-                            return;
-                        }
-                    }
-                    //check for player if no orcs. Will eventually require line of sight
-                    //for (int i = 0; i < results.Length; i++) {
-                    //    if (results[i].collider.tag == "Player") { //Orc takes priority over player
-                    //        target = results[i].transform;
-                    //        movementController.GetMoveCommand(target.position);
-                    //        //Debug.Log("Moving towards target " + results[i].collider.tag);
-                    //        return;
-                    //    }
-                    //}
-                }
-            }
-        }
-    }
+    //             if (results.Length > 0) {
+    //                 //sort array by distance (The function already sorts by distance)
+    //                 //check for player or orcs in range, and set target
+    //                 for (int i = 0; i < results.Length; i++) {
+    //                     if (results[i].collider.tag == "Orc") { //Orc takes priority over player
+    //                         target = results[i].transform;
+    //                         movementController.GetMoveCommand(target.position);
+    //                         //Debug.Log("Moving towards target " + results[i].collider.tag);
+    //                         return;
+    //                     }
+    //                 }
+    //                 //check for player if no orcs. Will eventually require line of sight
+    //                 //for (int i = 0; i < results.Length; i++) {
+    //                 //    if (results[i].collider.tag == "Player") { //Orc takes priority over player
+    //                 //        target = results[i].transform;
+    //                 //        movementController.GetMoveCommand(target.position);
+    //                 //        //Debug.Log("Moving towards target " + results[i].collider.tag);
+    //                 //        return;
+    //                 //    }
+    //                 //}
+    //             }
+    //         }
+    //     }
+    // }
 
 
     private void OnCollisionEnter2D(Collision2D collision) {
