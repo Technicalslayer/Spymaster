@@ -15,7 +15,7 @@ public class HeroController : MonoBehaviour
     public Sprite wanderingSprite;
 
     //private float searchTimer = 0f;
-    private float searchTimerMax = 5f; //how long to search for missing player
+    private float searchTimerMax = 15f; //how long to search for missing player
     private Transform target; //target to make way towards
     private float stunTimer = 0f;
     private float stunTimerMax = 0.7f;
@@ -28,7 +28,7 @@ public class HeroController : MonoBehaviour
     private float wanderTimeMax = 5f; //how long between selecting a new random point to travel to
     private int patrolPointIndex = 0; //current patrol target index?
     private float playerHideTimer = 0f; //how long has the player been out of sight?
-    private float playerHideTimeMax = 5f; //how long for the player to be out of sight before giving up
+    private float playerHideTimeMax = 7f; //how long for the player to be out of sight before searcing
     private Vector2 playerLastLocation; //last known location of the player
     private bool searchingForPlayer; //looking around the last known location of the player
     private GameObject[] orcs;
@@ -55,21 +55,20 @@ public class HeroController : MonoBehaviour
         while(searchingForPlayer && chasing){
             
             //lost sight of player
+            Debug.Log("Inside LookForPlayer while loop");
             
             //if distance between hero and last known position is small enough, then stop moving and look around
-            if(Vector2.Distance(playerLastLocation, transform.position) < 0.2f){
+            if(Vector2.Distance(playerLastLocation, transform.position) < 0.5f){
                 //look around. pick random angle to look at, turn towards it
                 
                 if(!lookingAround){
                     StartCoroutine(LookAround());
-                    lookingAround = true;
                 }
             }
             else{
                 //move towards last known sight
                 movementController.GetMoveCommand(playerLastLocation);
             }
-
 
             yield return null;
 
@@ -85,9 +84,11 @@ public class HeroController : MonoBehaviour
     }
 
     private IEnumerator LookAround(){
+        lookingAround = true;
         //pick a random direction and turn that way
+        Debug.Log("picking new direction");
         lookingAroundAngle = Vector2.SignedAngle(Vector2.up, Random.insideUnitCircle);
-        yield return new WaitForSeconds(1f + Random.Range(-0.5f, 0.5f));
+        yield return new WaitForSeconds(1.5f + Random.Range(-0.5f, 1f));
         lookingAround = false;
     }
 
@@ -98,12 +99,13 @@ public class HeroController : MonoBehaviour
                 //moving towards target
                 movementController.GetMoveCommand(target.position);
             }
-            else if(chasing){
+            else if(chasing && !searchingForPlayer){
                 movementController.GetMoveCommand(playerT.position);
             }
             yield return new WaitForSeconds(0.3f);
         }
     }
+
 
     // Start is called before the first frame update
     void Start()
@@ -141,20 +143,53 @@ public class HeroController : MonoBehaviour
                 playerHideTimer = 0f;
                 //save last known position
                 playerLastLocation = playerT.position;
+                Debug.Log("Can See Player");
             }
             else{
+                Debug.Log("Can't See Player");
                 //lost sight
-                //move towards last known location
-                //increment timer
-                if(!searchingForPlayer){
-                    StartCoroutine(LookForPlayer());
-                    searchingForPlayer = true;
+                //start timer for player being out of sight
+                playerHideTimer += Time.deltaTime;
+                if(playerHideTimer > playerHideTimeMax){
+
+                    //move towards last known location
+                    //increment timer
+                    if(!searchingForPlayer){
+                        Debug.Log("Calling LookForPlayer");
+                        searchingForPlayer = true;
+                        StartCoroutine(LookForPlayer());
+                    }
                 }
             }
         }
 
         if(!chasing && target == null){ //no orcs and don't see player
-            //wander
+            //wander. follow patrol points
+            Debug.Log("Wandering");
+            wanderTimer += Time.deltaTime;
+            if(patrolPoints.Count > 0){
+                //check distance to patrol point
+                if(Vector2.Distance(transform.position, patrolPoints[patrolPointIndex]) < 0.5f){
+                    //close, check timer and look around
+                    if(wanderTimer > wanderTimeMax){
+                        patrolPointIndex++;
+                        if(patrolPointIndex >= patrolPoints.Count){
+                            patrolPointIndex = 0; //go back to start of patrol
+                        }
+                    }
+                    else{
+                        if(!lookingAround){
+                            StartCoroutine(LookAround());
+                        }
+                    }
+                    
+                }
+                else{
+                    movementController.GetMoveCommand(patrolPoints[patrolPointIndex]);
+                }
+                
+            }
+
         }
         //if target != null, chasing orc or repairing house
         //if stunned, just can't move, but nothing else changes
@@ -226,10 +261,11 @@ public class HeroController : MonoBehaviour
         }
 
         if(lookingAround){
+            Debug.Log("Looking around in Fixed Update");
             float currentAngle = rb.rotation;
             float rotateStepSize = rotateSpeed * Time.fixedDeltaTime;
             //rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
-            if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, lookingAroundAngle)) > rotateStepSize && !lookingAround){
+            if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, lookingAroundAngle)) > rotateStepSize){
                 //move towards desired angle at set speed
                 rb.MoveRotation(Mathf.MoveTowardsAngle(currentAngle, lookingAroundAngle, rotateStepSize));
             }
