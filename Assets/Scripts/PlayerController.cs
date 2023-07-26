@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         else{
             correctTag = false;
         }
-        Debug.DrawRay(transform.position, dir, Color.red);
+        //Debug.DrawRay(transform.position, dir, Color.red);
 
         inAngle = angleToTarget < fieldOfView.viewAngle / 2;
         inRange = Vector2.Distance(transform.position, targetPos) < fieldOfView.viewDistance;
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         if (spy_timer > spy_timer_max) {
             //reset timer
             spy_progress += 1;
-            Debug.Log("Spy Meter: " + spy_progress);
+            //Debug.Log("Spy Meter: " + spy_progress);
 
             UpdateSpymeter(spy_progress); // Update the Spymeter
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeroController : MonoBehaviour
 {
     public float rotateSpeed = 180f; //degrees per second?
-    public float detectionRange = 100f; //how far to search for the player or orcs
+    //public float detectionRange = 100f; //how far to search for the player or orcs
     public LayerMask raycastLayer;
     public List<Vector2> patrolPoints = new List<Vector2>();
     public Transform playerT;
@@ -40,6 +40,7 @@ public class HeroController : MonoBehaviour
     private FieldOfView fieldOfView;
 
     private IEnumerator CheckForOrcs(){
+        
         while(true){
             if(OrcsPresent()){
                 target = FindClosestOrc().transform;
@@ -91,10 +92,14 @@ public class HeroController : MonoBehaviour
     }
 
     private IEnumerator ChaseTarget(){
+        yield return null; //wait frame to allow movement controller to initialize.
         while(true){
             if (target != null) {
                 //moving towards target
                 movementController.GetMoveCommand(target.position);
+            }
+            else if(chasing){
+                movementController.GetMoveCommand(playerT.position);
             }
             yield return new WaitForSeconds(0.3f);
         }
@@ -147,7 +152,7 @@ public class HeroController : MonoBehaviour
                 }
             }
         }
-        
+
         if(!chasing && target == null){ //no orcs and don't see player
             //wander
         }
@@ -242,6 +247,7 @@ public class HeroController : MonoBehaviour
         if (playerT && target == null) {
             if (TargetInViewRange(playerT.position, "Player")) {
                 playerInSight = true;
+                chasing = true;
                 searchingForPlayer = false; //found player, no need to look around
                 lookingAround = false;
             }
@@ -296,7 +302,7 @@ public class HeroController : MonoBehaviour
 
         inAngle = angleToTarget < fieldOfView.viewAngle / 2;
         inRange = Vector2.Distance(transform.position, targetPos) < fieldOfView.viewDistance;
-
+        //Debug.Log(correctTag + " " +  inAngle + " " + inRange);
         return correctTag && inAngle && inRange;
     }
 
