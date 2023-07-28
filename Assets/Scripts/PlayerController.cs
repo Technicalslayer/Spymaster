@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         //facing = new Vector2(Input.GetAxisRaw("something"), Input.GetAxisRaw("something"));
         facing = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        // if(movement.magnitude > 0)
+        //     facing = movement;
         rotation_angle = Vector2.SignedAngle(Vector2.up, facing);
     }
 

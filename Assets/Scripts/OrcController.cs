@@ -79,6 +79,13 @@ public class OrcController : MonoBehaviour
                 //RaycastHit2D[] results = new RaycastHit2D[10];
                 //results = Physics2D.CircleCastAll(transform.position, detectionRange, Vector2.zero, 0f, circleCastLayer);
                 HouseController[] houses = FindObjectsByType<HouseController>(FindObjectsSortMode.None);
+                //remove any destroyed houses from list
+                List<HouseController> goodHouses = new List<HouseController>();
+                foreach(HouseController h in houses){
+                    if(!h.destroyed){
+                        goodHouses.Add(h);
+                    }
+                }
 
                 //if (results.Length > 0) {
                 //    //sort array by distance (The function already sorts by distance)
@@ -102,15 +109,19 @@ public class OrcController : MonoBehaviour
                 //}
                 //gonna ignore the hero for now
                 //pick random house, focus on just it, nothing else matters
-                if (houses.Length > 0) {
+                if (goodHouses.Count > 0) {
                     //pick random int
-                    int rIndex = Random.Range(0, houses.Length);
+                    int rIndex = Random.Range(0, goodHouses.Count);
                     Debug.Log(rIndex);
                     //target = houses[rIndex].gameObject.transform;
-                    target = houses[rIndex].gameObject.transform;
+                    target = goodHouses[rIndex].gameObject.transform;
                     movementController.GetMoveCommand(target.position);
                     //Debug.Log(name + " is moving towards target " + houses[rIndex].name);
                 }
+                // else{
+                //     //no targets, so chase hero
+                //     target = FindObjectOfType<HeroController>().transform;
+                // }
             }
         }
     }
@@ -145,6 +156,13 @@ public class OrcController : MonoBehaviour
 
             if(collision.collider.tag == "Hero") {
                 TakeDamage();
+            }
+            else if(collision.collider.tag == "House"){
+                //see if house is still a valid target
+                if(collision.collider.GetComponent<HouseController>().destroyed){
+                    //find new hosue
+                    SearchForTarget();
+                }
             }
         }
     }

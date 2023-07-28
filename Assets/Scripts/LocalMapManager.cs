@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class LocalMapManager : MonoBehaviour
 {
-    //public int id; //this needs to be unique for each local map and match the village on the overworld
-    //public LocalMapState mapState;
-    //public GameObject heroPrefab;
+    public int id; //this needs to be unique for each local map and match the village on the overworld
+    public LocalMapState mapState;
+    public GameObject heroPrefab;
     public GameObject orcPrefab;
-    //public List<HouseController> houses = new List<HouseController>();
+    public List<HouseController> houses = new List<HouseController>();
     public GameObject orcSpawnObject; //where orcs will spawn from
     public float spawnTimer;
     public float spawnTime = 10f; //how long inbetween orc spawns
@@ -38,7 +38,7 @@ public class LocalMapManager : MonoBehaviour
         //SaveState(); //should be called whenever leaving scene
     }
 
-    //public void SaveState() {
+    // public void SaveState() {
     //    //add data to mapStat instance
     //    mapState.id = id;
     //    HouseController[] houses = FindObjectsOfType<HouseController>();
@@ -59,9 +59,9 @@ public class LocalMapManager : MonoBehaviour
 
     //    string villageSave = JsonUtility.ToJson(mapState);
     //    OverworldManager.Instance.AddVillageData(villageSave);
-    //}
+    // }
 
-    //public void LoadState() {
+    // public void LoadState() {
     //    mapState = JsonUtility.FromJson<LocalMapState>(OverworldManager.Instance.GetVillageJSON(id)); //might need to loop through to find the right one
 
     //    int houseCount = mapState.houses.Count;
@@ -84,41 +84,41 @@ public class LocalMapManager : MonoBehaviour
     //        GameObject o = Instantiate(orcPrefab);
     //        o.GetComponent<OrcController>().health = orc.health;
     //    }
-    //}
+    // }
 
-    //public void LoadState() {
-    //    Debug.Log("loading state");
-    //    //get appropriate village data
-    //    LocalMapState state = OverworldManager.Instance.VillageStates[id];
-    //    for (int i = 0; i < state.houses.Count; i++) {
-    //        houses[i].health = state.houses[i].health;
-    //        houses[i].maxHealth = state.houses[i].maxHealth;
-    //        if (houses[i].health <= 0) {
-    //            //set house to destroyed state without playing effects
-    //            houses[i].gameObject.SetActive(false);
-    //            Debug.Log("House was already destroyed");
-    //        }
-    //    }
+    public void LoadState() {
+       Debug.Log("loading state");
+       //get appropriate village data
+       LocalMapState state = OverworldManager.Instance.VillageStates[id];
+       for (int i = 0; i < state.houses.Count; i++) {
+           houses[i].health = state.houses[i].health;
+           houses[i].maxHealth = state.houses[i].maxHealth;
+           if (houses[i].health <= 0) {
+               //set house to destroyed state without playing effects
+               houses[i].gameObject.SetActive(false);
+               Debug.Log("House was already destroyed");
+           }
+       }
 
-    //    //spawn orcs
-    //    for (int i = 0; i <= state.orcCount; i++) {
-    //        Debug.Log("Spawning Orc");
-    //        //spawn new orc with info
-    //        GameObject o = Instantiate(orcPrefab);
-    //        //give random location
-    //        //o.transform.position = Random...
-    //    }
+       //spawn orcs
+       for (int i = 0; i <= state.orcCount; i++) {
+           Debug.Log("Spawning Orc");
+           //spawn new orc with info
+           GameObject o = Instantiate(orcPrefab);
+           //give random location
+           //o.transform.position = Random...
+       }
 
-    //    if (state.isHeroPresent) {
-    //        Debug.Log("Spawning Hero");
-    //        //spawn hero
-    //        GameObject o = Instantiate(heroPrefab);
-    //        //move hero to center
-    //        o.transform.position = Vector2.zero;
-    //    }
-    //}
+       if (state.isHeroPresent) {
+           Debug.Log("Spawning Hero");
+           //spawn hero
+           GameObject o = Instantiate(heroPrefab);
+           //move hero to center
+           o.transform.position = Vector2.zero;
+       }
+    }
 
-    //public void CheckVillageStatus() {
+    // public void CheckVillageStatus() {
     //    //called when a house is destroyed or orc defeated
     //    //get all orcs in level
     //    OrcController[] orcs = FindObjectsOfType<OrcController>();
@@ -148,7 +148,7 @@ public class LocalMapManager : MonoBehaviour
     //    OverworldManager.Instance.UpdateVillageState(id, Village.VillageState.DESTROYED);
     //    OverworldManager.Instance.UpdateSpyMeter(playerController.spy_progress);
     //    SceneManager.LoadScene(0);
-    //}
+    // }
 
     public void PlayerDied() {
         //Called because the hero killed you, loser

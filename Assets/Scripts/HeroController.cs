@@ -189,6 +189,9 @@ public class HeroController : MonoBehaviour
                 }
                 
             }
+            // else{
+            //     //pick random points? Physics2D.OverlapPoint
+            // }
 
         }
         //if target != null, chasing orc or repairing house

@@ -173,4 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 5
+  minHealth: 2
   id: 0
+  destroyedSprite: {fileID: 21300000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+  damagedSprite: {fileID: 21300000, guid: 15802aeb89f91f342868b269be56df45, type: 3}
+  goodSprite: {fileID: 21300000, guid: b9cec61a80ea20b4689de7583b08fea7, type: 3}

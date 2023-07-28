@@ -26,8 +26,8 @@ public class OverworldManager : MonoBehaviour
     public int SpySuccessesMax = 5; //how many perfects the player needs to win
 
     //public int Resources = 0; //tracks amount of resources player has collected
-    //public List<GameObject> overworldObjects = new List<GameObject>(); //list of objects to enable/disable when entering/leaving overworld map
-    //public List<string> villageJSON = new List<string>(); //list of village data
+    public List<GameObject> overworldObjects = new List<GameObject>(); //list of objects to enable/disable when entering/leaving overworld map
+    public List<string> villageJSON = new List<string>(); //list of village data
     public List<LocalMapState> VillageStates = new List<LocalMapState>();
     public Image spyMeterImage;
 
@@ -76,26 +76,26 @@ public class OverworldManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
-    //public void AddVillageData(string JSONData) {
-    //    villageJSON.Add(JSONData);
-    //}
+    public void AddVillageData(string JSONData) {
+       villageJSON.Add(JSONData);
+    }
 
-    //public string GetVillageJSON(int id) {
-    //    string dataString = villageJSON[id];
-    //    villageJSON.RemoveAt(id);
-    //    return dataString;
-    //}
+    public string GetVillageJSON(int id) {
+       string dataString = villageJSON[id];
+       villageJSON.RemoveAt(id);
+       return dataString;
+    }
 
-    //public void AddResources(int amount) {
+    // public void AddResources(int amount) {
     //    Resources += amount;
     //    if
     //    UpdateResourceCounter();
-    //}
+    // }
 
-    ///// <summary>
-    ///// Updates display
-    ///// </summary>
-    //public void UpdateResourceCounter() {
-    //    return;
-    //}
+    /// <summary>
+    /// Updates display
+    /// </summary>
+    public void UpdateResourceCounter() {
+       return;
+    }
 }
