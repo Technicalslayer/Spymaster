@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move_speed: 3.7
+  rotationDelayFramesMax: 10
   spy_timer_max: 0.3
   health_max: 1
   raycastLayer:

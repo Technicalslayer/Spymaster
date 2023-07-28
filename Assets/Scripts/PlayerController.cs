@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
 
     //public settings
     public float move_speed = 10f;
+    public int rotationDelayFramesMax = 5; //how many frames to prevent changing direction
     public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
     public int health_max = 1; //how many hits the player can receive before dying
     public LayerMask raycastLayer;
+
     
     //private settings
     private Vector2 movement = Vector2.zero;
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public int spy_progress = 0; //100 is a full meter
     private float spy_timer = 0f; //current timer progress
     private int health_current;
+    private bool rotationDelay = false; //used to prevent snapping to the wrong direction when releasing input
+    private int rotationDelayFrames = 0;
 
     //[SerializeField] private int max_slidervalue = 10;
 
@@ -40,14 +44,7 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        movement = Vector2.zero; //reset every frame, probably not necessary
-        //get input
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        //facing = new Vector2(Input.GetAxisRaw("something"), Input.GetAxisRaw("something"));
-        facing = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        // if(movement.magnitude > 0)
-        //     facing = movement;
-        rotation_angle = Vector2.SignedAngle(Vector2.up, facing);
+        GetInput();
     }
 
     private void FixedUpdate() {
@@ -62,6 +59,37 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+
+    private void GetInput(){
+        //get input
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if(!rotationDelay && (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))){
+            //start timer to ignore key releases on next couple frames?
+            rotationDelay = true;
+        }
+
+        if(rotationDelay){
+            //do not read movement input for rotation for a few frames to prevent snapping to wrong direction
+            rotationDelayFrames++;
+            if(rotationDelayFrames >= rotationDelayFramesMax){
+                rotationDelay = false;
+                rotationDelayFrames = 0;
+            }
+        }
+        else if(movement.magnitude > 0){
+            facing = movement;
+        }
+        //facing = new Vector2(Input.GetAxisRaw("something"), Input.GetAxisRaw("something"));
+        //facing = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        // if(movement.magnitude > 0)
+        //     facing = movement;
+        rotation_angle = Vector2.SignedAngle(Vector2.up, facing);
+
+        
+    }
+
 
     private bool TargetInViewRange(Vector3 targetPos, string targetTag){
         bool inAngle;
