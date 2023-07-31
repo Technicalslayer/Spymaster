@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84611ecd4ee478d4880ffb58a5775da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 120
-  detectionRange: 10
+  chaseRotateSpeed: 130
+  wanderRotateSpeed: 75
   raycastLayer:
     serializedVersion: 2
     m_Bits: 576

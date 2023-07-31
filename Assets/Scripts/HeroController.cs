@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HeroController : MonoBehaviour
 {
-    public float rotateSpeed = 180f; //degrees per second?
+    public float chaseRotateSpeed = 180f; //degrees per second? //how fast to turn when chasing
+    public float wanderRotateSpeed = 100f; //how fast to turn when not chasing
     //public float detectionRange = 100f; //how far to search for the player or orcs
     public LayerMask raycastLayer;
     public List<Vector2> patrolPoints = new List<Vector2>();
@@ -32,6 +33,7 @@ public class HeroController : MonoBehaviour
     private Vector2 playerLastLocation; //last known location of the player
     private bool searchingForPlayer; //looking around the last known location of the player
     private GameObject[] orcs;
+    private float currentRotateSpeed;
 
 
     private MovementController2D movementController;
@@ -85,11 +87,11 @@ public class HeroController : MonoBehaviour
 
     private IEnumerator LookAround(){
         lookingAround = true;
-        //pick a random direction and turn that way
-        Debug.Log("picking new direction");
-        lookingAroundAngle = Vector2.SignedAngle(Vector2.up, Random.insideUnitCircle);
-        yield return new WaitForSeconds(1.5f + Random.Range(-0.5f, 1f));
-        lookingAround = false;
+        while(lookingAround){
+            //pick a random direction and turn that way
+            lookingAroundAngle = Vector2.SignedAngle(Vector2.up, Random.insideUnitCircle);
+            yield return new WaitForSeconds(1.5f + Random.Range(-0.5f, 1f));
+        }
     }
 
     private IEnumerator ChaseTarget(){
@@ -119,23 +121,20 @@ public class HeroController : MonoBehaviour
         //start coroutines
         StartCoroutine(CheckForOrcs());
         StartCoroutine(ChaseTarget());
+
+        currentRotateSpeed = wanderRotateSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //figure out logic
-        //check for orcs in level, only when not doing anything else?
-        //if chasing player
-        //  check for orcs
-        //  if orcs
-        //      stop chasing player, chase orcs instead
-        //  if no orcs
-        //      keep chasing player
-        //only check for orcs every so often
-        //chase orc until death, then look for another orc 
-        //no orcs, then check/repair houses
-        //if player spotted an no orcs, then chase player
+        if(chasing || target != null){
+            currentRotateSpeed = chaseRotateSpeed;
+        }
+        else{
+            currentRotateSpeed = wanderRotateSpeed;
+        }
+
         if(chasing){
             //chasing player
             if(playerInSight){
@@ -166,16 +165,18 @@ public class HeroController : MonoBehaviour
         if(!chasing && target == null){ //no orcs and don't see player
             //wander. follow patrol points
             Debug.Log("Wandering");
-            wanderTimer += Time.deltaTime;
             if(patrolPoints.Count > 0){
                 //check distance to patrol point
                 if(Vector2.Distance(transform.position, patrolPoints[patrolPointIndex]) < 0.5f){
                     //close, check timer and look around
+                    wanderTimer += Time.deltaTime;
                     if(wanderTimer > wanderTimeMax){
                         patrolPointIndex++;
                         if(patrolPointIndex >= patrolPoints.Count){
                             patrolPointIndex = 0; //go back to start of patrol
                         }
+                        wanderTimer = 0f;//reset timer
+                        lookingAround = false;
                     }
                     else{
                         if(!lookingAround){
@@ -250,7 +251,7 @@ public class HeroController : MonoBehaviour
             if (movementController.intendedVelocity != null) {
                 float desiredAngle = Vector2.SignedAngle(Vector2.up, movementController.intendedVelocity);
                 float currentAngle = rb.rotation;
-                float rotateStepSize = rotateSpeed * Time.fixedDeltaTime;
+                float rotateStepSize = currentRotateSpeed * Time.fixedDeltaTime;
                 //rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
                 if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, desiredAngle)) > rotateStepSize && !lookingAround){
                     //move towards desired angle at set speed
@@ -266,7 +267,7 @@ public class HeroController : MonoBehaviour
         if(lookingAround){
             Debug.Log("Looking around in Fixed Update");
             float currentAngle = rb.rotation;
-            float rotateStepSize = rotateSpeed * Time.fixedDeltaTime;
+            float rotateStepSize = currentRotateSpeed * Time.fixedDeltaTime;
             //rb.MoveRotation(Mathf.LerpAngle(currentAngle, desiredAngle, 0.05f));
             if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, lookingAroundAngle)) > rotateStepSize){
                 //move towards desired angle at set speed
