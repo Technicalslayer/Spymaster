@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
     public int health_max = 1; //how many hits the player can receive before dying
     public LayerMask raycastLayer;
+    public int smokeBombCount = 0;
 
     
     //private settings
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public Image spyMeterFillImage;
     public Transform heroT;
     private FieldOfView fieldOfView;
+    public GameObject smokeBombPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -87,7 +89,11 @@ public class PlayerController : MonoBehaviour
         //     facing = movement;
         rotation_angle = Vector2.SignedAngle(Vector2.up, facing);
 
-        
+        if(Input.GetButtonDown("Jump") && smokeBombCount > 0){
+            //spawn smoke bomb
+            Instantiate(smokeBombPrefab, transform.position, transform.rotation);
+            smokeBombCount--;
+        }
     }
 
 

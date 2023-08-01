@@ -15,10 +15,15 @@ public class HouseController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public bool destroyed = false;
     private bool takingDamage = false; //indicates house was just damaged, has invulnerability and plays animation
+    public GameObject smokeBombPickup;
 
 
     private IEnumerator FallApart(){
+        destroyed = true;
+        spriteRenderer.sprite = destroyedSprite;
         yield return null;
+        //spawn bomb pickup
+        Instantiate(smokeBombPickup,transform.position + (Vector3)Random.insideUnitCircle * 2.0f,transform.rotation);
     }
 
     private IEnumerator ShowDamage(){
@@ -52,10 +57,9 @@ public class HouseController : MonoBehaviour
         if (health <= 0) {
             //destroy house
             health = 0;
-            spriteRenderer.sprite = destroyedSprite;
-            destroyed = true;
+            
             //play particles
-            //StartCoroutine(FallApart());
+            StartCoroutine(FallApart());
             //gameObject.SetActive(false);
             //check if all houses are destroyed
             //FindObjectOfType<LocalMapManager>().CheckVillageStatus();
@@ -75,10 +79,10 @@ public class HouseController : MonoBehaviour
 
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if(takingDamage){
+        if(takingDamage || destroyed){
             return;
         }
-        if (!destroyed && collision.collider.tag == "Orc") {
+        if (collision.collider.tag == "Orc") {
             //take damage
             TakeDamage();
         }

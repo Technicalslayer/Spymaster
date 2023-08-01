@@ -51,7 +51,7 @@ MonoBehaviour:
   viewResolution: 0.4
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 16576
 --- !u!33 &4574742844835375070
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -157,9 +157,11 @@ MonoBehaviour:
   raycastLayer:
     serializedVersion: 2
     m_Bits: 4160
+  smokeBombCount: 0
   spy_progress: 0
   spyMeterFillImage: {fileID: 0}
   heroT: {fileID: 0}
+  smokeBombPrefab: {fileID: 0}
 --- !u!50 &2633061122863133734
 Rigidbody2D:
   serializedVersion: 4
