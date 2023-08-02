@@ -5,6 +5,10 @@ using UnityEngine;
 public class Hero : MonoBehaviour
 {
     public HeroStateMachine StateMachine {get; private set; }
+    //states
+
+    [SerializeField]
+    private HeroData heroData;
 
     private void Awake(){
         StateMachine = new HeroStateMachine();
