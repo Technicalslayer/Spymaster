@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroRepairHouseState : MonoBehaviour
+public class HeroRepairHouseState : HeroIdleState
 {
-    // Start is called before the first frame update
-    void Start()
+    public HeroRepairHouseState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

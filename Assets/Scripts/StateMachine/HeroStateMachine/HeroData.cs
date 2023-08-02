@@ -5,17 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object. Stores data for states/state machine to use.
 /// </summary>
-public class HeroData : MonoBehaviour
+[CreateAssetMenu(fileName = "newHeroData", menuName = "Data/Hero Data/Base Data")]
+public class HeroData : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

@@ -32,7 +32,7 @@ public class OrcController : MonoBehaviour
         //pick a random amount of health
         health = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
         maxHealth = health;
-        Debug.Log("Health: " + health);
+        //Debug.Log("Health: " + health);
         //update HP text
         UpdateHealthText();
         //SearchForTarget();
@@ -112,7 +112,7 @@ public class OrcController : MonoBehaviour
                 if (goodHouses.Count > 0) {
                     //pick random int
                     int rIndex = Random.Range(0, goodHouses.Count);
-                    Debug.Log(rIndex);
+                    //Debug.Log(rIndex);
                     //target = houses[rIndex].gameObject.transform;
                     target = goodHouses[rIndex].gameObject.transform;
                     movementController.GetMoveCommand(target.position);

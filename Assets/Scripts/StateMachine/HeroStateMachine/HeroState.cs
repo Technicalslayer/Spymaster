@@ -35,6 +35,8 @@ public class HeroState {
     /// </summary>
     public virtual void Enter(){
         startTime = Time.time;
+        //hero.Anim.SetBool(animBoolName, true);
+        Debug.Log(animBoolName);
     }
     /// <summary>
     /// Called when exiting state
