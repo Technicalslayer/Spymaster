@@ -10,6 +10,9 @@ public class HeroState {
     protected HeroStateMachine stateMachine;
     protected HeroData heroData;
 
+    protected float lookAngle;
+    protected float turnSpeed;
+
     /// <summary>
     /// Tracks when state was entered, so that you can see how long a state has been active.
     /// </summary>
@@ -31,9 +34,15 @@ public class HeroState {
     }
 
     /// <summary>
+    /// Calls several check functions at once. Called at Enter, and each Physics Update.
+    /// <br>Should not change states/logic directly. Only update check variables.</br>
+    /// </summary>
+    public virtual void DoChecks(){}
+    /// <summary>
     /// Called when entering state
     /// </summary>
     public virtual void Enter(){
+        DoChecks();
         startTime = Time.time;
         //hero.Anim.SetBool(animBoolName, true);
         Debug.Log(animBoolName);
@@ -49,5 +58,8 @@ public class HeroState {
     /// <summary>
     /// Called every FixedUpdate cycle
     /// </summary>
-    public virtual void PhysicsUpdate(){}
+    public virtual void PhysicsUpdate(){
+        DoChecks();
+        hero.TurnTowardsAngle(lookAngle, turnSpeed);
+    }
 }

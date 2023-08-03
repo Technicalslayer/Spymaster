@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a5c34e02e26b34fa6803a44414d28b, type: 3}
+  m_Name: HeroData
+  m_EditorClassIdentifier: 
+  patrolSpeed: 3
+  patrolTurnSpeed: 100
+  minLookTime: 0.5
+  maxLookTime: 2.5
+  minTurnSpeed: 50
+  maxTurnSpeed: 120
+  chaseSpeed: 6.5
+  chaseTurnSpeed: 180

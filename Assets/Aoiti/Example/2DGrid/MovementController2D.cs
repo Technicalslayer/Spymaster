@@ -62,7 +62,7 @@ public class MovementController2D : MonoBehaviour
 {
     [Header("Navigator options")]
     [SerializeField] float gridSize = 0.5f; //increase patience or gridSize for larger maps
-    [SerializeField] float speed = 0.05f; //increase for faster movement
+    public float speed = 1.0f; //increase for faster movement
     
     Pathfinder<Vector2> pathfinder; //the pathfinder object that stores the methods and patience
     [Tooltip("The layers that the navigator can not pass through.")]
@@ -120,13 +120,14 @@ public class MovementController2D : MonoBehaviour
         if (pathLeftToGo.Count > 0) //if the target is not yet reached
         {
             Vector3 dir = (Vector3)pathLeftToGo[0] - transform.position;
+            float scaledSpeed = speed * Time.fixedDeltaTime;
             //transform.position += dir.normalized * speed;
-            intendedVelocity = dir.normalized * speed;
-            rb.MovePosition(transform.position + dir.normalized * speed);
+            intendedVelocity = dir.normalized * scaledSpeed;
+            rb.MovePosition(transform.position + (Vector3)intendedVelocity);
             //rb.velocity = dir.normalized * speed;
             //rb.MoveRotation(Vector2.SignedAngle(Vector2.right, facing) - 90f)
                 
-            if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < speed * speed) {
+            if (((Vector2)transform.position - pathLeftToGo[0]).sqrMagnitude < scaledSpeed * scaledSpeed) {
                 //transform.position = pathLeftToGo[0];
                 rb.MovePosition(pathLeftToGo[0]);
                 //Vector2 dir2 = (Vector3)pathLeftToGo[0] - transform.position;
