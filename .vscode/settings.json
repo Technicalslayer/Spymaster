@@ -53,5 +53,7 @@
         "Temp/":true
     },
     "C_Cpp.inactiveRegionBackgroundColor": "",
-    "C_Cpp.inactiveRegionForegroundColor": ""
+    "C_Cpp.inactiveRegionForegroundColor": "",
+    "dotnet.defaultSolution": "Spymaster.sln",
+    "editor.tabCompletion": "on"
 }

@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroChaseState : MonoBehaviour
+public class HeroChaseState : HeroState
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public HeroChaseState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void DoChecks() {
+        base.DoChecks();
+    }
+
+    public override void Enter() {
+        base.Enter();
+    }
+
+    public override void Exit() {
+        base.Exit();
+    }
+
+    public override void LogicUpdate() {
+        base.LogicUpdate();
+    }
+
+    public override void PhysicsUpdate() {
+        base.PhysicsUpdate();
     }
 }

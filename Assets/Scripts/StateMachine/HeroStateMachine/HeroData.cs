@@ -8,6 +8,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newHeroData", menuName = "Data/Hero Data/Base Data")]
 public class HeroData : ScriptableObject
 {
+    [Tooltip("Layers of potential targets")]
+    public LayerMask targetLayers;
+    [Tooltip("Layers of vision blocking obstacles")]
+    public LayerMask obstacleLayer;
     [Header("Patrol State")]
     [Tooltip("Walk speed")]
     public float patrolSpeed = 5f;
