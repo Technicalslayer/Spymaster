@@ -42,6 +42,10 @@ public class HeroLookAroundState : HeroIdleState
         if(Time.time - startTime > 10f){
             stateMachine.ChangeState(hero.PatrolState);
         }
+
+        if (DamagedHouseVisible()) {
+            stateMachine.ChangeState(hero.RepairHouseState);
+        }
     }
 
     public override void PhysicsUpdate()

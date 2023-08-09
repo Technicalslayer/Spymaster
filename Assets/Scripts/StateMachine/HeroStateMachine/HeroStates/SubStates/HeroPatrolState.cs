@@ -36,6 +36,10 @@ public class HeroPatrolState : HeroIdleState
             stateMachine.ChangeState(hero.LookAroundState);
             SelectNextPatrolPoint();
         }
+
+        if (DamagedHouseVisible()) {
+            stateMachine.ChangeState(hero.RepairHouseState);
+        }
     }
 
     public override void PhysicsUpdate()

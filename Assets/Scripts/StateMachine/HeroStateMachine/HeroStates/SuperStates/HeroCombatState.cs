@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroChaseState : HeroState
+public class HeroCombatState : HeroState
 {
+    protected Vector3 targetLastKnownPosition;
 
-    public HeroChaseState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
-    {
+    public HeroCombatState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName) {
     }
 
     public override void DoChecks() {
@@ -15,6 +15,7 @@ public class HeroChaseState : HeroState
 
     public override void Enter() {
         base.Enter();
+        hero.MovementController.speed = heroData.chaseSpeed;
     }
 
     public override void Exit() {

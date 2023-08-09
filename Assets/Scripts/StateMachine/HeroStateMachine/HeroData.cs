@@ -12,6 +12,7 @@ public class HeroData : ScriptableObject
     public LayerMask targetLayers;
     [Tooltip("Layers of vision blocking obstacles")]
     public LayerMask obstacleLayer;
+
     [Header("Patrol State")]
     [Tooltip("Walk speed")]
     public float patrolSpeed = 5f;
@@ -30,4 +31,19 @@ public class HeroData : ScriptableObject
     [Header("Chase State")]
     public float chaseSpeed = 6.5f;
     public float chaseTurnSpeed = 180f;
+    [Tooltip("How long the target can be out of sight before changing states")]
+    public float chaseSearchTime = 3f;
+    [Tooltip("How long between calls to update movement controller")]
+    public float movementUpdateTime = 0.1f;
+
+    [Header("Search State")]
+    [Tooltip("How long to search before giving up")]
+    public float searchTime = 10f;
+
+    [Header("Stunned State")]
+    public float stunTime = 0.7f;
+
+    [Header("Repair State")]
+    [Tooltip("How long between repairing 1 point of damage")]
+    public float repairTime = 0.5f;
 }

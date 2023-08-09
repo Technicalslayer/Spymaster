@@ -44,7 +44,9 @@ public class HouseController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         //pick a random amount of health
-        health = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
+        maxHealth = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
+        //set health to max
+        health = maxHealth;
         //Debug.Log("Health: " + health);
     }
 
@@ -67,7 +69,7 @@ public class HouseController : MonoBehaviour
     }
 
     
-    private void RepairDamage(){
+    public void RepairDamage(){
         health += 1;
         spriteRenderer.sprite = damagedSprite;
         destroyed = false;
@@ -75,6 +77,8 @@ public class HouseController : MonoBehaviour
             health = maxHealth;
             spriteRenderer.sprite = goodSprite;
         }
+        //TODO: play sound
+
     }
 
 
@@ -86,9 +90,9 @@ public class HouseController : MonoBehaviour
             //take damage
             TakeDamage();
         }
-        else if(collision.collider.tag == "Hero"){
-            //repair
-            RepairDamage();
-        }
+        //else if(collision.collider.tag == "Hero"){
+        //    //repair
+        //    RepairDamage();
+        //}
     }
 }

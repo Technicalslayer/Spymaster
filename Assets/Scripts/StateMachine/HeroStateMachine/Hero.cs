@@ -13,6 +13,8 @@ public class Hero : MonoBehaviour
     public HeroLookAroundState LookAroundState { get; private set; }
     public HeroRepairHouseState RepairHouseState { get; private set; }
     public HeroChaseState ChaseState { get; private set; }
+    public HeroSearchState SearchState { get; private set; }
+    public HeroStunnedState StunnedState { get; private set; }
 
     [SerializeField]
     private HeroData heroData;
@@ -29,8 +31,16 @@ public class Hero : MonoBehaviour
     public List<Vector2> PatrolPoints;
     [HideInInspector]
     public GameObject targetGO;
+    /// <summary>
+    /// Should always be sorted by distance.
+    /// </summary>
     [HideInInspector]
-    public GameObject[] visibleTargets;
+    public GameObject[] visibleHouses;
+    /// <summary>
+    /// Should always be sorted by distance
+    /// </summary>
+    [HideInInspector]
+    public GameObject[] visibleEnemies;
     #endregion
 
 
@@ -42,6 +52,8 @@ public class Hero : MonoBehaviour
         LookAroundState = new HeroLookAroundState(this, StateMachine, heroData, "look");
         RepairHouseState = new HeroRepairHouseState(this, StateMachine, heroData, "repair");
         ChaseState = new HeroChaseState(this, StateMachine, heroData, "chase");
+        SearchState = new HeroSearchState(this, StateMachine, heroData, "search");
+        StunnedState = new HeroStunnedState(this, StateMachine, heroData, "stunned");
 
         //get components
         MovementController = GetComponent<MovementController2D>();
@@ -63,9 +75,20 @@ public class Hero : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.collider.tag == "Orc"){
-            StateMachine.ChangeState(ChaseState);
+            //apply impulse
+            if (other.contactCount > 0)
+                RB.AddForce(other.contacts[0].normal * 10f, ForceMode2D.Impulse);
+            StateMachine.ChangeState(StunnedState);
             targetGO = other.gameObject;
         }
+        //else if(other.collider.tag == "House") {
+        //    if(StateMachine.CurrentState == RepairHouseState) {
+        //        //apply impulse
+        //        //if (other.contactCount > 0)
+        //        //    RB.AddForce(other.contacts[0].normal * 10f, ForceMode2D.Impulse);
+        //        //send signal to repair house?
+        //    }
+        //}
     }
     #endregion
 
@@ -84,33 +107,45 @@ public class Hero : MonoBehaviour
         }
     }
 
-    public bool TargetInViewRange(Vector3 targetPos, string targetTag) {
-        bool inAngle;
-        bool inRange;
-        bool correctTag;
+    /// <summary>
+    /// Checks if specific target is visible
+    /// </summary>
+    /// <param name="targetObject"></param>
+    /// <returns></returns>
+    public bool TargetInViewRange(GameObject targetObject) {
+        bool inAngle = false;
+        bool inRange = false;
+        bool lineOfSight = false;
 
+        Vector3 targetPos = targetObject.transform.position;
         //calc angle
         Vector2 dir = targetPos - transform.position;
         float angleToTarget = Vector2.Angle(transform.up, dir);
 
         //raycast
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, FoV.viewDistance, heroData.targetLayers | heroData.obstacleLayer);
-        if (hit && hit.collider.tag == targetTag) {
-            correctTag = true; //this implies no obstacles were in the way
-        }
-        else {
-            correctTag = false;
+        if (hit) {
+            if (ReferenceEquals(hit.collider.gameObject, targetObject)) {
+                lineOfSight = true; //this implies no obstacles were in the way
+            }
+            else {
+                lineOfSight = false;
+            }
         }
         Debug.DrawRay(transform.position, dir, Color.red);
 
         inAngle = angleToTarget < FoV.viewAngle / 2;
         inRange = Vector2.Distance(transform.position, targetPos) < FoV.viewDistance;
         //Debug.Log(correctTag + " " +  inAngle + " " + inRange);
-        return correctTag && inAngle && inRange;
+        return lineOfSight && inAngle && inRange;
     }
 
+    /// <summary>
+    /// Finds and stores all visible targets
+    /// </summary>
     public void GetAllTargetsInViewRange() {
-        List<GameObject> tempTargets = new List<GameObject>();
+        List<GameObject> tempHouses = new List<GameObject>();
+        List<GameObject> tempEnemies = new List<GameObject>();
         Collider2D[] colliders;
 
         //find all targets in view radius
@@ -127,7 +162,13 @@ public class Hero : MonoBehaviour
                     int tempLayer = hit.collider.gameObject.layer;
                     if(ReferenceEquals(hit.collider.gameObject, colliders[i].gameObject)) {
                         //hit target and haven't hit an obstacle yet, so valid, save and move to next potential target
-                        tempTargets.Add(colliders[i].gameObject);
+                        //check if target is an enemy
+                        if (colliders[i].tag == "Orc" || colliders[i].tag == "Player") {
+                            tempEnemies.Add(colliders[i].gameObject);
+                        }
+                        else if (colliders[i].tag == "House") {
+                            tempHouses.Add(colliders[i].gameObject);
+                        }
                         break;
                     }
                     else if(tempLayer == LayerMask.NameToLayer("Obstacles") || tempLayer == LayerMask.NameToLayer("Houses")) {
@@ -138,7 +179,8 @@ public class Hero : MonoBehaviour
                 }
             }
         }
-        visibleTargets = tempTargets.ToArray();
+        visibleEnemies = tempEnemies.ToArray();
+        visibleHouses = tempHouses.ToArray();
     }
 
     #endregion

@@ -29,11 +29,9 @@ public class HeroIdleState : HeroState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //TODO: UHGHGH
-        if(hero.visibleTargets.Length > 0) {
-            if (SelectEnemyTarget()) {
-                stateMachine.ChangeState(hero.ChaseState);
-            }
+        if(hero.visibleEnemies.Length > 0) {
+            hero.targetGO = hero.visibleEnemies[0];
+            stateMachine.ChangeState(hero.ChaseState);
         }
     }
 
@@ -42,14 +40,15 @@ public class HeroIdleState : HeroState
         base.PhysicsUpdate();
     }
 
-
-    protected bool SelectEnemyTarget() {
-        foreach (var target in hero.visibleTargets) {
-            if (target.tag == "Orc" || target.tag == "Player") {
+    protected bool DamagedHouseVisible() {
+        foreach (var target in hero.visibleHouses) {
+            HouseController tH;
+            tH = target.GetComponent<HouseController>();
+            if (!tH.destroyed && tH.health < tH.maxHealth) {
                 hero.targetGO = target;
-                return true; //found closest enemy target already
+                return true; //found damaged house
             }
         }
-        return false; //no enemies found
+        return false; //no houses
     }
 }

@@ -24,5 +24,10 @@ MonoBehaviour:
   maxLookTime: 2.5
   minTurnSpeed: 50
   maxTurnSpeed: 120
-  chaseSpeed: 6.5
+  chaseSpeed: 4
   chaseTurnSpeed: 180
+  chaseSearchTime: 3
+  movementUpdateTime: 0.1
+  searchTime: 10
+  stunTime: 0.7
+  repairTime: 0.5
