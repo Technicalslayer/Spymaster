@@ -46,6 +46,10 @@ public class Hero : MonoBehaviour
     public Vector3 targetLastKnownLocation;
     #endregion
 
+    //private IEnumerator InitDelay() {
+    //    yield return null;
+    //    StateMachine.Initialize(PatrolState);
+    //}
 
     #region Unity Callbacks
     private void Awake(){
@@ -67,6 +71,8 @@ public class Hero : MonoBehaviour
 
     private void Start() {
         StateMachine.Initialize(PatrolState);
+        //wait a frame for some bullshit
+        //StartCoroutine(InitDelay());
     }
 
     private void Update() {
