@@ -40,7 +40,7 @@ public class SmokeBomb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "Hero"){
-            other.GetComponent<HeroController>().ApplyConfusion();
+            other.GetComponent<Hero>().ApplyConfusion();
         }
     }
 }

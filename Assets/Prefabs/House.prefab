@@ -177,6 +177,6 @@ MonoBehaviour:
   id: 0
   destroyedSprite: {fileID: 21300000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   damagedSprite: {fileID: 21300000, guid: 15802aeb89f91f342868b269be56df45, type: 3}
-  goodSprite: {fileID: 21300000, guid: b9cec61a80ea20b4689de7583b08fea7, type: 3}
+  goodSprite: {fileID: -1849200072, guid: 380614f65247461428c9f0a792868d32, type: 3}
   destroyed: 0
   smokeBombPickup: {fileID: 6422942589577181998, guid: 34d1ce19404a0674aa1a045d48593115, type: 3}

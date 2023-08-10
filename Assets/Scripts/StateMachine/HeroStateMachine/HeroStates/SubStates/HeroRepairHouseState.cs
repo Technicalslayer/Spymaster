@@ -35,11 +35,13 @@ public class HeroRepairHouseState : HeroIdleState
             //house repaired or was somehow destroyed, so the job's done
             stateMachine.ChangeState(hero.PatrolState);
             hero.targetGO = null; //no longer targeting house
+            return;
         }
 
-        if(Vector2.Distance(hero.transform.position, targetHouseController.transform.position) < 0.5f) {
+        if(Vector2.Distance(hero.transform.position, hero.targetGO.transform.position) < 3f) {
             repairTimer += Time.deltaTime;
             if(repairTimer >= heroData.repairTime) {
+                Debug.Log("repairing");
                 //apply repair
                 //reset timer
                 targetHouseController.RepairDamage();

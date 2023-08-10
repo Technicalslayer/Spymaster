@@ -156,12 +156,12 @@ MonoBehaviour:
   health_max: 1
   raycastLayer:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 20544
   smokeBombCount: 0
   spy_progress: 0
   spyMeterFillImage: {fileID: 0}
   heroT: {fileID: 0}
-  smokeBombPrefab: {fileID: 0}
+  smokeBombPrefab: {fileID: 5860601348930986557, guid: b9ffa25db63f0a547be520f53edbd8f8, type: 3}
 --- !u!50 &2633061122863133734
 Rigidbody2D:
   serializedVersion: 4

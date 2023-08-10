@@ -15,6 +15,7 @@ public class Hero : MonoBehaviour
     public HeroChaseState ChaseState { get; private set; }
     public HeroSearchState SearchState { get; private set; }
     public HeroStunnedState StunnedState { get; private set; }
+    public HeroConfuseState ConfuseState { get; private set; }
 
     [SerializeField]
     private HeroData heroData;
@@ -56,6 +57,7 @@ public class Hero : MonoBehaviour
         ChaseState = new HeroChaseState(this, StateMachine, heroData, "chase");
         SearchState = new HeroSearchState(this, StateMachine, heroData, "search");
         StunnedState = new HeroStunnedState(this, StateMachine, heroData, "stunned");
+        ConfuseState = new HeroConfuseState(this, StateMachine, heroData, "confused");
 
         //get components
         MovementController = GetComponent<MovementController2D>();
@@ -76,6 +78,10 @@ public class Hero : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        if(StateMachine.CurrentState == ConfuseState) {
+            return;
+        }
+
         if(other.collider.tag == "Orc"){
             //apply impulse
             if (other.contactCount > 0)
@@ -183,6 +189,12 @@ public class Hero : MonoBehaviour
         }
         visibleEnemies = tempEnemies.ToArray();
         visibleHouses = tempHouses.ToArray();
+    }
+
+    public void ApplyConfusion() {
+        if(StateMachine.CurrentState != ConfuseState) {
+            StateMachine.ChangeState(ConfuseState);
+        }
     }
 
     #endregion

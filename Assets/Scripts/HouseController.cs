@@ -70,6 +70,7 @@ public class HouseController : MonoBehaviour
 
     
     public void RepairDamage(){
+        Debug.Log("Repairing House");
         health += 1;
         spriteRenderer.sprite = damagedSprite;
         destroyed = false;

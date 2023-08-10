@@ -46,4 +46,8 @@ public class HeroData : ScriptableObject
     [Header("Repair State")]
     [Tooltip("How long between repairing 1 point of damage")]
     public float repairTime = 0.5f;
+
+    [Header("Confuse State")]
+    [Tooltip("How long to be confused for")]
+    public float confuseTime = 10f;
 }
