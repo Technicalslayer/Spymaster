@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HeroSearchState : HeroCombatState
 {
+    private float lookTime; //how long hero has been looking in a single direction
+    private float maxLookTime = 0.5f; //how long hero should look before changing directions
+
     public HeroSearchState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName) {
     }
 
@@ -15,9 +18,8 @@ public class HeroSearchState : HeroCombatState
     public override void Enter() {
         base.Enter();
         hero.MovementController.speed = heroData.chaseSpeed;
-
         //go to last known location
-        hero.MovementController.GetMoveCommand(targetLastKnownPosition);
+        hero.MovementController.GetMoveCommand(hero.targetLastKnownLocation);
     }
 
     public override void Exit() {
@@ -39,9 +41,23 @@ public class HeroSearchState : HeroCombatState
             hero.targetGO = hero.visibleEnemies[0];
             stateMachine.ChangeState(hero.ChaseState);
         }
+
+        //if(Vector3.Distance(hero.transform.position, targetLastKnownPosition) < 0.5f) {
+        lookTime += Time.deltaTime;
+        if (lookTime >= maxLookTime) {
+            PickRandomAngleAndTime();
+        }
+        //}
     }
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
+    }
+
+    private void PickRandomAngleAndTime() {
+        maxLookTime = Random.Range(heroData.minLookTime, heroData.maxLookTime);
+        lookTime = 0f;
+        lookAngle = Vector2.SignedAngle(Vector2.up, Random.insideUnitCircle);
+        turnSpeed = Random.Range(heroData.minTurnSpeed, heroData.maxTurnSpeed);
     }
 }

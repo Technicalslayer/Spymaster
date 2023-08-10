@@ -41,6 +41,8 @@ public class Hero : MonoBehaviour
     /// </summary>
     [HideInInspector]
     public GameObject[] visibleEnemies;
+    [HideInInspector]
+    public Vector3 targetLastKnownLocation;
     #endregion
 
 

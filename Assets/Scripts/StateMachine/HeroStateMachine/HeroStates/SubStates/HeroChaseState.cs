@@ -37,7 +37,7 @@ public class HeroChaseState : HeroCombatState
 
         //initial move command
         hero.MovementController.GetMoveCommand(hero.targetGO.transform.position);
-        targetLastKnownPosition = hero.targetGO.transform.position;
+        hero.targetLastKnownLocation = hero.targetGO.transform.position;
     }
 
     public override void Exit() {
@@ -54,7 +54,7 @@ public class HeroChaseState : HeroCombatState
         }
         //check if target is visible
         if(hero.TargetInViewRange(hero.targetGO)) {
-            targetLastKnownPosition = hero.targetGO.transform.position;
+            hero.targetLastKnownLocation = hero.targetGO.transform.position;
             chaseSearchTimer = 0f; //reset timer
         }
         else {

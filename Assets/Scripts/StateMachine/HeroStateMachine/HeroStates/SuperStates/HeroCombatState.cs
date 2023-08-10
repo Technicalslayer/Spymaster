@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class HeroCombatState : HeroState
 {
-    protected Vector3 targetLastKnownPosition;
-
     public HeroCombatState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName) {
     }
 
