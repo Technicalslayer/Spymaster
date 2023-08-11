@@ -17,10 +17,13 @@ public class HouseController : MonoBehaviour
     private bool takingDamage = false; //indicates house was just damaged, has invulnerability and plays animation
     public GameObject smokeBombPickup;
 
+    public AudioSource fallApartSoundSource;
+
 
     private IEnumerator FallApart(){
         destroyed = true;
         spriteRenderer.sprite = destroyedSprite;
+        fallApartSoundSource.Play();
         yield return null;
         //spawn bomb pickup
         Instantiate(smokeBombPickup,transform.position + (Vector3)Random.insideUnitCircle * 2.0f,transform.rotation);
