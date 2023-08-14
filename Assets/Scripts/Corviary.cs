@@ -23,6 +23,10 @@ public class Corviary : MonoBehaviour
 
     public void SendReport() {
         int progressValue = OverworldManager.Instance.SpyProgress;
+        if(progressValue == 0) {
+            return; //no point in reporting
+        }
+
         if (progressValue == 100) {
             //perfect, send gold crow
             //give player extra camp to place
