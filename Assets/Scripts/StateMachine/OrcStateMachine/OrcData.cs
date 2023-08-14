@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class OrcData : MonoBehaviour
+/// <summary>
+/// Scriptable object. Stores data for states/state machine to use.
+/// </summary>
+[CreateAssetMenu(fileName = "newOrcData", menuName = "Data/Orc Data/Base Data")]
+public class OrcData : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Base Stats")]
+    public int Health;
+    public int MaxHealth;
+    public int MinHealth;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("StunnedState")]
+    public float stunTime;
 }

@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrcStateMachine : MonoBehaviour
+public class OrcStateMachine
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public OrcState CurrentState { get; private set; }
+
+    public void Initialize(OrcState startingState) {
+        CurrentState = startingState;
+        CurrentState.Enter();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void ChangeState(OrcState newState) {
+        CurrentState.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 }
