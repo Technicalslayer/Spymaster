@@ -26,6 +26,7 @@ public class Hero : MonoBehaviour
     public MovementController2D MovementController { get; private set; }
     public Rigidbody2D RB { get; private set; }
     public FieldOfView FoV { get; private set; }
+    public Animator Anim { get; private set; }
     #endregion
 
     #region Variables
@@ -67,6 +68,7 @@ public class Hero : MonoBehaviour
         MovementController = GetComponent<MovementController2D>();
         RB = GetComponent<Rigidbody2D>();
         FoV = GetComponentInChildren<FieldOfView>();
+        Anim = GetComponent<Animator>();
     }
 
     private void Start() {

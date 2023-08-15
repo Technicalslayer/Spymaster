@@ -31,6 +31,8 @@ public class HouseController : MonoBehaviour
 
     private IEnumerator ShowDamage(){
         Vector3 startPos = transform.position;
+        //play sound
+
         //shake and flash
         for(int i = 0; i < 15; i++){
             transform.position += new Vector3(Mathf.Sin(Time.time * 10f) * 0.05f, 0, 0);
@@ -54,7 +56,7 @@ public class HouseController : MonoBehaviour
     }
 
 
-    private void TakeDamage() {
+    public void TakeDamage() {
         StartCoroutine(ShowDamage());
         health -= 1;
         spriteRenderer.sprite = damagedSprite;
@@ -87,13 +89,13 @@ public class HouseController : MonoBehaviour
 
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if(takingDamage || destroyed){
-            return;
-        }
-        if (collision.collider.tag == "Orc") {
-            //take damage
-            TakeDamage();
-        }
+        //if(takingDamage || destroyed){
+        //    return;
+        //}
+        //if (collision.collider.tag == "Orc") {
+        //    //take damage
+        //    TakeDamage();
+        //}
         //else if(collision.collider.tag == "Hero"){
         //    //repair
         //    RepairDamage();

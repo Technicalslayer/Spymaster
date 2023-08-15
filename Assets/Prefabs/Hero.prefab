@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 2599400424588059893}
   - component: {fileID: 8174592438039803118}
   - component: {fileID: 7434140624747534823}
+  - component: {fileID: 4706205964633286769}
   m_Layer: 12
   m_Name: Hero
   m_TagString: Hero
@@ -120,7 +121,7 @@ Transform:
   - {fileID: 5067369733286674365}
   - {fileID: 2899280250683629803}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &2121614036451302687
 CircleCollider2D:
@@ -226,6 +227,27 @@ MonoBehaviour:
   visibleHouses: []
   visibleEnemies: []
   targetLastKnownLocation: {x: 0, y: 0, z: 0}
+--- !u!95 &4706205964633286769
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3113725016142669589}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6961453817205478862
 GameObject:
   m_ObjectHideFlags: 0

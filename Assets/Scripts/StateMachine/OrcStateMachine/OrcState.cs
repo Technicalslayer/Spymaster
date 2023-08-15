@@ -22,9 +22,9 @@ public class OrcState {
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="hero"></param>
+    /// <param name="orc"></param>
     /// <param name="stateMachine"></param>
-    /// <param name="heroData"></param>
+    /// <param name="orcData"></param>
     /// <param name="animBoolName"></param>
     public OrcState(Orc orc, OrcStateMachine stateMachine, OrcData orcData, string animBoolName) {
         this.orc = orc;
@@ -44,7 +44,7 @@ public class OrcState {
     public virtual void Enter() {
         DoChecks();
         startTime = Time.time;
-        //hero.Anim.SetBool(animBoolName, true);
+        //orc.Anim.SetBool(animBoolName, true);
         Debug.Log(animBoolName);
     }
     /// <summary>

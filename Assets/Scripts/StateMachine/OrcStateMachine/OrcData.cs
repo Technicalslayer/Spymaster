@@ -8,10 +8,24 @@ using UnityEngine;
 public class OrcData : ScriptableObject
 {
     [Header("Base Stats")]
-    public int Health;
-    public int MaxHealth;
-    public int MinHealth;
+    public int maxHealth;
+    public int minHealth;
 
-    [Header("StunnedState")]
+    [Header("Stunned State")]
     public float stunTime;
+
+    [Header("Seek State")]
+    public float seekSpeed;
+
+    [Header("Chase State")]
+    public float chaseSpeed;
+
+    [Header("Idle State")]
+    public float idleTime;
+    public float idleSpeed;
+
+    [Header("Pillage State")]
+    [Tooltip("Speed used when seeking or attacking houses")]
+    public float pillageSpeed;
+    public float attackTime; //how long between attacks
 }

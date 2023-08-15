@@ -45,7 +45,7 @@ public class HeroState {
         DoChecks();
         startTime = Time.time;
         //hero.Anim.SetBool(animBoolName, true);
-        Debug.Log(animBoolName);
+        //Debug.Log(animBoolName);
     }
     /// <summary>
     /// Called when exiting state

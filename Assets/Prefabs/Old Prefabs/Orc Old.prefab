@@ -150,10 +150,9 @@ GameObject:
   - component: {fileID: 5648823179348935310}
   - component: {fileID: 7973663312965355220}
   - component: {fileID: 375672072803791326}
-  - component: {fileID: 3706567391870606803}
-  - component: {fileID: 2740411977205916117}
+  - component: {fileID: 2617922261276293398}
   m_Layer: 11
-  m_Name: Orc
+  m_Name: Orc Old
   m_TagString: Orc
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,7 +310,7 @@ MonoBehaviour:
   snapToGrid: 0
   drawDebugLines: 0
   intendedVelocity: {x: 0, y: 0}
---- !u!114 &3706567391870606803
+--- !u!114 &2617922261276293398
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -320,38 +319,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6331883503109810850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b512605556fcc6e4b891211e58c08f2a, type: 3}
+  m_Script: {fileID: 11500000, guid: bd33cebbadac41049adb903c1432cab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orcData: {fileID: 11400000, guid: 45113cbd0a518ba449ad69031f67bcd8, type: 2}
-  hpText: {fileID: 1209159389383700236}
-  attackSound: {fileID: 0}
-  hurtSound: {fileID: 0}
-  targetGO: {fileID: 0}
   health: 0
-  houses: []
-  heroInRange: 0
---- !u!95 &2740411977205916117
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6331883503109810850}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9c3604b6126cf9e4a8d7c52c75ba57a6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  maxHealth: 5
+  minHealth: 2
+  detectionRange: 10
+  clashRange: 1
+  circleCastLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  hpText: {fileID: 1209159389383700236}
 --- !u!1 &7105362806938013571
 GameObject:
   m_ObjectHideFlags: 0

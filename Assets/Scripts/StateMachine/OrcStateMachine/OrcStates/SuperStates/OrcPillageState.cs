@@ -21,6 +21,8 @@ public class OrcPillageState : OrcState
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+        //if see hero, change state
+
     }
 
     public override void PhysicsUpdate() {

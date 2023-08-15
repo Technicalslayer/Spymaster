@@ -21,9 +21,13 @@ public class OrcStunnedState : OrcState
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+        if (Time.time - startTime >= orcData.stunTime) {
+            stateMachine.ChangeState(orc.ChaseState); //chase until death
+        }
     }
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
+        orc.RB.velocity = Vector2.Lerp(orc.RB.velocity, Vector2.zero, (Time.time - startTime) / orcData.stunTime);
     }
 }

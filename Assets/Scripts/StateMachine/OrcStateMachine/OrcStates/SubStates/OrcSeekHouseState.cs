@@ -13,6 +13,14 @@ public class OrcSeekHouseState : OrcState
 
     public override void Enter() {
         base.Enter();
+        //update list of potential houses
+        orc.houses = orc.FindValidHouses();
+        //pick random house
+        orc.targetGO = orc.houses[Random.Range(0, orc.houses.Length)];
+
+        orc.MovementController.speed = orcData.pillageSpeed;
+
+        orc.MovementController.GetMoveCommand(orc.targetGO.transform.position);
     }
 
     public override void Exit() {
@@ -21,9 +29,15 @@ public class OrcSeekHouseState : OrcState
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+        //if at house, enter attack house state
+        if(Vector2.Distance(orc.transform.position, orc.targetGO.transform.position) < 2f) {
+            stateMachine.ChangeState(orc.AttackHouseState);
+        }
     }
 
     public override void PhysicsUpdate() {
         base.PhysicsUpdate();
     }
+
+
 }
