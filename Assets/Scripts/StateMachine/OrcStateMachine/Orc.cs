@@ -53,6 +53,7 @@ public class Orc : MonoBehaviour
         //get components
         MovementController = GetComponent<MovementController2D>();
         RB = GetComponent<Rigidbody2D>();
+        Anim = GetComponent<Animator>();
     }
 
     private void Start() {

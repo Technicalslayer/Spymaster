@@ -15,3 +15,9 @@ MonoBehaviour:
   maxHealth: 5
   minHealth: 2
   stunTime: 0.7
+  seekSpeed: 3
+  chaseSpeed: 3.5
+  idleTime: 3
+  idleSpeed: 2
+  pillageSpeed: 3
+  attackTime: 1.5

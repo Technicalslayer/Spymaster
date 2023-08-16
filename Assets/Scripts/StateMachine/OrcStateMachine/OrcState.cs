@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -44,7 +46,15 @@ public class OrcState {
     public virtual void Enter() {
         DoChecks();
         startTime = Time.time;
-        //orc.Anim.SetBool(animBoolName, true);
+
+        orc.Anim.SetBool(animBoolName, true);
+        //try {
+        //    orc.Anim.SetBool(animBoolName, true);
+        //}
+        //catch (NullReferenceException) {
+        //    //sometimes I might assign a trigger here instead, so I don't want to break the game
+        //    //may not be the best way to handle this
+        //}
         Debug.Log(animBoolName);
     }
     /// <summary>
