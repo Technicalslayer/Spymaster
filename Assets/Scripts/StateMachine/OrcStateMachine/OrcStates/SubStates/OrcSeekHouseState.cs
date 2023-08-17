@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrcSeekHouseState : OrcState
+public class OrcSeekHouseState : OrcPillageState
 {
     public OrcSeekHouseState(Orc orc, OrcStateMachine stateMachine, OrcData orcData, string animBoolName) : base(orc, stateMachine, orcData, animBoolName) {
     }
@@ -41,6 +41,7 @@ public class OrcSeekHouseState : OrcState
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+
         //if at house, enter attack house state
         if(Vector2.Distance(orc.transform.position, orc.targetGO.transform.position) < 2f) {
             stateMachine.ChangeState(orc.AttackHouseState);

@@ -23,6 +23,10 @@ public class OrcPillageState : OrcState
         base.LogicUpdate();
         //if see hero, change state
 
+        //if waypoint active, go towards
+        if (orc.waypointActive) {
+            stateMachine.ChangeState(orc.WaypointState);
+        }
     }
 
     public override void PhysicsUpdate() {

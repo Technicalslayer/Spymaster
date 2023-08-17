@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887678129597557417}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6371134556202891199}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6042101985207803554
 MonoBehaviour:
@@ -128,6 +128,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3169297668947029751}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -136,7 +137,6 @@ Transform:
   - {fileID: 2885590666869687220}
   - {fileID: 8573244747739552968}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8309654944949714803
 MonoBehaviour:
@@ -158,10 +158,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 20544
   smokeBombCount: 0
+  waypointCooldownTime: 5
   spy_progress: 0
   spyMeterFillImage: {fileID: 0}
   heroT: {fileID: 0}
   smokeBombPrefab: {fileID: 5860601348930986557, guid: b9ffa25db63f0a547be520f53edbd8f8, type: 3}
+  waypointPrefab: {fileID: 5376270061498278337, guid: 0c5e693e572ec5340980eaee8ae8ca4d, type: 3}
 --- !u!50 &2633061122863133734
 Rigidbody2D:
   serializedVersion: 4
@@ -249,13 +251,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6586729432554117849}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6371134556202891199}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5518696842262031248
 SpriteRenderer:

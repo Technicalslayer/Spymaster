@@ -14,14 +14,24 @@ public class OrcWaypointState : OrcState
     public override void Enter() {
         base.Enter();
         orc.MovementController.speed = orcData.chaseSpeed;
+        orc.MovementController.GetMoveCommand(orc.waypoint.transform.position);
     }
 
     public override void Exit() {
         base.Exit();
+        orc.waypointActive = false;
     }
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+
+        if(orc.waypoint is null) {
+            stateMachine.ChangeState(orc.IdleState); return; //in case waypoint is destroyed before reaching it
+        }
+
+        if(Vector2.Distance(orc.waypoint.transform.position, orc.transform.position) < 1f) {
+            stateMachine.ChangeState(orc.IdleState);
+        }
     }
 
     public override void PhysicsUpdate() {

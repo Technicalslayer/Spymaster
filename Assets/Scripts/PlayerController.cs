@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public int health_max = 1; //how many hits the player can receive before dying
     public LayerMask raycastLayer;
     public int smokeBombCount = 0;
+    public float waypointCooldownTime = 5f;
 
     
     //private settings
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private int health_current;
     private bool rotationDelay = false; //used to prevent snapping to the wrong direction when releasing input
     private int rotationDelayFrames = 0;
+    private bool waypointOnCooldown = false;
 
     //[SerializeField] private int max_slidervalue = 10;
 
@@ -34,7 +36,21 @@ public class PlayerController : MonoBehaviour
     public Transform heroT;
     private FieldOfView fieldOfView;
     public GameObject smokeBombPrefab;
+    public GameObject waypointPrefab;
 
+    private IEnumerator WaypointCooldown() {
+        waypointOnCooldown = true;
+        float waypointTimer = 0f;
+        //image.fill = 0f;
+        while(waypointTimer < waypointCooldownTime) {
+            //show cooldown effect on HUD
+            //image.fill = waypointTimer / waypointCooldownTime;
+            yield return null;
+            waypointTimer += Time.deltaTime;
+        }
+        
+        waypointOnCooldown = false;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +109,10 @@ public class PlayerController : MonoBehaviour
             //spawn smoke bomb
             Instantiate(smokeBombPrefab, transform.position, transform.rotation);
             smokeBombCount--;
+        }
+        if (Input.GetButtonDown("Fire") && !waypointOnCooldown) {
+            Instantiate(waypointPrefab, transform.position, transform.rotation);
+            StartCoroutine(WaypointCooldown());
         }
     }
 

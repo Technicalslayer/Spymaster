@@ -38,7 +38,10 @@ public class Orc : MonoBehaviour
     [HideInInspector]
     public GameObject[] houses;
     [HideInInspector]
-    public bool heroInRange;
+    public Waypoint waypoint;
+    [HideInInspector]
+    public bool waypointActive;
+    private int maxHealth;
     #endregion
 
     #region Unity Callbacks
@@ -59,6 +62,11 @@ public class Orc : MonoBehaviour
 
     private void Start() {
         StateMachine.Initialize(SeekHouseState);
+        //pick a random amount of health
+        health = Mathf.RoundToInt(Random.Range(orcData.minHealth, orcData.maxHealth));
+        maxHealth = health;
+        //update HP text
+        UpdateHealthText();
     }
 
     private void Update() {
@@ -81,6 +89,7 @@ public class Orc : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("Hero")) {
             if (StateMachine.CurrentState != WaypointState && StateMachine.CurrentState is not OrcCombatState){
+                targetGO = collision.gameObject;
                 StateMachine.ChangeState(ChaseState);
             }
         }
@@ -121,7 +130,25 @@ public class Orc : MonoBehaviour
     }
 
     public void UpdateHealthText() {
-        hpText.text = "Orc\n" + health + "\\" + orcData.maxHealth;
+        hpText.text = "Orc\n" + health + "\\" + maxHealth;
     }
+
+    public void AssignWaypoint(Waypoint newWaypoint) {
+        if(CompareWaypoints(newWaypoint)) {
+            //already assigned, already moving to it or has already reached it
+            //do nothing
+            Debug.Log("Waypoints match");
+        }
+        else {
+            waypoint = newWaypoint;
+            waypointActive = true;
+            Debug.Log("assigned waypoint");
+        }
+    }
+
+    public bool CompareWaypoints(Waypoint newWaypoint) {
+        return ReferenceEquals(newWaypoint, waypoint);
+    }
+
     #endregion
 }

@@ -21,6 +21,8 @@ public class OrcData : ScriptableObject
 
     [Header("Chase State")]
     public float chaseSpeed;
+    [Tooltip("How long between calls to update movement controller")]
+    public float movementUpdateTime = 0.1f;
 
     [Header("Idle State")]
     public float idleTime;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrcAttackHouseState : OrcState
+public class OrcAttackHouseState : OrcPillageState
 {
     private float attackTimer;
     private HouseController house;
