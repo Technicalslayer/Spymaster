@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class Orc : MonoBehaviour
 {
@@ -88,6 +89,10 @@ public class Orc : MonoBehaviour
     #endregion
 
     #region Functions
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>Array of non destroyed houses, sorted by distance</returns>
     public GameObject[] FindValidHouses() {
         HouseController[] houses = FindObjectsByType<HouseController>(FindObjectsSortMode.None);
         List<GameObject> houseGOs = new List<GameObject>();
@@ -97,8 +102,7 @@ public class Orc : MonoBehaviour
                 houseGOs.Add(house.gameObject);
             }
         }
-
-        return houseGOs.ToArray();
+        return houseGOs.OrderBy(d => (transform.position - d.transform.position).sqrMagnitude).ToArray(); //not exactly sure how this works. "d" should be like the "house" in the foreach
     }
 
     private void TakeDamage() {

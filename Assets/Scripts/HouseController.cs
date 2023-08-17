@@ -18,6 +18,7 @@ public class HouseController : MonoBehaviour
     public GameObject smokeBombPickup;
 
     public AudioSource fallApartSoundSource;
+    private Animator animator;
 
 
     private IEnumerator FallApart(){
@@ -29,24 +30,25 @@ public class HouseController : MonoBehaviour
         Instantiate(smokeBombPickup,transform.position + (Vector3)Random.insideUnitCircle * 2.0f,transform.rotation);
     }
 
-    private IEnumerator ShowDamage(){
-        Vector3 startPos = transform.position;
-        //play sound
+    //private IEnumerator ShowDamage(){
+    //    Vector3 startPos = transform.position;
+    //    //play sound
 
-        //shake and flash
-        for(int i = 0; i < 15; i++){
-            transform.position += new Vector3(Mathf.Sin(Time.time * 10f) * 0.05f, 0, 0);
-            spriteRenderer.color = i % 2 == 1 ? Color.white : Color.red;
-            yield return new WaitForSeconds(0.1f);
-        }
-        takingDamage = false;
-        transform.position = startPos;
-        spriteRenderer.color = Color.white;
-    }
+    //    //shake and flash
+    //    for(int i = 0; i < 15; i++){
+    //        transform.position += new Vector3(Mathf.Sin(Time.time * 10f) * 0.05f, 0, 0);
+    //        spriteRenderer.color = i % 2 == 1 ? Color.white : Color.red;
+    //        yield return new WaitForSeconds(0.1f);
+    //    }
+    //    takingDamage = false;
+    //    transform.position = startPos;
+    //    spriteRenderer.color = Color.white;
+    //}
 
 
     private void Start() {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         //pick a random amount of health
         maxHealth = Mathf.RoundToInt(Random.Range(minHealth, maxHealth));
@@ -57,7 +59,7 @@ public class HouseController : MonoBehaviour
 
 
     public void TakeDamage() {
-        StartCoroutine(ShowDamage());
+        animator.SetTrigger("damaged");
         health -= 1;
         spriteRenderer.sprite = damagedSprite;
         takingDamage = true;

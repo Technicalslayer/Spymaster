@@ -15,8 +15,20 @@ public class OrcSeekHouseState : OrcState
         base.Enter();
         //update list of potential houses
         orc.houses = orc.FindValidHouses();
-        //pick random house
-        orc.targetGO = orc.houses[Random.Range(0, orc.houses.Length)];
+        if(orc.houses.Length == 0) {
+            stateMachine.ChangeState(orc.IdleState); //just to prevent errors with house checking while changing scenes. May not be necessary
+            return;
+        }
+
+        //pick random house if no houses within a certain range?
+        //first index should be closest house
+        if (Vector2.Distance(orc.houses[0].transform.position, orc.transform.position) < orcData.nonRandomSeekDistance) {
+            orc.targetGO = orc.houses[0];
+            Debug.Log("Within Range");
+        }
+        else {
+            orc.targetGO = orc.houses[Random.Range(0, orc.houses.Length)];
+        }
 
         orc.MovementController.speed = orcData.pillageSpeed;
 

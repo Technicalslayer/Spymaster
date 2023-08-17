@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class OrcIdleState : OrcState
 {
+    private float walkTime = 3f; //if in idle state this long, then pick a new move command
+    private float walkTimer = 0f;
+
     public OrcIdleState(Orc orc, OrcStateMachine stateMachine, OrcData orcData, string animBoolName) : base(orc, stateMachine, orcData, animBoolName) {
     }
 
@@ -13,6 +16,10 @@ public class OrcIdleState : OrcState
 
     public override void Enter() {
         base.Enter();
+
+        orc.MovementController.speed = orcData.idleSpeed;
+        //pick random direction to move in
+        orc.MovementController.GetMoveCommand(Random.insideUnitCircle * 5f);
     }
 
     public override void Exit() {
@@ -21,6 +28,14 @@ public class OrcIdleState : OrcState
 
     public override void LogicUpdate() {
         base.LogicUpdate();
+        walkTimer += Time.deltaTime;
+
+        if(Time.time - startTime > orcData.idleTime) {
+            stateMachine.ChangeState(orc.SeekHouseState);
+        }
+        else if(walkTimer >= walkTime) {
+            orc.MovementController.GetMoveCommand(Random.insideUnitCircle * 5f);
+        }
     }
 
     public override void PhysicsUpdate() {

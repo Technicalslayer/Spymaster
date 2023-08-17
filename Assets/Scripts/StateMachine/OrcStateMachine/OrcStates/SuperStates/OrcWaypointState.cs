@@ -13,6 +13,7 @@ public class OrcWaypointState : OrcState
 
     public override void Enter() {
         base.Enter();
+        orc.MovementController.speed = orcData.chaseSpeed;
     }
 
     public override void Exit() {

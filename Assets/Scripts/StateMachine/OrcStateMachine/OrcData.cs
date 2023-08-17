@@ -16,6 +16,8 @@ public class OrcData : ScriptableObject
 
     [Header("Seek State")]
     public float seekSpeed;
+    [Tooltip("How far to look for the closest house and target it instead of a random one.\nUseful to guide orcs to a specific house with a Waypoint.")]
+    public float nonRandomSeekDistance;
 
     [Header("Chase State")]
     public float chaseSpeed;

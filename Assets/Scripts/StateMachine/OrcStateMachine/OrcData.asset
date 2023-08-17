@@ -16,6 +16,7 @@ MonoBehaviour:
   minHealth: 2
   stunTime: 0.7
   seekSpeed: 3
+  nonRandomSeekDistance: 7
   chaseSpeed: 3.5
   idleTime: 3
   idleSpeed: 2
