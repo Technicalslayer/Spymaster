@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
+    #region Variables
     //public settings
     public float move_speed = 10f;
     public int rotationDelayFramesMax = 5; //how many frames to prevent changing direction
@@ -27,16 +28,18 @@ public class PlayerController : MonoBehaviour
     private bool rotationDelay = false; //used to prevent snapping to the wrong direction when releasing input
     private int rotationDelayFrames = 0;
     private bool waypointOnCooldown = false;
+    #endregion
 
-    //[SerializeField] private int max_slidervalue = 10;
-
-    //components
+    #region Components
     private Rigidbody2D rb;
     public Image spyMeterFillImage;
-    public Transform heroT;
+    public TMP_Text spyMeterText1;
+    public TMP_Text spyMeterText2;
+    private Transform heroT;
     private FieldOfView fieldOfView;
     public GameObject smokeBombPrefab;
     public GameObject waypointPrefab;
+    #endregion
 
     private IEnumerator WaypointCooldown() {
         waypointOnCooldown = true;
@@ -58,6 +61,14 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         fieldOfView = GetComponentInChildren<FieldOfView>();
         health_current = health_max;
+
+        //find hero object transform
+        heroT = FindObjectOfType<Hero>().transform;
+
+        //check that I assigned everything
+        if (spyMeterText1 == null) Debug.LogWarning("SpyMeterText1 hasn't been assigned!");
+        if (spyMeterText2 == null) Debug.LogWarning("SpyMeterText2 hasn't been assigned!");
+        if (spyMeterFillImage == null) Debug.LogWarning("SpyMeterFillImage hasn't been assigned!");
     }
 
     // Update is called once per frame
@@ -168,6 +179,8 @@ public class PlayerController : MonoBehaviour
     public void UpdateSpymeter( int spy_progress)
     {
         spyMeterFillImage.fillAmount = (float)spy_progress / 100f; //total
+        spyMeterText1.text = spy_progress + "/100";
+        spyMeterText2.text = spy_progress + "/100";
     }
 
     private void TakeDamage(int damageAmount) {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -22,12 +23,14 @@ public class HouseController : MonoBehaviour
 
 
     private IEnumerator FallApart(){
-        destroyed = true;
-        spriteRenderer.sprite = destroyedSprite;
-        fallApartSoundSource.Play();
-        yield return null;
-        //spawn bomb pickup
-        Instantiate(smokeBombPickup,transform.position + (Vector3)Random.insideUnitCircle * 2.0f,transform.rotation);
+        if (!destroyed) {
+            destroyed = true;
+            spriteRenderer.sprite = destroyedSprite;
+            fallApartSoundSource.Play();
+            yield return null;
+            //spawn bomb pickup
+            Instantiate(smokeBombPickup, transform.position + (Vector3)Random.insideUnitCircle * 2.0f, transform.rotation);
+        }
     }
 
     //private IEnumerator ShowDamage(){

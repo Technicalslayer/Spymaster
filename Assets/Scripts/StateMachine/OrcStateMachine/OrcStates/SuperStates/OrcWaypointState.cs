@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class OrcWaypointState : OrcState
@@ -25,7 +26,7 @@ public class OrcWaypointState : OrcState
     public override void LogicUpdate() {
         base.LogicUpdate();
 
-        if(orc.waypoint is null) {
+        if(orc.waypoint == null || orc.waypoint.IsDestroyed()) {
             stateMachine.ChangeState(orc.IdleState); return; //in case waypoint is destroyed before reaching it
         }
 
