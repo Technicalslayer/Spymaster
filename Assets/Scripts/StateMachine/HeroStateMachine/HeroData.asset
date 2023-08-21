@@ -20,10 +20,12 @@ MonoBehaviour:
     m_Bits: 192
   patrolSpeed: 3
   patrolTurnSpeed: 100
+  detectionTime: 1.5
+  detectionDecreaseRate: -0.1
   minLookTime: 0.5
   maxLookTime: 2.5
-  minTurnSpeed: 50
-  maxTurnSpeed: 120
+  minTurnSpeed: 30
+  maxTurnSpeed: 60
   chaseSpeed: 3.7
   chaseTurnSpeed: 180
   chaseSearchTime: 3

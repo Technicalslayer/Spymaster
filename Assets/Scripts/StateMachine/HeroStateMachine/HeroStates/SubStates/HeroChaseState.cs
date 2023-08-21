@@ -38,10 +38,17 @@ public class HeroChaseState : HeroCombatState
         //initial move command
         hero.MovementController.GetMoveCommand(hero.targetGO.transform.position);
         hero.targetLastKnownLocation = hero.targetGO.transform.position;
+
+        //if chasing player, turn off players spy view
+        if(hero.targetGO.CompareTag("Player")) {
+            hero.targetGO.GetComponent<PlayerController>().DisableFoV();
+        }
     }
 
     public override void Exit() {
         base.Exit();
+        //always enable fov just incase
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().EnableFoV();
     }
 
     public override void LogicUpdate() {

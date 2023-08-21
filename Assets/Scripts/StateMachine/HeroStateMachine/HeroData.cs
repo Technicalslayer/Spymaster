@@ -17,6 +17,10 @@ public class HeroData : ScriptableObject
     [Tooltip("Walk speed")]
     public float patrolSpeed = 5f;
     public float patrolTurnSpeed = 180f;
+    [Tooltip("How long for player to be in view before chasing")]
+    public float detectionTime = 1.5f;
+    [Tooltip("Negative Value\nHow fast the detection meter drops back to 0")]
+    public float detectionDecreaseRate = -0.5f;
 
     [Header("Look Around State")]
     [Tooltip("Minimum time to spend looking in a single direction")]

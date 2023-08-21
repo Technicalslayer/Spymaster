@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Hero : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class Hero : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
     public FieldOfView FoV { get; private set; }
     public Animator Anim { get; private set; }
+    public Image detectionImage;
     #endregion
 
     #region Variables
@@ -45,6 +47,8 @@ public class Hero : MonoBehaviour
     public GameObject[] visibleEnemies;
     [HideInInspector]
     public Vector3 targetLastKnownLocation;
+    [HideInInspector]
+    public float detectionProgress; //fully detected once equal to detectionTime
     #endregion
 
     //private IEnumerator InitDelay() {
@@ -94,8 +98,8 @@ public class Hero : MonoBehaviour
             //apply impulse
             if (other.contactCount > 0)
                 RB.AddForce(other.contacts[0].normal * 10f, ForceMode2D.Impulse);
-            StateMachine.ChangeState(StunnedState);
             targetGO = other.gameObject;
+            StateMachine.ChangeState(StunnedState);
         }
         //else if(other.collider.tag == "House") {
         //    if(StateMachine.CurrentState == RepairHouseState) {
@@ -203,6 +207,22 @@ public class Hero : MonoBehaviour
         if(StateMachine.CurrentState != ConfuseState) {
             StateMachine.ChangeState(ConfuseState);
         }
+    }
+
+    public void IncrementDetection(float amount) {
+        detectionProgress += amount;
+        detectionProgress = Mathf.Clamp(detectionProgress, 0f, heroData.detectionTime);
+        float t = GetDetectionProgress();
+        detectionImage.fillAmount = t;
+        Debug.Log(t);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>A float between 0 and 1</returns>
+    public float GetDetectionProgress() {
+        return detectionProgress / heroData.detectionTime;
     }
 
     #endregion

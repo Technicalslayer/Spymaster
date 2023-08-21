@@ -16,15 +16,18 @@ public class HeroPatrolState : HeroIdleState
     public override void DoChecks()
     {
         base.DoChecks();
-
-        isAtPatrolPoint = CheckIfAtPoint(hero.PatrolPoints[patrolIndex]);
+        if (hero.PatrolPoints.Count > 0) {
+            isAtPatrolPoint = CheckIfAtPoint(hero.PatrolPoints[patrolIndex]);
+        }
     }
 
     public override void Enter()
     {
         base.Enter();
         //get move command
-        hero.MovementController.GetMoveCommand(hero.PatrolPoints[patrolIndex]);
+        if (hero.PatrolPoints.Count > 0) {
+            hero.MovementController.GetMoveCommand(hero.PatrolPoints[patrolIndex]);
+        }
         turnSpeed = heroData.patrolTurnSpeed;
     }
 

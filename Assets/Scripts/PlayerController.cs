@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     #region Variables
     //public settings
     public float move_speed = 10f;
-    public int rotationDelayFramesMax = 5; //how many frames to prevent changing direction
+    //public int rotationDelayFramesMax = 5; //how many frames to prevent changing direction
     public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
     public int health_max = 1; //how many hits the player can receive before dying
     public LayerMask raycastLayer;
@@ -25,9 +25,10 @@ public class PlayerController : MonoBehaviour
     public int spy_progress = 0; //100 is a full meter
     private float spy_timer = 0f; //current timer progress
     private int health_current;
-    private bool rotationDelay = false; //used to prevent snapping to the wrong direction when releasing input
-    private int rotationDelayFrames = 0;
+    //private bool rotationDelay = false; //used to prevent snapping to the wrong direction when releasing input
+    //private int rotationDelayFrames = 0;
     private bool waypointOnCooldown = false;
+    private bool canSpy = true;
     #endregion
 
     #region Components
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         //if hit only hero or hero hit before obstacle, then count as success, start to fill up meter
         if (heroT) {
-            if (TargetInViewRange(heroT.position, "Hero")) {
+            if (TargetInViewRange(heroT.position, "Hero") && canSpy) {
                 IncrementSpymeter();
             }
         }
@@ -94,24 +95,24 @@ public class PlayerController : MonoBehaviour
         //get input
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if(!rotationDelay && (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))){
-            //start timer to ignore key releases on next couple frames?
-            rotationDelay = true;
-        }
+        //if(!rotationDelay && (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))){
+        //    //start timer to ignore key releases on next couple frames?
+        //    rotationDelay = true;
+        //}
 
-        if(rotationDelay){
-            //do not read movement input for rotation for a few frames to prevent snapping to wrong direction
-            rotationDelayFrames++;
-            if(rotationDelayFrames >= rotationDelayFramesMax){
-                rotationDelay = false;
-                rotationDelayFrames = 0;
-            }
-        }
-        else if(movement.magnitude > 0){
-            facing = movement;
-        }
+        //if(rotationDelay){
+        //    //do not read movement input for rotation for a few frames to prevent snapping to wrong direction
+        //    rotationDelayFrames++;
+        //    if(rotationDelayFrames >= rotationDelayFramesMax){
+        //        rotationDelay = false;
+        //        rotationDelayFrames = 0;
+        //    }
+        //}
+        //else if(movement.magnitude > 0){
+        //    facing = movement;
+        //}
         //facing = new Vector2(Input.GetAxisRaw("something"), Input.GetAxisRaw("something"));
-        //facing = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        facing = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         // if(movement.magnitude > 0)
         //     facing = movement;
         rotation_angle = Vector2.SignedAngle(Vector2.up, facing);
@@ -162,6 +163,11 @@ public class PlayerController : MonoBehaviour
         if (spy_timer > spy_timer_max) {
             //reset timer
             spy_progress += 1;
+            //if close enough, add another point
+            if(Vector2.Distance(transform.position, heroT.position) < 3f) {
+                spy_progress += 1;
+                Debug.Log("Extra spy point: " +  spy_progress);
+            }
             //Debug.Log("Spy Meter: " + spy_progress);
 
             UpdateSpymeter(spy_progress); // Update the Spymeter
@@ -192,6 +198,16 @@ public class PlayerController : MonoBehaviour
             //Spaghetti Code
             FindObjectOfType<LocalMapManager>().PlayerDied();
         }
+    }
+
+    public void DisableFoV() {
+        fieldOfView.gameObject.SetActive(false);
+        canSpy = false;
+    }
+
+    public void EnableFoV() {
+        fieldOfView.gameObject.SetActive(true); 
+        canSpy = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

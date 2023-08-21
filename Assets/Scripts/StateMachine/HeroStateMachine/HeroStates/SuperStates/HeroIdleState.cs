@@ -29,9 +29,33 @@ public class HeroIdleState : HeroState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        
+
+        bool playerVisible = false;
         if(hero.visibleEnemies.Length > 0) {
-            hero.targetGO = hero.visibleEnemies[0];
-            stateMachine.ChangeState(hero.ChaseState);
+            //if can see player, increase detection meter.
+            foreach(GameObject enemy in hero.visibleEnemies) {
+                if (enemy.CompareTag("Player")) {
+                    playerVisible = true;
+                    hero.IncrementDetection(1f * Time.deltaTime);
+                    //if detection meter full, then chase player.
+                    if(hero.GetDetectionProgress() >= 1f) {
+                        hero.targetGO = enemy;
+                        stateMachine.ChangeState(hero.ChaseState);
+                        hero.Anim.Play("PlayerDetected");
+                        return;
+                    }
+                }
+                else { //not a player, should chase it
+                    hero.targetGO = enemy;
+                    stateMachine.ChangeState(hero.ChaseState);
+                }
+            }
+        }
+
+        if (!playerVisible) {
+            //decrement timer slowly
+            hero.IncrementDetection(heroData.detectionDecreaseRate * Time.deltaTime);
         }
     }
 

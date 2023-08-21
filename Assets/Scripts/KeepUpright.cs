@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KeepUpright : MonoBehaviour
 {
+    [HideInInspector]
     public Transform parent;
     public Vector2 upDir = Vector2.up; //what direction to keep object facing
     public float offset = 0.5f; //how far from gameobject to stay

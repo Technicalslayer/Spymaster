@@ -15,6 +15,10 @@ public class OrcWaypointState : OrcState
     public override void Enter() {
         base.Enter();
         orc.MovementController.speed = orcData.chaseSpeed;
+        if(orc.waypoint == null) {
+            stateMachine.ChangeState(orc.SeekHouseState);
+            return;
+        }
         orc.MovementController.GetMoveCommand(orc.waypoint.transform.position);
     }
 

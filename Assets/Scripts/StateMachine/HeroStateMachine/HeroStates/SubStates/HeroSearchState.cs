@@ -29,7 +29,8 @@ public class HeroSearchState : HeroCombatState
     public override void LogicUpdate() {
         base.LogicUpdate();
         
-        if(Time.time - startTime >= heroData.searchTime) {
+
+        if (Time.time - startTime >= heroData.searchTime) {
             //give up
             stateMachine.ChangeState(hero.PatrolState);
             hero.targetGO = null;
