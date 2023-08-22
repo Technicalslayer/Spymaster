@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
             //multiplier = -Mathf.Pow(multiplier, 2f); //negative square to get a downward curve
             //multiplier = (multiplier * 2f) + 2f; //times 2 to stretch vertically, allows values 0 to 2. Add 2 to move it out of negatives
             spy_progress += 1f * multiplier; //should give more points when x is closer to 0. Double points at 0.
-            Debug.Log("Multiplier: " + multiplier);
+            //Debug.Log("Multiplier: " + multiplier);
             ////if close enough, add another point
             //if(Vector2.Distance(transform.position, heroT.position) < 3f) {
             //    spy_progress += 1;

@@ -38,8 +38,9 @@ public class HeroIdleState : HeroState
         if(hero.visibleEnemies.Length > 0) {
             //if can see player, increase detection meter.
             foreach(GameObject enemy in hero.visibleEnemies) {
-                if (enemy.CompareTag("Player") && stateMachine.CurrentState != hero.SuspiciousState) {
-                    stateMachine.ChangeState(hero.SuspiciousState);
+                if (enemy.CompareTag("Player")) {
+                    if(stateMachine.CurrentState != hero.SuspiciousState)
+                        stateMachine.ChangeState(hero.SuspiciousState);
                 }
                 else { //not a player, should chase it
                     hero.targetGO = enemy;

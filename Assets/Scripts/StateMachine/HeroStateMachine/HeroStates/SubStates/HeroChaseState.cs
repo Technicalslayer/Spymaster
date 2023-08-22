@@ -61,7 +61,7 @@ public class HeroChaseState : HeroCombatState
         }
         //check if target is visible
         if(hero.TargetInViewRange(hero.targetGO)) {
-            hero.targetLastKnownLocation = hero.targetGO.transform.position;
+            //hero.targetLastKnownLocation = hero.targetGO.transform.position;
             chaseSearchTimer = 0f; //reset timer
         }
         else {
@@ -69,6 +69,7 @@ public class HeroChaseState : HeroCombatState
             chaseSearchTimer += Time.deltaTime;
             if(chaseSearchTimer >= heroData.chaseSearchTime) {
                 chaseSearchTimer = 0f;
+                hero.targetLastKnownLocation = hero.targetGO.transform.position; //clairvoyant hero
                 stateMachine.ChangeState(hero.SearchState);
             }
         }

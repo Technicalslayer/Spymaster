@@ -6,6 +6,10 @@ public class HeroSuspiciousState : HeroIdleState
 {
     protected GameObject playerGO;
     protected Vector2 playerPosition;
+
+    private float lookTimer = 0f;
+    private float lookTime = 0f;
+
     public HeroSuspiciousState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName) {
     }
 
@@ -17,9 +21,13 @@ public class HeroSuspiciousState : HeroIdleState
         base.Enter();
         //get player reference (lazy, but whatever)
         playerGO = Object.FindObjectOfType<PlayerController>().gameObject;
+
+        hero.MovementController.speed = heroData.suspiciousMoveSpeed; //override move speed
         turnSpeed = heroData.suspiciousTurnSpeed;
         playerPosition = playerGO.transform.position;
+        lookTime = heroData.suspiciousLookTime;
         hero.MovementController.GetMoveCommand(playerPosition); //go towards where you saw them
+        lookTimer = lookTime; //start looking around immediately
     }
 
     public override void Exit() {
@@ -45,12 +53,18 @@ public class HeroSuspiciousState : HeroIdleState
             hero.IncrementDetection(heroData.detectionDecreaseRate * Time.deltaTime);
         }
 
-        //look around relative to where the player was
-        //lookAngle = get angle to player, pick random direction within some offset of that
-        //after some time, look somewhere else or update angle to player?
+        lookTimer += Time.deltaTime;
+        if(lookTimer >= heroData.suspiciousLookTime) {
+            //look around relative to where the player was
+            Vector2 dir = playerGO.transform.position - hero.transform.position;
+            lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+            //lookAngle += Random.Range(-15f, 15f);
+            //lookTime = Random.Range(0.2f, heroData.suspiciousLookTime);
+            lookTimer = 0f;
+        }
 
 
-        if(Time.time - startTime > heroData.suspiciousTime) {
+        if(Time.time - startTime >= heroData.suspiciousTime) {
             if(hero.GetDetectionProgress() > 0f) {
                 //still searching, restart Timer
                 startTime = Time.time;

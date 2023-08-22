@@ -24,8 +24,12 @@ MonoBehaviour:
   detectionDecreaseRate: -0.1
   minLookTime: 0.5
   maxLookTime: 2.5
-  minTurnSpeed: 30
-  maxTurnSpeed: 60
+  minTurnSpeed: 45
+  maxTurnSpeed: 90
+  suspiciousMoveSpeed: 2
+  suspiciousTurnSpeed: 100
+  suspiciousTime: 5
+  suspiciousLookTime: 0.5
   chaseSpeed: 3.7
   chaseTurnSpeed: 180
   chaseSearchTime: 3

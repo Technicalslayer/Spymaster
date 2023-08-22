@@ -20,6 +20,7 @@ public class HeroSearchState : HeroCombatState
         hero.MovementController.speed = heroData.chaseSpeed;
         //go to last known location
         hero.MovementController.GetMoveCommand(hero.targetLastKnownLocation);
+        lookTime = maxLookTime; //start looking immediately
     }
 
     public override void Exit() {
