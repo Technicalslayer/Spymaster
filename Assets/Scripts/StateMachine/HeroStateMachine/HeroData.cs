@@ -32,6 +32,11 @@ public class HeroData : ScriptableObject
     [Tooltip("Degrees per second")]
     public float maxTurnSpeed = 120f;
 
+    [Header("Suspicious State")]
+    public float suspiciousTurnSpeed = 180f;
+    [Tooltip("How long to search before giving up")]
+    public float suspiciousTime = 5f;
+
     [Header("Chase State")]
     public float chaseSpeed = 6.5f;
     public float chaseTurnSpeed = 180f;

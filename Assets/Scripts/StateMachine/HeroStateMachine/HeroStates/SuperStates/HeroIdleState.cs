@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HeroIdleState : HeroState
 {
+    //protected GameObject lookTarget; //influences the direction the hero looks in
     public HeroIdleState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
     }
@@ -19,6 +20,8 @@ public class HeroIdleState : HeroState
     {
         base.Enter();
         hero.MovementController.speed = heroData.patrolSpeed;
+
+        hero.Anim.Play("ResetDetection");
     }
 
     public override void Exit()
@@ -31,20 +34,12 @@ public class HeroIdleState : HeroState
         base.LogicUpdate();
         
 
-        bool playerVisible = false;
+        
         if(hero.visibleEnemies.Length > 0) {
             //if can see player, increase detection meter.
             foreach(GameObject enemy in hero.visibleEnemies) {
-                if (enemy.CompareTag("Player")) {
-                    playerVisible = true;
-                    hero.IncrementDetection(1f * Time.deltaTime);
-                    //if detection meter full, then chase player.
-                    if(hero.GetDetectionProgress() >= 1f) {
-                        hero.targetGO = enemy;
-                        stateMachine.ChangeState(hero.ChaseState);
-                        hero.Anim.Play("PlayerDetected");
-                        return;
-                    }
+                if (enemy.CompareTag("Player") && stateMachine.CurrentState != hero.SuspiciousState) {
+                    stateMachine.ChangeState(hero.SuspiciousState);
                 }
                 else { //not a player, should chase it
                     hero.targetGO = enemy;
@@ -53,10 +48,7 @@ public class HeroIdleState : HeroState
             }
         }
 
-        if (!playerVisible) {
-            //decrement timer slowly
-            hero.IncrementDetection(heroData.detectionDecreaseRate * Time.deltaTime);
-        }
+        
     }
 
     public override void PhysicsUpdate()

@@ -26,7 +26,6 @@ public class HeroLookAroundState : HeroIdleState
     public override void Exit()
     {
         base.Exit();
-        //again, nothing to do here?
     }
 
     public override void LogicUpdate()

@@ -17,6 +17,7 @@ public class Hero : MonoBehaviour
     public HeroSearchState SearchState { get; private set; }
     public HeroStunnedState StunnedState { get; private set; }
     public HeroConfuseState ConfuseState { get; private set; }
+    public HeroSuspiciousState SuspiciousState { get; private set; }
 
     [SerializeField]
     private HeroData heroData;
@@ -67,6 +68,7 @@ public class Hero : MonoBehaviour
         SearchState = new HeroSearchState(this, StateMachine, heroData, "search");
         StunnedState = new HeroStunnedState(this, StateMachine, heroData, "stunned");
         ConfuseState = new HeroConfuseState(this, StateMachine, heroData, "confused");
+        SuspiciousState = new HeroSuspiciousState(this, StateMachine, heroData, "suspicious");
 
         //get components
         MovementController = GetComponent<MovementController2D>();
@@ -214,7 +216,7 @@ public class Hero : MonoBehaviour
         detectionProgress = Mathf.Clamp(detectionProgress, 0f, heroData.detectionTime);
         float t = GetDetectionProgress();
         detectionImage.fillAmount = t;
-        Debug.Log(t);
+        //Debug.Log(t);
     }
 
     /// <summary>
@@ -223,6 +225,11 @@ public class Hero : MonoBehaviour
     /// <returns>A float between 0 and 1</returns>
     public float GetDetectionProgress() {
         return detectionProgress / heroData.detectionTime;
+    }
+
+    public void ResetDetectionProgress() {
+        detectionProgress = 0f;
+        detectionImage.fillAmount = 0f;
     }
 
     #endregion

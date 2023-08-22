@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 facing = Vector2.up; //direction player is facing
     private float rotation_angle = 0f;
     [HideInInspector]
-    public int spy_progress = 0; //100 is a full meter
+    public float spy_progress = 0f; //100 is a full meter
     private float spy_timer = 0f; //current timer progress
     private int health_current;
     //private bool rotationDelay = false; //used to prevent snapping to the wrong direction when releasing input
@@ -162,15 +162,22 @@ public class PlayerController : MonoBehaviour
         spy_timer += Time.fixedDeltaTime;
         if (spy_timer > spy_timer_max) {
             //reset timer
-            spy_progress += 1;
-            //if close enough, add another point
-            if(Vector2.Distance(transform.position, heroT.position) < 3f) {
-                spy_progress += 1;
-                Debug.Log("Extra spy point: " +  spy_progress);
-            }
+            float multiplier = 1f - Vector2.Distance(transform.position, heroT.position) / fieldOfView.viewDistance; //Moves it within the domain of (0,1) and flips the values
+            multiplier *= 2f;
+            multiplier = Mathf.Clamp(multiplier, 0.1f, 1.5f);
+
+            //multiplier = -Mathf.Pow(multiplier, 2f); //negative square to get a downward curve
+            //multiplier = (multiplier * 2f) + 2f; //times 2 to stretch vertically, allows values 0 to 2. Add 2 to move it out of negatives
+            spy_progress += 1f * multiplier; //should give more points when x is closer to 0. Double points at 0.
+            Debug.Log("Multiplier: " + multiplier);
+            ////if close enough, add another point
+            //if(Vector2.Distance(transform.position, heroT.position) < 3f) {
+            //    spy_progress += 1;
+            //    Debug.Log("Extra spy point: " +  spy_progress);
+            //}
             //Debug.Log("Spy Meter: " + spy_progress);
 
-            UpdateSpymeter(spy_progress); // Update the Spymeter
+            UpdateSpymeter((int)spy_progress); // Update the Spymeter
 
             spy_timer = 0f;
 
