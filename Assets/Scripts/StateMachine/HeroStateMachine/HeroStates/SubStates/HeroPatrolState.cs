@@ -9,6 +9,8 @@ public class HeroPatrolState : HeroIdleState
     /// </summary>
     private int patrolIndex = 0;
     private bool isAtPatrolPoint = false;
+    private float lookTimer = 0f;
+    private bool lookLeft = false; //alternates direction every time
     public HeroPatrolState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
     }
@@ -29,6 +31,8 @@ public class HeroPatrolState : HeroIdleState
             hero.MovementController.GetMoveCommand(hero.PatrolPoints[patrolIndex]);
         }
         turnSpeed = heroData.patrolTurnSpeed;
+
+        lookTimer = heroData.patrolLookTime; //look right away.
     }
 
     public override void LogicUpdate()
@@ -43,6 +47,21 @@ public class HeroPatrolState : HeroIdleState
         if (DamagedHouseVisible()) {
             stateMachine.ChangeState(hero.RepairHouseState);
         }
+
+        lookTimer += Time.deltaTime;
+        if (lookTimer >= heroData.patrolLookTime) {
+            //switch sides
+            lookLeft = !lookLeft;
+
+            lookTimer = 0f;
+        }
+
+        Vector2 dir = hero.MovementController.intendedVelocity;
+        if (dir != Vector2.zero) {
+            lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+            lookAngle += lookLeft ? 45f : -45f;
+            
+        }
     }
 
     public override void PhysicsUpdate()
@@ -50,7 +69,7 @@ public class HeroPatrolState : HeroIdleState
         base.PhysicsUpdate();
 
         //look towards direction of movement
-        lookAngle = Vector2.SignedAngle(Vector2.up, hero.MovementController.intendedVelocity);
+        //lookAngle = Vector2.SignedAngle(Vector2.up, hero.MovementController.intendedVelocity);
     }
 
     public override void Exit()

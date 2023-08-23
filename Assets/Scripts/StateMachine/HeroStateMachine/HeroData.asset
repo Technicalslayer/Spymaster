@@ -18,10 +18,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 192
-  patrolSpeed: 3
+  patrolSpeed: 1.5
   patrolTurnSpeed: 100
   detectionTime: 1.5
   detectionDecreaseRate: -0.1
+  patrolLookTime: 3
   minLookTime: 0.5
   maxLookTime: 2.5
   minTurnSpeed: 45

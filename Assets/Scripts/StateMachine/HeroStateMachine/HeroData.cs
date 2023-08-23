@@ -21,6 +21,8 @@ public class HeroData : ScriptableObject
     public float detectionTime = 1.5f;
     [Tooltip("Negative Value\nHow fast the detection meter drops back to 0")]
     public float detectionDecreaseRate = -0.5f;
+    [Tooltip("How long to look before switching sides")]
+    public float patrolLookTime = 1f;
 
     [Header("Look Around State")]
     [Tooltip("Minimum time to spend looking in a single direction")]
