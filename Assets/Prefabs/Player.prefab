@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0964be4a3e677f741b23f9dbbb3e264d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 10
-  viewAngle: 45
+  viewDistance: 11
+  viewAngle: 25
   viewResolution: 0.4
   obstacleMask:
     serializedVersion: 2
@@ -134,8 +134,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2885590666869687220}
   - {fileID: 8573244747739552968}
+  - {fileID: 2885590666869687220}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8309654944949714803
@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move_speed: 3.7
-  rotationDelayFramesMax: 15
   spy_timer_max: 0.3
   health_max: 1
   raycastLayer:
@@ -161,7 +160,10 @@ MonoBehaviour:
   waypointCooldownTime: 5
   spy_progress: 0
   spyMeterFillImage: {fileID: 0}
-  heroT: {fileID: 0}
+  spyMeterText1: {fileID: 0}
+  spyMeterText2: {fileID: 0}
+  waypointFillImage: {fileID: 0}
+  waypointColoredImage: {fileID: 0}
   smokeBombPrefab: {fileID: 5860601348930986557, guid: b9ffa25db63f0a547be520f53edbd8f8, type: 3}
   waypointPrefab: {fileID: 5376270061498278337, guid: 0c5e693e572ec5340980eaee8ae8ca4d, type: 3}
 --- !u!50 &2633061122863133734
@@ -299,7 +301,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1653150435, guid: a66aa8b13d39cf747b86b269e0ff224a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -717,7 +717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewDistance: 10
-  viewAngle: 25
+  viewAngle: 45
   viewResolution: 1
   obstacleMask:
     serializedVersion: 2
