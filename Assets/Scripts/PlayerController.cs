@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     public Image spyMeterFillImage;
     public TMP_Text spyMeterText1;
     public TMP_Text spyMeterText2;
+    public Image waypointFillImage;
+    public Image waypointColoredImage;
     private Transform heroT;
     private FieldOfView fieldOfView;
     public GameObject smokeBombPrefab;
@@ -45,15 +47,18 @@ public class PlayerController : MonoBehaviour
     private IEnumerator WaypointCooldown() {
         waypointOnCooldown = true;
         float waypointTimer = 0f;
-        //image.fill = 0f;
+        waypointColoredImage.enabled = false;
         while(waypointTimer < waypointCooldownTime) {
             //show cooldown effect on HUD
-            //image.fill = waypointTimer / waypointCooldownTime;
+            waypointFillImage.fillAmount = waypointTimer / waypointCooldownTime;
             yield return null;
             waypointTimer += Time.deltaTime;
         }
         
         waypointOnCooldown = false;
+
+        waypointColoredImage.enabled = true;
+        waypointFillImage.fillAmount = 0f;
     }
     // Start is called before the first frame update
     void Start()
@@ -70,6 +75,8 @@ public class PlayerController : MonoBehaviour
         if (spyMeterText1 == null) Debug.LogWarning("SpyMeterText1 hasn't been assigned!");
         if (spyMeterText2 == null) Debug.LogWarning("SpyMeterText2 hasn't been assigned!");
         if (spyMeterFillImage == null) Debug.LogWarning("SpyMeterFillImage hasn't been assigned!");
+        if (waypointFillImage == null) Debug.LogWarning("waypointFillImage hasn't been assigned!");
+        if (waypointColoredImage == null) Debug.LogWarning("waypointColoredImage hasn't been assigned!");
     }
 
     // Update is called once per frame
