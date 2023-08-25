@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
     public TMP_Text spyMeterText2;
     public Image waypointFillImage;
     public Image waypointColoredImage;
+    public Image smokebombImage1;
+    public Image smokebombImage2;
+    public Image smokebombImage3;
     private Transform heroT;
     private FieldOfView fieldOfView;
     public GameObject smokeBombPrefab;
@@ -77,6 +80,9 @@ public class PlayerController : MonoBehaviour
         if (spyMeterFillImage == null) Debug.LogWarning("SpyMeterFillImage hasn't been assigned!");
         if (waypointFillImage == null) Debug.LogWarning("waypointFillImage hasn't been assigned!");
         if (waypointColoredImage == null) Debug.LogWarning("waypointColoredImage hasn't been assigned!");
+        if (smokebombImage1 == null) Debug.LogWarning("smokebombImage1 hasn't been assigned!");
+        if (smokebombImage2 == null) Debug.LogWarning("smokebombImage2 hasn't been assigned!");
+        if (smokebombImage3 == null) Debug.LogWarning("smokebombImage3 hasn't been assigned!");
     }
 
     // Update is called once per frame
@@ -126,8 +132,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && smokeBombCount > 0){
             //spawn smoke bomb
-            Instantiate(smokeBombPrefab, transform.position, transform.rotation);
-            smokeBombCount--;
+            RemoveSmokebombImage();
         }
         if (Input.GetButtonDown("Fire") && !waypointOnCooldown) {
             Instantiate(waypointPrefab, transform.position, transform.rotation);
@@ -211,6 +216,49 @@ public class PlayerController : MonoBehaviour
             //be sent back to overworld
             //Spaghetti Code
             FindObjectOfType<LocalMapManager>().PlayerDied();
+        }
+    }
+
+    public void RemoveSmokebombImage() {
+        if (smokeBombCount > 0) {
+            switch (smokeBombCount) {
+                case 0:
+                    break;
+                case 1:
+                    smokebombImage1.enabled = false;
+                    break;
+                case 2:
+                    smokebombImage2.enabled = false;
+                    break;
+                case 3:
+                    smokebombImage3.enabled = false;
+                    break;
+                default:
+                    break;
+            }
+            smokeBombCount--;
+            Instantiate(smokeBombPrefab, transform.position, transform.rotation);
+        }
+    }
+
+    public void AddSmokebombImage() {
+        if (smokeBombCount < 3) {
+            smokeBombCount++;
+            switch(smokeBombCount) {
+                case 0:
+                    break;
+                case 1:
+                    smokebombImage1.enabled = true;
+                    break;
+                case 2:
+                    smokebombImage2.enabled = true;
+                    break;
+                case 3:
+                    smokebombImage3.enabled = true;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

@@ -58,6 +58,8 @@ public class HeroSuspiciousState : HeroIdleState
             //look around relative to where the player was
             Vector2 dir = playerGO.transform.position - hero.transform.position;
             lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+            //check that angle isn't hitting wall
+            lookAngle = hero.CheckLookAngle(lookAngle);
             //lookAngle += Random.Range(-15f, 15f);
             //lookTime = Random.Range(0.2f, heroData.suspiciousLookTime);
             lookTimer = 0f;

@@ -7,7 +7,7 @@ public class SmokeBombItem : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.collider.tag == "Player"){
             //add to player smoke bomb count
-            other.collider.GetComponent<PlayerController>().smokeBombCount++;
+            other.collider.GetComponent<PlayerController>().AddSmokebombImage();
             Destroy(gameObject);
         }
     }

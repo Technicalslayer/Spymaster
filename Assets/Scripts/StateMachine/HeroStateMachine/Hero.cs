@@ -232,6 +232,20 @@ public class Hero : MonoBehaviour
         detectionImage.fillAmount = 0f;
     }
 
+    public float CheckLookAngle(float angle) {
+        //raycast
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), FoV.viewDistance, heroData.obstacleLayer);
+        //check distance to wall/obstacle
+        if(hit.distance < 1f) {
+            //pick a new direction
+            //for now, just rotate a small amount
+            angle += 15f;
+            Debug.Log("too close to wall");
+        }
+
+        return angle;
+    }
+
     #endregion
 
 }

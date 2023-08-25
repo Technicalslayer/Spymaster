@@ -55,7 +55,7 @@ public class OrcState {
         //    //sometimes I might assign a trigger here instead, so I don't want to break the game
         //    //may not be the best way to handle this
         //}
-        Debug.Log(animBoolName);
+        //Debug.Log(animBoolName);
     }
     /// <summary>
     /// Called when exiting state

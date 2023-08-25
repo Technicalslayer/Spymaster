@@ -36,6 +36,7 @@ public class OrcIdleState : OrcState
         else if(walkTimer >= walkTime) {
             orc.MovementController.GetMoveCommand(Random.insideUnitCircle * 5f);
             walkTime = Random.Range(1f, 3f); //pick random amount of time to go foward
+            walkTimer = 0f; //reset timer
         }
     }
 
