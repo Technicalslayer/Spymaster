@@ -231,19 +231,91 @@ public class Hero : MonoBehaviour
         detectionProgress = 0f;
         detectionImage.fillAmount = 0f;
     }
-
-    public float CheckLookAngle(float angle) {
+    
+    //returns true if angle is valid
+    public bool IsLookAngleValid(float angle) {
         //raycast
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)), FoV.viewDistance, heroData.obstacleLayer);
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)), FoV.viewDistance, heroData.obstacleLayer);
+        float angleT = angle;
+        Quaternion rotation = Quaternion.Euler(0, 0, angleT);
+        Vector2 result = rotation * Vector2.up;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, result, FoV.viewDistance, heroData.obstacleLayer);
+        Debug.DrawRay(transform.position, result * hit.distance, Color.blue, 2f);
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)), FoV.viewDistance, heroData.obstacleLayer);
+        //Debug.DrawLine(transform.position, transform.position + (Vector3)new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)) * hit.distance, Color.red, 1f);
+        //Debug.Log("X: " + Mathf.Cos(angleT * Mathf.Deg2Rad) + ", Y: " + Mathf.Sin(angleT * Mathf.Deg2Rad) + ", Angle: " + angleT);
+        Debug.Log("X: " + result.x + ", Y: " + result.y + ", Angle: " + angleT + ", Original Angle: " + angle);
         //check distance to wall/obstacle
-        if(hit.distance < 1f) {
-            //pick a new direction
-            //for now, just rotate a small amount
-            angle += 15f;
-            Debug.Log("too close to wall");
+        if (!hit || hit.distance > heroData.minWallLookDistance) {
+            //valid
+            return true;
         }
+        
 
+        return false;
+    }
+
+    public float ChooseBetterLookAngle(float angle) {
+        //called if our look angle was invalid, but we still want to look in that general direction
+        for (int i = 0; i < 3; i++) { //3 checks on each side
+            for (int j = 1; j >= -1; j -= 2) { //alternate negative and positive.
+                float angleOffset = i * 15f * j; //15 * 3 * 2 = 90f. We start small to stay close to desired angle.
+                float newAngle = angle + angleOffset;
+                Quaternion rotation = Quaternion.Euler(0, 0, newAngle);
+                Vector2 result = rotation * Vector2.up;
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, result, FoV.viewDistance, heroData.obstacleLayer);
+                //Debug.DrawRay(transform.position, result * hit.distance, Color.green, 2f);
+                //float angleT = newAngle + 90f; //offset because of character rotation shenanigans
+                //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)), FoV.viewDistance, heroData.obstacleLayer);
+                //Debug.DrawLine(transform.position, transform.position + (Vector3)new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)) * hit.distance, Color.green, 1f);
+                //check distance to wall/obstacle
+                if (hit) {
+                    if (hit.distance > heroData.minWallLookDistance) {
+                        //angle is valid
+                        Debug.Log("Found Better Angle: " + newAngle + ", Old Angle: " + angle);
+                        return newAngle;
+                    }
+                }
+                else {
+                    //angle is valid cuz nothing in way
+                    Debug.Log("Found Better Angle: " + newAngle + ", Old Angle: " + angle);
+                    return newAngle;
+                }
+            }
+        }
+        //couldn't find better option, return original
+        Debug.Log("Couldn't find a better angle");
         return angle;
+    }
+
+    public float ChooseRandomLookAngle() {
+        //raycast in multiple directions
+        float angle = 0;
+        List<float> validAngles = new List<float>();
+        for(int i = 0; i < 8; i++) {
+            angle = i * 45f;
+            angle += 90f; //offset because character is aligned with vertical instead of horizontal
+            Quaternion rotation = Quaternion.Euler(0,0,angle);
+            Vector2 result = rotation * Vector2.up;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, result, FoV.viewDistance, heroData.obstacleLayer);
+            Debug.DrawRay(transform.position, result * hit.distance, Color.green, 2f);
+            //float angleT = angle + 90f; //offset because of character rotation shenanigans
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)), FoV.viewDistance, heroData.obstacleLayer);
+            //Debug.DrawLine(transform.position, transform.position + (Vector3)new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)) * hit.distance, Color.yellow, 1f);
+            //Debug.DrawRay(transform.position, new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)) * hit.distance, Color.yellow, 1f);
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)), FoV.viewDistance, heroData.obstacleLayer);
+            //check distance to wall/obstacle
+            if (!hit || hit.distance > heroData.minWallLookDistance) {
+                //angle is valid
+                validAngles.Add(angle);
+            }
+        }
+        
+        //return validAngles.Count > 0 ? validAngles[Random.Range(0, validAngles.Count)] * 45f : 0;
+        if (validAngles.Count > 0) {
+            return validAngles[Random.Range(0, validAngles.Count)];
+        }
+        return 0;
     }
 
     #endregion

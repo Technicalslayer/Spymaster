@@ -12,6 +12,8 @@ public class HeroData : ScriptableObject
     public LayerMask targetLayers;
     [Tooltip("Layers of vision blocking obstacles")]
     public LayerMask obstacleLayer;
+    [Tooltip("How far away should a wall be to be considered a valid point to look at")]
+    public float minWallLookDistance = 1f;
 
     [Header("Patrol State")]
     [Tooltip("Walk speed")]

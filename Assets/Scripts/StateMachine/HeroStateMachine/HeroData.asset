@@ -18,6 +18,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 192
+  minWallLookDistance: 2
   patrolSpeed: 1.5
   patrolTurnSpeed: 100
   detectionTime: 1.2

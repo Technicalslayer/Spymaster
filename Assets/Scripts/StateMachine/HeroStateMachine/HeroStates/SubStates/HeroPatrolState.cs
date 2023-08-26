@@ -11,6 +11,7 @@ public class HeroPatrolState : HeroIdleState
     private bool isAtPatrolPoint = false;
     private float lookTimer = 0f;
     private bool lookLeft = false; //alternates direction every time
+    private float lookOffset = 0f;
     public HeroPatrolState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
     }
@@ -52,16 +53,21 @@ public class HeroPatrolState : HeroIdleState
         if (lookTimer >= heroData.patrolLookTime) {
             //switch sides
             lookLeft = !lookLeft;
+            Vector2 dir = hero.MovementController.intendedVelocity;
+            if (dir != Vector2.zero) {
+                //lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+                lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+                lookAngle += lookLeft ? 45f : -45f;
+                
+                if (!hero.IsLookAngleValid(lookAngle)) {
+                    lookAngle = hero.ChooseBetterLookAngle(lookAngle);
+                }
 
+            }
             lookTimer = 0f;
         }
 
-        Vector2 dir = hero.MovementController.intendedVelocity;
-        if (dir != Vector2.zero) {
-            lookAngle = Vector2.SignedAngle(Vector2.up, dir);
-            lookAngle += lookLeft ? 45f : -45f;
-            
-        }
+        
     }
 
     public override void PhysicsUpdate()

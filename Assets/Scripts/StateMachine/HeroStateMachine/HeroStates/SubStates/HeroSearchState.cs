@@ -59,10 +59,7 @@ public class HeroSearchState : HeroCombatState
     private void PickRandomAngleAndTime() {
         maxLookTime = Random.Range(heroData.minLookTime, heroData.maxLookTime);
         lookTime = 0f;
-        lookAngle = Vector2.SignedAngle(Vector2.up, Random.insideUnitCircle);
+        lookAngle = hero.ChooseRandomLookAngle();
         turnSpeed = Random.Range(heroData.minTurnSpeed, heroData.maxTurnSpeed);
-
-        //check that angle isn't hitting wall
-        lookAngle = hero.CheckLookAngle(lookAngle);
     }
 }

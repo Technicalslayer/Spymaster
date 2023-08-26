@@ -6,6 +6,8 @@ using UnityEngine;
 [CustomEditor(typeof(PatrolHelper))]
 public class PatrolEditor : Editor
 {
+    
+
     private void OnSceneGUI() {
         //get selected gameobject
         PatrolHelper t = target as PatrolHelper;
@@ -14,5 +16,7 @@ public class PatrolEditor : Editor
             //print position
             t.UpdatePositionUI();
         }
+
+        
     }
 }

@@ -7,8 +7,10 @@ using UnityEngine;
 /// </summary>
 public class PatrolHelper : MonoBehaviour
 {
+    public float angle = 0f;
 
     public void UpdatePositionUI() {
         Debug.Log("X: " + transform.position.x + ", Y: " + transform.position.y);
+        Debug.DrawRay(transform.position, new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)));
     }
 }
