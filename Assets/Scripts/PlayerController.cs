@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +12,10 @@ public class PlayerController : MonoBehaviour
     //public settings
     public float move_speed = 10f;
     //public int rotationDelayFramesMax = 5; //how many frames to prevent changing direction
-    public float spy_timer_max = 1f; //how many seconds before incrementing spy meter
+    public float spyTickRate = 1f; //how many seconds before incrementing spy meter
     public int health_max = 1; //how many hits the player can receive before dying
     public LayerMask raycastLayer;
+    public LayerMask obstacleLayer;
     public int smokeBombCount = 0;
     public float waypointCooldownTime = 5f;
 
@@ -29,6 +32,8 @@ public class PlayerController : MonoBehaviour
     //private int rotationDelayFrames = 0;
     private bool waypointOnCooldown = false;
     private bool canSpy = true;
+    private Vector3 collisionNormal; //used for redirecting movement to prevent slowing on walls.
+    private Collider2D lastObstacle; //tracks what obstacle we are getting the normal from
     #endregion
 
     #region Components
@@ -91,6 +96,26 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
+
+        //check if hitting wall
+        //RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, movement, move_speed * Time.fixedDeltaTime + 0.55f, obstacleLayer);
+        //if (hit) {
+        //    Debug.Log("Hitting obstacle");
+        //    movement -= hit.normal * Vector2.Dot(movement, hit.normal);
+        //}
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.layerMask = obstacleLayer;
+        RaycastHit2D[] hits = new RaycastHit2D[1];
+        int hitCount = GetComponent<Collider2D>().Cast(movement, filter, hits, move_speed * Time.fixedDeltaTime);
+        if (hitCount > 0) {
+            Debug.Log("Hitting obstacle");
+            movement -= hits[0].normal * Vector2.Dot(movement, hits[0].normal);
+        }
+        //if (movement.sqrMagnitude > 0f) {
+        //    movement -= (Vector2)collisionNormal * Vector2.Dot(movement, collisionNormal);
+        //Debug.Log("Movement: " + movement);
+            
+        //}
         movement.Normalize();
         rb.velocity = movement * move_speed;
         rb.rotation = rotation_angle;
@@ -107,7 +132,6 @@ public class PlayerController : MonoBehaviour
     private void GetInput(){
         //get input
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
         //if(!rotationDelay && (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))){
         //    //start timer to ignore key releases on next couple frames?
         //    rotationDelay = true;
@@ -172,7 +196,7 @@ public class PlayerController : MonoBehaviour
     private void IncrementSpymeter() {
         //increment timer
         spy_timer += Time.fixedDeltaTime;
-        if (spy_timer > spy_timer_max) {
+        if (spy_timer > spyTickRate) {
             //reset timer
             float multiplier = 1f - Vector2.Distance(transform.position, heroT.position) / fieldOfView.viewDistance; //Moves it within the domain of (0,1) and flips the values
             multiplier *= 2f;
@@ -278,6 +302,24 @@ public class PlayerController : MonoBehaviour
         }
         if(collision.collider.tag == "Hero") {
             TakeDamage(1);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+
+        if (obstacleLayer == (obstacleLayer | (1 << collision.gameObject.layer))) {
+            //Debug.Log("Hitting obstacle");
+            //get normal for movement
+            collisionNormal = collision.GetContact(0).normal;
+            lastObstacle = collision.collider;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) {
+        if (ReferenceEquals(collision.collider, lastObstacle)) {
+            //reset normal for movement
+            collisionNormal = Vector3.zero;
+            lastObstacle = null;
         }
     }
 

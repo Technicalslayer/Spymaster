@@ -151,11 +151,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move_speed: 3.7
-  spy_timer_max: 0.3
+  spyTickRate: 1
   health_max: 1
   raycastLayer:
     serializedVersion: 2
     m_Bits: 20544
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 192
   smokeBombCount: 0
   waypointCooldownTime: 5
   spy_progress: 0
@@ -164,6 +167,9 @@ MonoBehaviour:
   spyMeterText2: {fileID: 0}
   waypointFillImage: {fileID: 0}
   waypointColoredImage: {fileID: 0}
+  smokebombImage1: {fileID: 0}
+  smokebombImage2: {fileID: 0}
+  smokebombImage3: {fileID: 0}
   smokeBombPrefab: {fileID: 5860601348930986557, guid: b9ffa25db63f0a547be520f53edbd8f8, type: 3}
   waypointPrefab: {fileID: 5376270061498278337, guid: 0c5e693e572ec5340980eaee8ae8ca4d, type: 3}
 --- !u!50 &2633061122863133734

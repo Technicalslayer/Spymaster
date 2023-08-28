@@ -244,7 +244,7 @@ public class Hero : MonoBehaviour
         //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)), FoV.viewDistance, heroData.obstacleLayer);
         //Debug.DrawLine(transform.position, transform.position + (Vector3)new Vector2(Mathf.Cos(angleT * Mathf.Deg2Rad), Mathf.Sin(angleT * Mathf.Deg2Rad)) * hit.distance, Color.red, 1f);
         //Debug.Log("X: " + Mathf.Cos(angleT * Mathf.Deg2Rad) + ", Y: " + Mathf.Sin(angleT * Mathf.Deg2Rad) + ", Angle: " + angleT);
-        Debug.Log("X: " + result.x + ", Y: " + result.y + ", Angle: " + angleT + ", Original Angle: " + angle);
+        //Debug.Log("X: " + result.x + ", Y: " + result.y + ", Angle: " + angleT + ", Original Angle: " + angle);
         //check distance to wall/obstacle
         if (!hit || hit.distance > heroData.minWallLookDistance) {
             //valid
@@ -272,19 +272,19 @@ public class Hero : MonoBehaviour
                 if (hit) {
                     if (hit.distance > heroData.minWallLookDistance) {
                         //angle is valid
-                        Debug.Log("Found Better Angle: " + newAngle + ", Old Angle: " + angle);
+                        //Debug.Log("Found Better Angle: " + newAngle + ", Old Angle: " + angle);
                         return newAngle;
                     }
                 }
                 else {
                     //angle is valid cuz nothing in way
-                    Debug.Log("Found Better Angle: " + newAngle + ", Old Angle: " + angle);
+                    //Debug.Log("Found Better Angle: " + newAngle + ", Old Angle: " + angle);
                     return newAngle;
                 }
             }
         }
         //couldn't find better option, return original
-        Debug.Log("Couldn't find a better angle");
+        //Debug.Log("Couldn't find a better angle");
         return angle;
     }
 
