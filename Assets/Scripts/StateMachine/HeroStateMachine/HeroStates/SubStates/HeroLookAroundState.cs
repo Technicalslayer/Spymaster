@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeroLookAroundState : HeroIdleState
 {
-    private float lookTime; //how long hero has been looking in a single direction
+    private float lookTimer; //how long hero has been looking in a single direction
     private float maxLookTime; //how long hero should look before changing directions
     
 
@@ -32,13 +32,24 @@ public class HeroLookAroundState : HeroIdleState
     {
         base.LogicUpdate();
         //check how long I've been looking in a direction, then pick a new one
-        lookTime += Time.deltaTime;
-        if(lookTime >= maxLookTime){
+        lookTimer += Time.deltaTime;
+        if(lookTimer >= maxLookTime){
             PickRandomAngleAndTime();
         }
 
+        if (isPlayerClose) {
+            //roll the dice to see if you should look there
+            if (Random.Range(0, 100) > 90) { //1 in 10
+                Vector2 dir = GameObject.FindObjectOfType<PlayerController>().transform.position - hero.transform.position;
+                lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+
+                //reset timers
+                lookTimer = 0f;
+            }
+        }
+
         //if I've been in this state for a while, then exit and continue patrolling
-        if(Time.time - startTime > 10f){
+        if (Time.time - startTime > 10f){
             stateMachine.ChangeState(hero.PatrolState);
         }
 
@@ -54,7 +65,7 @@ public class HeroLookAroundState : HeroIdleState
 
     private void PickRandomAngleAndTime(){
         maxLookTime = Random.Range(heroData.minLookTime, heroData.maxLookTime);
-        lookTime = 0f;
+        lookTimer = 0f;
         lookAngle = hero.ChooseRandomLookAngle();
         turnSpeed = Random.Range(heroData.minTurnSpeed, heroData.maxTurnSpeed);
     }

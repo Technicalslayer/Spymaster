@@ -25,6 +25,8 @@ public class HeroData : ScriptableObject
     public float detectionDecreaseRate = -0.5f;
     [Tooltip("How long to look before switching sides")]
     public float patrolLookTime = 1f;
+    [Tooltip("How close the player should be for the Hero to 'notice'")]
+    public float playerProximityRange = 2f;
 
     [Header("Look Around State")]
     [Tooltip("Minimum time to spend looking in a single direction")]

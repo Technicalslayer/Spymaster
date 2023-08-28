@@ -6,6 +6,7 @@ using UnityEngine;
 public class HeroIdleState : HeroState
 {
     //protected GameObject lookTarget; //influences the direction the hero looks in
+    protected bool isPlayerClose;
     public HeroIdleState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
     }
@@ -14,6 +15,15 @@ public class HeroIdleState : HeroState
     {
         base.DoChecks();
         hero.GetAllTargetsInViewRange();
+
+        //check if player is too close
+        Vector3 playerPos = GameObject.FindObjectOfType<PlayerController>().transform.position;
+        if (Vector2.Distance(playerPos, hero.transform.position) < heroData.playerProximityRange) {
+            isPlayerClose = true;
+        }
+        else {
+            isPlayerClose = false;
+        }
     }
 
     public override void Enter()
