@@ -26,7 +26,7 @@ MonoBehaviour:
   detectionTime: 1.2
   detectionDecreaseRate: -0.1
   patrolLookTime: 2
-  playerProximityRange: 5
+  playerProximityRange: 2
   minLookTime: 0.5
   maxLookTime: 2.5
   minTurnSpeed: 45
