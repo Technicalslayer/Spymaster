@@ -6,7 +6,9 @@ public class HeroLookAroundState : HeroIdleState
 {
     private float lookTimer; //how long hero has been looking in a single direction
     private float maxLookTime; //how long hero should look before changing directions
-    
+
+    private float lookingAtPlayerTimer = 0f;
+    private bool lookingAtPlayer = false;
 
     public HeroLookAroundState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
@@ -33,18 +35,33 @@ public class HeroLookAroundState : HeroIdleState
         base.LogicUpdate();
         //check how long I've been looking in a direction, then pick a new one
         lookTimer += Time.deltaTime;
-        if(lookTimer >= maxLookTime){
+        if(lookTimer >= maxLookTime && !lookingAtPlayer){
             PickRandomAngleAndTime();
         }
 
         if (isPlayerClose) {
-            //roll the dice to see if you should look there
-            if (Random.Range(0, 100) > 90) { //1 in 10
-                Vector2 dir = GameObject.FindObjectOfType<PlayerController>().transform.position - hero.transform.position;
-                lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+            luckTimer += Time.deltaTime;
+            if (luckTimer >= heroData.luckTime) {
+                //roll the dice to see if you should look there
+                if (Random.Range(0, 100) < heroData.luckValue) {
+                    Debug.Log("JACKPOT");
+                    Vector2 dir = GameObject.FindObjectOfType<PlayerController>().transform.position - hero.transform.position;
+                    lookAngle = Vector2.SignedAngle(Vector2.up, dir);
 
-                //reset timers
-                lookTimer = 0f;
+                    lookingAtPlayer = true;
+
+                    //reset timers
+                    lookTimer = 0f;
+                }
+                luckTimer = 0f; //reset timer
+            }
+        }
+
+        if(lookingAtPlayer) {
+            lookingAtPlayerTimer += Time.deltaTime;
+            if (lookingAtPlayerTimer >= 2f) {
+                lookingAtPlayer = false;
+                lookingAtPlayerTimer = 0f;
             }
         }
 

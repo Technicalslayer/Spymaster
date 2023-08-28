@@ -13,6 +13,8 @@ public class HeroState {
     protected float lookAngle;
     protected float turnSpeed;
 
+    protected float luckTimer = 0f;
+
     /// <summary>
     /// Tracks when state was entered, so that you can see how long a state has been active.
     /// </summary>

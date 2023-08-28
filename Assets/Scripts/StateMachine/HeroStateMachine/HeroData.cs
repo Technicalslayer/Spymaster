@@ -14,6 +14,11 @@ public class HeroData : ScriptableObject
     public LayerMask obstacleLayer;
     [Tooltip("How far away should a wall be to be considered a valid point to look at")]
     public float minWallLookDistance = 1f;
+    [Tooltip("Used for certain chance based events\n1. If player is too close, should hero look at them?")]
+    [Range(0, 100)]
+    public int luckValue = 10;
+    [Tooltip("How often luck events should be checked")]
+    public float luckTime = 0.5f; 
 
     [Header("Patrol State")]
     [Tooltip("Walk speed")]

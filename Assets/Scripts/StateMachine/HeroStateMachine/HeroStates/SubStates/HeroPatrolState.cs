@@ -15,6 +15,7 @@ public class HeroPatrolState : HeroIdleState
     private bool lookLeft = false; //alternates direction every time
     private float offsetAngle = 0f; //use to calculate angle between updates
     private bool lookingAtPlayer = false;
+    private float lookingAtPlayerTimer = 0f;
     public HeroPatrolState(Hero hero, HeroStateMachine stateMachine, HeroData heroData, string animBoolName) : base(hero, stateMachine, heroData, animBoolName)
     {
     }
@@ -57,7 +58,7 @@ public class HeroPatrolState : HeroIdleState
         lookSubUpdateTimer += Time.deltaTime;
         Vector2 dir = hero.MovementController.intendedVelocity;
         
-        if (lookTimer >= heroData.patrolLookTime) {
+        if (lookTimer >= heroData.patrolLookTime && !lookingAtPlayer) {
             //switch sides
             lookLeft = !lookLeft;
             if (dir != Vector2.zero) {
@@ -76,7 +77,7 @@ public class HeroPatrolState : HeroIdleState
             }
             lookTimer = 0f;
         }
-        if(lookSubUpdateTimer >= lookSubUpdateTime) {
+        if(lookSubUpdateTimer >= lookSubUpdateTime && !lookingAtPlayer) {
             //lookangle should be relative to movement direction
             lookAngle = Vector2.SignedAngle(Vector2.up, dir); //recalculate movement angle
             lookAngle += offsetAngle; //add offset
@@ -85,14 +86,28 @@ public class HeroPatrolState : HeroIdleState
         }
 
         if (isPlayerClose) {
-            //roll the dice to see if you should look there
-            if(Random.Range(0, 100) > 90) { //1 in 10
-                dir = GameObject.FindObjectOfType<PlayerController>().transform.position - hero.transform.position;
-                lookAngle = Vector2.SignedAngle(Vector2.up, dir);
+            luckTimer += Time.deltaTime;
+            if (luckTimer >= heroData.luckTime) {
+                //roll the dice to see if you should look there
+                if (Random.Range(0, 100) < heroData.luckValue) {
+                    Debug.Log("JACKPOT");
+                    dir = GameObject.FindObjectOfType<PlayerController>().transform.position - hero.transform.position;
+                    lookAngle = Vector2.SignedAngle(Vector2.up, dir);
 
-                //reset timers
-                lookTimer = 0f;
-                lookSubUpdateTimer = 0f;
+                    lookingAtPlayer = true;
+
+                    //reset timers
+                    lookTimer = 0f;
+                    lookSubUpdateTimer = 0f;
+                }
+                luckTimer = 0f; //reset timer
+            }
+        }
+        if(lookingAtPlayer) {
+            lookingAtPlayerTimer += Time.deltaTime;
+            if (lookingAtPlayerTimer >= 1.5f) {
+                lookingAtPlayer = false;
+                lookingAtPlayerTimer = 0f;
             }
         }
 

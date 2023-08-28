@@ -19,11 +19,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   minWallLookDistance: 2
+  luckValue: 20
+  luckTime: 0.5
   patrolSpeed: 2
   patrolTurnSpeed: 100
   detectionTime: 1.2
   detectionDecreaseRate: -0.1
-  patrolLookTime: 3
+  patrolLookTime: 2
+  playerProximityRange: 5
   minLookTime: 0.5
   maxLookTime: 2.5
   minTurnSpeed: 45

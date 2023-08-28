@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class HeroIdleState : HeroState
 {
@@ -16,14 +17,24 @@ public class HeroIdleState : HeroState
         base.DoChecks();
         hero.GetAllTargetsInViewRange();
 
-        //check if player is too close
-        Vector3 playerPos = GameObject.FindObjectOfType<PlayerController>().transform.position;
-        if (Vector2.Distance(playerPos, hero.transform.position) < heroData.playerProximityRange) {
-            isPlayerClose = true;
+        //check if player is too close and not behind something
+        GameObject player = GameObject.FindObjectOfType<PlayerController>().gameObject;
+        Vector2 dir = player.transform.position - hero.transform.position;
+        //raycast
+        RaycastHit2D hit = Physics2D.Raycast(hero.transform.position, dir, Mathf.Infinity, heroData.targetLayers | heroData.obstacleLayer);
+        if (hit) {
+            if (ReferenceEquals(hit.collider.gameObject, player)) {
+                //this implies no obstacles were in the way
+                if (hit.distance < heroData.playerProximityRange) {
+                    isPlayerClose = true;
+                }
+                else {
+                    isPlayerClose = false;
+                }
+            }
         }
-        else {
-            isPlayerClose = false;
-        }
+        
+        
     }
 
     public override void Enter()
