@@ -162,6 +162,10 @@ public class PlayerController : MonoBehaviour
             Instantiate(waypointPrefab, transform.position, transform.rotation);
             StartCoroutine(WaypointCooldown());
         }
+
+        if(Input.GetKeyDown(KeyCode.P)) {
+            spy_progress = 99; //cheat code
+        }
     }
 
 
@@ -220,7 +224,8 @@ public class PlayerController : MonoBehaviour
             if(spy_progress >= 100) {
                 //win level
                 Debug.Log("YOU WIN");
-                FindObjectOfType<LocalMapManager>().LoadLevel();
+                //FindObjectOfType<LocalMapManager>().LoadLevel();
+                FindObjectOfType<LocalMapManager>().LoadCutscene();
             }
         }
     }

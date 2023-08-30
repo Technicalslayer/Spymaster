@@ -13,7 +13,7 @@ public class LocalMapManager : MonoBehaviour
     public GameObject orcSpawnObject; //where orcs will spawn from
     public float spawnTimer;
     public float spawnTime = 10f; //how long inbetween orc spawns
-    public int sceneIndex = 0;
+    public int sceneIndex = 0; //next scene to load, no longer used
 
 
     // Start is called before the first frame update
@@ -86,37 +86,37 @@ public class LocalMapManager : MonoBehaviour
     //    }
     // }
 
-    public void LoadState() {
-       Debug.Log("loading state");
-       //get appropriate village data
-       LocalMapState state = OverworldManager.Instance.VillageStates[id];
-       for (int i = 0; i < state.houses.Count; i++) {
-           houses[i].health = state.houses[i].health;
-           houses[i].maxHealth = state.houses[i].maxHealth;
-           if (houses[i].health <= 0) {
-               //set house to destroyed state without playing effects
-               houses[i].gameObject.SetActive(false);
-               Debug.Log("House was already destroyed");
-           }
-       }
+    //public void LoadState() {
+    //   Debug.Log("loading state");
+    //   //get appropriate village data
+    //   LocalMapState state = OverworldManager.Instance.VillageStates[id];
+    //   for (int i = 0; i < state.houses.Count; i++) {
+    //       houses[i].health = state.houses[i].health;
+    //       houses[i].maxHealth = state.houses[i].maxHealth;
+    //       if (houses[i].health <= 0) {
+    //           //set house to destroyed state without playing effects
+    //           houses[i].gameObject.SetActive(false);
+    //           Debug.Log("House was already destroyed");
+    //       }
+    //   }
 
-       //spawn orcs
-       for (int i = 0; i <= state.orcCount; i++) {
-           Debug.Log("Spawning Orc");
-           //spawn new orc with info
-           GameObject o = Instantiate(orcPrefab);
-           //give random location
-           //o.transform.position = Random...
-       }
+    //   //spawn orcs
+    //   for (int i = 0; i <= state.orcCount; i++) {
+    //       Debug.Log("Spawning Orc");
+    //       //spawn new orc with info
+    //       GameObject o = Instantiate(orcPrefab);
+    //       //give random location
+    //       //o.transform.position = Random...
+    //   }
 
-       if (state.isHeroPresent) {
-           Debug.Log("Spawning Hero");
-           //spawn hero
-           GameObject o = Instantiate(heroPrefab);
-           //move hero to center
-           o.transform.position = Vector2.zero;
-       }
-    }
+    //   if (state.isHeroPresent) {
+    //       Debug.Log("Spawning Hero");
+    //       //spawn hero
+    //       GameObject o = Instantiate(heroPrefab);
+    //       //move hero to center
+    //       o.transform.position = Vector2.zero;
+    //   }
+    //}
 
     // public void CheckVillageStatus() {
     //    //called when a house is destroyed or orc defeated
@@ -160,6 +160,12 @@ public class LocalMapManager : MonoBehaviour
     public void LoadLevel() {
         //load next level
         SceneManager.LoadScene(sceneIndex);
+    }
+
+    public void LoadCutscene() {
+        OverworldManager.Instance.nextCutscene++;
+        SceneManager.LoadScene(1); //load overworld
+
     }
 }
 

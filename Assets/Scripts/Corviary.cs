@@ -21,35 +21,35 @@ public class Corviary : MonoBehaviour
         
     }
 
-    public void SendReport() {
-        int progressValue = OverworldManager.Instance.SpyProgress;
-        if(progressValue == 0) {
-            return; //no point in reporting
-        }
+    //public void SendReport() {
+    //    int progressValue = OverworldManager.Instance.SpyProgress;
+    //    if(progressValue == 0) {
+    //        return; //no point in reporting
+    //    }
 
-        if (progressValue == 100) {
-            //perfect, send gold crow
-            //give player extra camp to place
-            //track perfects
-            Instantiate(goldCrow);
-        }
-        else if (progressValue >= 50) {
-            //Great, send silver crow
-            Instantiate(silverCrow);
-        }
-        else {
-            //not enough, send bronze crow
-            //track failures
-            Instantiate(bronzeCrow);
-        }
-        OverworldManager.Instance.ResetSpyProgress();
-    }
+    //    if (progressValue == 100) {
+    //        //perfect, send gold crow
+    //        //give player extra camp to place
+    //        //track perfects
+    //        Instantiate(goldCrow);
+    //    }
+    //    else if (progressValue >= 50) {
+    //        //Great, send silver crow
+    //        Instantiate(silverCrow);
+    //    }
+    //    else {
+    //        //not enough, send bronze crow
+    //        //track failures
+    //        Instantiate(bronzeCrow);
+    //    }
+    //    OverworldManager.Instance.ResetSpyProgress();
+    //}
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        //should get the player's spymeter value
-        if (collision.collider.tag == "Player") {
-            //collision.gameObject.GetComponent<OverworldPlayerController>();
-            SendReport();
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision) {
+    //    //should get the player's spymeter value
+    //    if (collision.collider.tag == "Player") {
+    //        //collision.gameObject.GetComponent<OverworldPlayerController>();
+    //        SendReport();
+    //    }
+    //}
 }
