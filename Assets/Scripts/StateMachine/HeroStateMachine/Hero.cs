@@ -114,6 +114,16 @@ public class Hero : MonoBehaviour
         //    }
         //}
     }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (collision.collider.tag == "Orc" && StateMachine.CurrentState != StunnedState) {
+            //apply impulse
+            if (collision.contactCount > 0)
+                RB.AddForce(collision.contacts[0].normal * 10f, ForceMode2D.Impulse);
+            targetGO = collision.gameObject;
+            StateMachine.ChangeState(StunnedState);
+        }
+    }
     #endregion
 
     #region Functions

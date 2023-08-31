@@ -105,10 +105,11 @@ public class PlayerController : MonoBehaviour
         //}
         ContactFilter2D filter = new ContactFilter2D();
         filter.layerMask = obstacleLayer;
+        filter.useLayerMask = true;
         RaycastHit2D[] hits = new RaycastHit2D[1];
         int hitCount = GetComponent<Collider2D>().Cast(movement, filter, hits, move_speed * Time.fixedDeltaTime);
         if (hitCount > 0) {
-            Debug.Log("Hitting obstacle");
+            Debug.Log("Hitting obstacle " + hits[0].collider.name);
             movement -= hits[0].normal * Vector2.Dot(movement, hits[0].normal);
         }
         //if (movement.sqrMagnitude > 0f) {
