@@ -20,6 +20,7 @@ public class HouseController : MonoBehaviour
 
     public AudioSource fallApartSoundSource;
     private Animator animator;
+    public Vector2 pathfinderHelperOffset = Vector2.zero;
 
 
     private IEnumerator FallApart(){
@@ -58,6 +59,10 @@ public class HouseController : MonoBehaviour
         //set health to max
         health = maxHealth;
         //Debug.Log("Health: " + health);
+
+        if(pathfinderHelperOffset == Vector2.zero) {
+            Debug.LogWarning("Is the pathfinder offset supposed to be 0,0?");
+        }
     }
 
 
@@ -80,7 +85,7 @@ public class HouseController : MonoBehaviour
 
     
     public void RepairDamage(){
-        Debug.Log("Repairing House");
+        animator.SetTrigger("repaired");
         health += 1;
         spriteRenderer.sprite = damagedSprite;
         destroyed = false;
@@ -89,7 +94,7 @@ public class HouseController : MonoBehaviour
             spriteRenderer.sprite = goodSprite;
         }
         //TODO: play sound
-
+        
     }
 
 

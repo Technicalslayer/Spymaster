@@ -41,5 +41,5 @@ MonoBehaviour:
   movementUpdateTime: 0.1
   searchTime: 10
   stunTime: 0.7
-  repairTime: 0.5
+  repairTime: 1
   confuseTime: 10

@@ -47,10 +47,13 @@ public class HeroPatrolState : HeroIdleState
         if(isAtPatrolPoint){
             stateMachine.ChangeState(hero.LookAroundState);
             SelectNextPatrolPoint();
+            return;
         }
 
         if (DamagedHouseVisible()) {
             stateMachine.ChangeState(hero.RepairHouseState);
+            Debug.Log("Changing from Patrol to Repair");
+            return;
         }
 
 

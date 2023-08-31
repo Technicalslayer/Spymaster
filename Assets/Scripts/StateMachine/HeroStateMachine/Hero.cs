@@ -30,6 +30,7 @@ public class Hero : MonoBehaviour
     public FieldOfView FoV { get; private set; }
     public Animator Anim { get; private set; }
     public Image detectionImage;
+    public AudioSource repairSound;
     #endregion
 
     #region Variables
@@ -75,6 +76,7 @@ public class Hero : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         FoV = GetComponentInChildren<FieldOfView>();
         Anim = GetComponent<Animator>();
+        repairSound = GetComponent<AudioSource>();
     }
 
     private void Start() {

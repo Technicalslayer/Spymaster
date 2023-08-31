@@ -21,12 +21,14 @@ public class HeroRepairHouseState : HeroIdleState
         targetHouseController = hero.targetGO.GetComponent<HouseController>();
 
         //get move command to damaged house
-        hero.MovementController.GetMoveCommand(hero.targetGO.transform.position);
+        hero.MovementController.GetMoveCommand(hero.targetGO.transform.position + (Vector3)targetHouseController.pathfinderHelperOffset);
+        Debug.Log("House Name: " + hero.targetGO.name);
         turnSpeed = heroData.patrolTurnSpeed;
     }
 
     public override void Exit() {
         base.Exit();
+        hero.MovementController.enabled = true;
     }
 
     public override void LogicUpdate() {
@@ -38,7 +40,9 @@ public class HeroRepairHouseState : HeroIdleState
             return;
         }
 
-        if(Vector2.Distance(hero.transform.position, hero.targetGO.transform.position) < 3f) {
+        if(Vector2.Distance(hero.transform.position, hero.targetGO.transform.position) < 2f) {
+            //stop moving
+            hero.MovementController.enabled = false;
             repairTimer += Time.deltaTime;
             if(repairTimer >= heroData.repairTime) {
                 Debug.Log("repairing");
@@ -46,6 +50,8 @@ public class HeroRepairHouseState : HeroIdleState
                 //reset timer
                 targetHouseController.RepairDamage();
                 repairTimer = 0f;
+                hero.Anim.Play("HeroRepair");
+                hero.repairSound.Play();
             }
             
         }

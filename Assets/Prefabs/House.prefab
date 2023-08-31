@@ -215,6 +215,7 @@ MonoBehaviour:
   destroyed: 0
   smokeBombPickup: {fileID: 6422942589577181998, guid: 34d1ce19404a0674aa1a045d48593115, type: 3}
   fallApartSoundSource: {fileID: 6256139925330651222}
+  pathfinderHelperOffset: {x: 0, y: 0}
 --- !u!82 &6256139925330651222
 AudioSource:
   m_ObjectHideFlags: 0
