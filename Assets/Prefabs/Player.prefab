@@ -158,7 +158,7 @@ MonoBehaviour:
     m_Bits: 20544
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 32960
   smokeBombCount: 0
   waypointCooldownTime: 5
   spy_progress: 0
