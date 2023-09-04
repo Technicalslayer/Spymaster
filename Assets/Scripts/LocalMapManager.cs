@@ -14,13 +14,30 @@ public class LocalMapManager : MonoBehaviour
     public float spawnTimer;
     public float spawnTime = 10f; //how long inbetween orc spawns
     public int sceneIndex = 0; //next scene to load, no longer used
+    public GameObject bonusDisplayMessage;
+    private bool bonusGiven;
 
+
+    private IEnumerator HouseBonus() {
+        if (!bonusGiven) {
+            bonusGiven = true;
+            yield return new WaitForSeconds(0.5f);
+            bonusDisplayMessage.SetActive(true);
+            PlayerController pC = FindObjectOfType<PlayerController>();
+            pC.spy_progress += 25f;
+            FindObjectOfType<PlayerController>().UpdateSpymeter((int)pC.spy_progress);
+            yield return new WaitForSeconds(2f);
+            bonusDisplayMessage.SetActive(false);
+        }
+    }
 
     // Start is called before the first frame update
     void Start() {
         //spawn all relative objects
         //LoadState();
         
+        //find all houses in scene
+        houses.AddRange(FindObjectsByType<HouseController>(FindObjectsSortMode.None));
     }
 
     // Update is called once per frame
@@ -149,6 +166,19 @@ public class LocalMapManager : MonoBehaviour
     //    OverworldManager.Instance.UpdateSpyMeter(playerController.spy_progress);
     //    SceneManager.LoadScene(0);
     // }
+
+    public void CheckHouses() {
+        foreach (HouseController house in houses) {
+            if (!house.destroyed) {
+                //still standing, so stay in level
+                Debug.Log("Houses still standing");
+                return;
+            }
+        }
+
+        //all houses destroyed, reward player
+        StartCoroutine(HouseBonus());
+    }
 
     public void PlayerDied() {
         //Called because the hero killed you, loser

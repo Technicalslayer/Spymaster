@@ -17,6 +17,7 @@ public class HeroChaseState : HeroCombatState
 
     public override void Enter() {
         base.Enter();
+        hero.MovementController.enabled = true; //ensure it's on
         turnSpeed = heroData.chaseTurnSpeed;
 
         //pick target to chase

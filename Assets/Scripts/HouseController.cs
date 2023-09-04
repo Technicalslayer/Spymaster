@@ -32,6 +32,7 @@ public class HouseController : MonoBehaviour
             //spawn bomb pickup
             Instantiate(smokeBombPickup, transform.position + (Vector3)Random.insideUnitCircle * 2.0f, transform.rotation);
         }
+        FindObjectOfType<LocalMapManager>().CheckHouses();
     }
 
     //private IEnumerator ShowDamage(){
