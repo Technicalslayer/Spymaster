@@ -69,7 +69,7 @@ public class HouseController : MonoBehaviour
     public void TakeDamage() {
         animator.SetTrigger("damaged");
         health -= 1;
-        spriteRenderer.sprite = damagedSprite;
+        
         takingDamage = true;
         if (health <= 0) {
             //destroy house
@@ -80,6 +80,9 @@ public class HouseController : MonoBehaviour
             //gameObject.SetActive(false);
             //check if all houses are destroyed
             //FindObjectOfType<LocalMapManager>().CheckVillageStatus();
+        }
+        else {
+            spriteRenderer.sprite = damagedSprite;
         }
     }
 
