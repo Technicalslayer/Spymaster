@@ -42,4 +42,4 @@ MonoBehaviour:
   searchTime: 10
   stunTime: 0.7
   repairTime: 1
-  confuseTime: 10
+  confuseTime: 5
