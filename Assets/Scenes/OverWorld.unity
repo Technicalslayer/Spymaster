@@ -777,12 +777,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'I will rule soon!
-
-    One village remains...'
+  m_text: "One village remains.\nSnuff them out and hero's \nwill shall falter."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
+  m_sharedMaterial: {fileID: 5774683943910607888, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1206,7 +1204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.46666667}
+  m_Color: {r: 0.34901962, g: 0.34117648, b: 0.34117648, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1248,7 +1246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 229, y: 92}
+  m_AnchoredPosition: {x: 368.23, y: 92}
   m_SizeDelta: {x: 286.0143, y: 84.6056}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &663249249
@@ -1450,7 +1448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.46666667}
+  m_Color: {r: 0.34901962, g: 0.34117648, b: 0.34117648, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1492,7 +1490,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 229, y: 92}
+  m_AnchoredPosition: {x: 368.23, y: 92}
   m_SizeDelta: {x: 286.0143, y: 84.6056}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &797630582
@@ -1840,14 +1838,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Excellent!
+  m_text: 'My army grows.
 
-    Return with more info,
+    Return with more information.
 
-    my loyal minion...'
+    Do better.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
+  m_sharedMaterial: {fileID: 5774683943910607888, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23334,7 +23332,7 @@ Animator:
   m_GameObject: {fileID: 1431670488}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 42bd922e7535b3944b3457c786c089b4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -23376,7 +23374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.46666667}
+  m_Color: {r: 0.3490566, g: 0.34082413, b: 0.34082413, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23418,7 +23416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 229, y: 92}
+  m_AnchoredPosition: {x: 368.23, y: 92}
   m_SizeDelta: {x: 286.0143, y: 84.6056}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1773023478
@@ -23513,10 +23511,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Go! \nSpy on that pesky Hero! \nDo not dissapoint me..."
+  m_text: 'Take my oni army and distract
+
+    the hero, lowly spy.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
+  m_sharedMaterial: {fileID: 5774683943910607888, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23811,7 +23811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.46666667}
+  m_Color: {r: 0.34901962, g: 0.34117648, b: 0.34117648, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23853,7 +23853,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 229, y: 92}
+  m_AnchoredPosition: {x: 368.23, y: 92}
   m_SizeDelta: {x: 286.0143, y: 84.6056}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2024258475
@@ -23997,10 +23997,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Great work, lackey!\nIt is finally time to \ntake over the land!"
+  m_text: 'My lackey proves more than
+
+    useless.
+
+    Now, we take over the land!'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
+  m_sharedMaterial: {fileID: 5774683943910607888, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -24343,6 +24347,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7542767128164153316, guid: dd220cfb3dc2cdd47b708545cd6e2cb5, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7593790071824705607, guid: dd220cfb3dc2cdd47b708545cd6e2cb5, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -24357,7 +24365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9034244203428651185, guid: dd220cfb3dc2cdd47b708545cd6e2cb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8.953873
+      value: 8.953857
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

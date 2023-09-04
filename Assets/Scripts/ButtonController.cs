@@ -13,5 +13,6 @@ public class ButtonController : MonoBehaviour
     public void WhooHooButtonPress() {
         //back to menu
         SceneManager.LoadScene(0);
+        OverworldManager.Instance.nextCutscene = 0;
     }
 }
