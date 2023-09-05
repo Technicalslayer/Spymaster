@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1849200072, guid: 380614f65247461428c9f0a792868d32, type: 3}
+  m_Sprite: {fileID: 1339851632, guid: 5dd26a77436043a4cb1b6589e9409bbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -164,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.8760896}
   m_EdgeRadius: 0
 --- !u!50 &5226706749598195060
 Rigidbody2D:
@@ -209,9 +209,9 @@ MonoBehaviour:
   maxHealth: 20
   minHealth: 10
   id: 0
-  destroyedSprite: {fileID: 21300000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
-  damagedSprite: {fileID: 21300000, guid: 15802aeb89f91f342868b269be56df45, type: 3}
-  goodSprite: {fileID: -1849200072, guid: 380614f65247461428c9f0a792868d32, type: 3}
+  destroyedSprite: {fileID: 1864520475, guid: 5dd26a77436043a4cb1b6589e9409bbc, type: 3}
+  damagedSprite: {fileID: -2130639717, guid: 5dd26a77436043a4cb1b6589e9409bbc, type: 3}
+  goodSprite: {fileID: 1339851632, guid: 5dd26a77436043a4cb1b6589e9409bbc, type: 3}
   destroyed: 0
   smokeBombPickup: {fileID: 6422942589577181998, guid: 34d1ce19404a0674aa1a045d48593115, type: 3}
   fallApartSoundSource: {fileID: 6256139925330651222}
