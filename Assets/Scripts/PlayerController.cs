@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     private FieldOfView fieldOfView;
     public GameObject smokeBombPrefab;
     public GameObject waypointPrefab;
+    public AudioSource itemPickupSound;
     #endregion
 
     private IEnumerator WaypointCooldown() {
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         fieldOfView = GetComponentInChildren<FieldOfView>();
         health_current = health_max;
+        itemPickupSound = GetComponent<AudioSource>();
 
         //find hero object transform
         heroT = FindObjectOfType<Hero>().transform;
@@ -272,6 +274,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void AddSmokebombImage() {
+        itemPickupSound.Play();
         if (smokeBombCount < 3) {
             smokeBombCount++;
             switch(smokeBombCount) {
