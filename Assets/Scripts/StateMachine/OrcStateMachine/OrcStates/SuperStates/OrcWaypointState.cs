@@ -37,6 +37,11 @@ public class OrcWaypointState : OrcState
         if(Vector2.Distance(orc.waypoint.transform.position, orc.transform.position) < 1f) {
             stateMachine.ChangeState(orc.IdleState);
         }
+
+        if(Time.time - startTime >= 10f) {
+            //just in case
+            stateMachine.ChangeState(orc.IdleState);
+        }
     }
 
     public override void PhysicsUpdate() {

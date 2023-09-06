@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move_speed: 3.7
-  spyTickRate: 1
+  spyTickRate: 0.8
   health_max: 1
   raycastLayer:
     serializedVersion: 2
@@ -246,7 +246,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32960
   smokeBombCount: 0
-  waypointCooldownTime: 5
+  waypointCooldownTime: 10
   spy_progress: 0
   spyMeterFillImage: {fileID: 0}
   spyMeterText1: {fileID: 0}

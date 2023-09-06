@@ -510,7 +510,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -518,6 +518,27 @@ TextureImporter:
       bones: []
       spriteID: 4f85142ba6c962f48855aae95a2287aa
       internalID: 234336332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tilemap_fences_1
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e28a22a562fbaf4da385fb47be17397
+      internalID: 845007964
       vertices: []
       indices: 
       edges: []
@@ -534,6 +555,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       tilemap_fences_0: 234336332
+      tilemap_fences_1: 845007964
       tilemap_packed_0: 1281251258
       tilemap_packed_1: -277881546
       tilemap_packed_10: 95333713

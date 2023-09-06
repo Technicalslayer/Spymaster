@@ -38,6 +38,11 @@ public class OrcIdleState : OrcState
             walkTime = Random.Range(1f, 3f); //pick random amount of time to go foward
             walkTimer = 0f; //reset timer
         }
+
+        if (orc.waypointActive) {
+            stateMachine.ChangeState(orc.WaypointState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate() {

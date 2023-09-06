@@ -26,7 +26,8 @@ public class Waypoint : MonoBehaviour
     void Start()
     {
         //find all orcs
-        StartCoroutine(CallOrcs());
+        //StartCoroutine(CallOrcs());
+        CallOrcsOnce();
     }
 
     // Update is called once per frame
@@ -35,6 +36,13 @@ public class Waypoint : MonoBehaviour
         lifeTimer += Time.deltaTime;
         if(lifeTimer > lifeSpan) {
             Destroy(gameObject);
+        }
+    }
+
+    private void CallOrcsOnce() {
+        Orc[] orcs = FindObjectsByType<Orc>(FindObjectsSortMode.None);
+        foreach (Orc orc in orcs) {
+            orc.AssignWaypoint(this);
         }
     }
 }
