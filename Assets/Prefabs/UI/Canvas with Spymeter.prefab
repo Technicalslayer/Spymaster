@@ -1392,7 +1392,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -36.973}
-  m_SizeDelta: {x: 99.8778, y: 26.053}
+  m_SizeDelta: {x: 118.29, y: 26.053}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5593884040485105799
 CanvasRenderer:
@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Waypoint: Press E'
+  m_text: 'Rallying Flag: Press E'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
   m_sharedMaterial: {fileID: 5774683943910607888, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}

@@ -777,7 +777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "One village remains.\nSnuff them out and hero's \nwill shall falter."
+  m_text: "One village remains.\nSnuff them out and the hero's \nwill shall falter."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
   m_sharedMaterial: {fileID: 5774683943910607888, guid: 5e29984d72237e348b9c2ef4e4849b3c, type: 2}
@@ -23296,7 +23296,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -161483300, guid: aa582398477bcd1488cd1499ac29efd0, type: 3}
+  m_Sprite: {fileID: -986482425, guid: 5b961066d6da5b14a93a5ec05b43f697, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -23332,7 +23332,7 @@ Animator:
   m_GameObject: {fileID: 1431670488}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 42bd922e7535b3944b3457c786c089b4, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
