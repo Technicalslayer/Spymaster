@@ -130,7 +130,7 @@ public class Orc : MonoBehaviour
     }
 
     public void UpdateHealthText() {
-        hpText.text = "Orc\n" + health + "\\" + maxHealth;
+        hpText.text = "Oni\n" + health + "\\" + maxHealth;
     }
 
     public void AssignWaypoint(Waypoint newWaypoint) {

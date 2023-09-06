@@ -226,7 +226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Orc
+  m_text: 'Oni
 
     10/10'
   m_isRightToLeft: 0
@@ -439,7 +439,8 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   health: 0
   houses: []
-  heroInRange: 0
+  waypoint: {fileID: 0}
+  waypointActive: 0
 --- !u!95 &2740411977205916117
 Animator:
   serializedVersion: 5
@@ -866,7 +867,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.5338644, g: 0.7869806, b: 0.8773585, a: 0.36078432}
+  m_Color: {r: 0.5338644, g: 0.7869806, b: 0.8773585, a: 0.13725491}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
